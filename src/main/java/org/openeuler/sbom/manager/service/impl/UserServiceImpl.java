@@ -1,0 +1,38 @@
+package org.openeuler.sbom.manager.service.impl;
+
+import org.openeuler.sbom.manager.dao.UserRepository;
+import org.openeuler.sbom.manager.model.UserEntity;
+import org.openeuler.sbom.manager.service.UserService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+@Service
+public class UserServiceImpl implements UserService {
+
+    @Autowired
+    private UserRepository userRepository;
+
+    @Override
+    public void addNewUserByNameAndEmail(String name, String email) {
+        UserEntity n = new UserEntity();
+        n.setName(name);
+        n.setEmail(email);
+        userRepository.save(n);
+    }
+
+    @Override
+    public void addNewUserByEntity(UserEntity user) {
+        userRepository.save(user);
+    }
+
+    @Override
+    public Iterable<UserEntity> getAllUsers() {
+        return userRepository.findAll();
+    }
+
+    @Override
+    public void deleteAllUsers() {
+        userRepository.deleteAll();
+    }
+
+}
