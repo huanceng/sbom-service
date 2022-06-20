@@ -1,1 +1,1 @@
-# sbom-analyzer
+# sbom-service

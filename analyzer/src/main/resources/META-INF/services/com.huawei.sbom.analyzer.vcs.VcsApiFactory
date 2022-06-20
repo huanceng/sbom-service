@@ -1,0 +1,3 @@
+com.huawei.sbom.analyzer.vcs.apis.GiteeApi$Factory
+com.huawei.sbom.analyzer.vcs.apis.GithubApi$Factory
+com.huawei.sbom.analyzer.vcs.apis.GitlabApi$Factory
