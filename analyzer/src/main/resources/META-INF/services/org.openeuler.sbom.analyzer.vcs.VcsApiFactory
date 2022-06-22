@@ -1,0 +1,3 @@
+org.openeuler.sbom.analyzer.vcs.apis.GiteeApi$Factory
+org.openeuler.sbom.analyzer.vcs.apis.GithubApi$Factory
+org.openeuler.sbom.analyzer.vcs.apis.GitlabApi$Factory
