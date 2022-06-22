@@ -2,7 +2,7 @@ plugins {
     id("java")
 }
 
-group = "com.huawei.sbom"
+group = "org.openeuler.sbom"
 version = "1.0-SNAPSHOT"
 
 val retrofitVersion: String by project
