@@ -15,6 +15,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.util.Assert;
+import org.springframework.util.CollectionUtils;
 
 import java.util.List;
 
@@ -54,7 +55,7 @@ public class UserTests {
     @Order(3)
     public void addUser() throws Exception {
         UserEntity user = new UserEntity();
-        user.setName("First");
+        user.setUserName("First");
         user.setEmail("first@someemail.com");
 
         this.mockMvc.perform(post("/sbom/addUser")
@@ -71,7 +72,7 @@ public class UserTests {
     @Order(4)
     public void addUserRecord() throws Exception {
         UserEntity user = new UserEntity();
-        user.setName("Second");
+        user.setUserName("Second");
         user.setEmail("second@someemail.com");
         this.mockMvc.perform(post("/sbom/addUserRecord")
                         .content(new ObjectMapper().writeValueAsString(user))
@@ -89,7 +90,7 @@ public class UserTests {
                 .andDo(print())
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.*", hasSize(2)))
-                .andExpect(jsonPath("$.[0].name").value("First"))
+                .andExpect(jsonPath("$.[0].userName").value("First"))
                 .andReturn().getResponse().getContentAsString();
 
         ObjectMapper objectMapper = new ObjectMapper();
@@ -99,5 +100,13 @@ public class UserTests {
         Assert.notEmpty(users, "users list is empty");
     }
 
+
+    @Test()
+    @Order(6)
+    public void findRecordByName() {
+        Assert.isTrue(!CollectionUtils.isEmpty(userService.findByUserName1("First")), "can`t find First");
+        Assert.isTrue(!CollectionUtils.isEmpty(userService.findByUserName2("Second")), "can`t find Second 2");
+        Assert.isTrue(!CollectionUtils.isEmpty(userService.findByUserName3("Second")), "can`t find Second 3");
+    }
 }
 
