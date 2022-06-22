@@ -5,8 +5,10 @@ import org.openeuler.sbom.manager.model.UserEntity;
 import org.openeuler.sbom.manager.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
+@Transactional(rollbackFor = Exception.class)
 public class UserServiceImpl implements UserService {
 
     @Autowired
@@ -15,7 +17,7 @@ public class UserServiceImpl implements UserService {
     @Override
     public void addNewUserByNameAndEmail(String name, String email) {
         UserEntity n = new UserEntity();
-        n.setName(name);
+        n.setUserName(name);
         n.setEmail(email);
         userRepository.save(n);
     }
