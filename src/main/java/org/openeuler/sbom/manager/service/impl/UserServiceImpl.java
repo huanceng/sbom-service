@@ -7,6 +7,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
+
 @Service
 @Transactional(rollbackFor = Exception.class)
 public class UserServiceImpl implements UserService {
@@ -35,6 +37,21 @@ public class UserServiceImpl implements UserService {
     @Override
     public void deleteAllUsers() {
         userRepository.deleteAll();
+    }
+
+    @Override
+    public List<UserEntity> findByUserName1(String name) {
+        return userRepository.findByUserName(name);
+    }
+
+    @Override
+    public List<UserEntity> findByUserName2(String name) {
+        return userRepository.findUsersByName1(name);
+    }
+
+    @Override
+    public List<UserEntity> findByUserName3(String name) {
+        return userRepository.findUsersByName2(name);
     }
 
 }
