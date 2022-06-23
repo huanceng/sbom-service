@@ -1,9 +1,11 @@
 package org.openeuler.sbom.manager.service.impl;
 
+import org.openeuler.sbom.manager.model.PageVo;
 import org.openeuler.sbom.manager.dao.UserRepository;
 import org.openeuler.sbom.manager.model.UserEntity;
 import org.openeuler.sbom.manager.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.*;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -54,4 +56,15 @@ public class UserServiceImpl implements UserService {
         return userRepository.findUsersByName2(name);
     }
 
+    @Override
+    public PageVo<UserEntity> findAllPageable(int page, int size) {
+        Pageable pageable = PageRequest.of(page, size).withSort(Sort.by(new Sort.Order(Sort.Direction.DESC, "userName")));
+        return new PageVo<>((PageImpl<UserEntity>) userRepository.findAll(pageable));
+    }
+
+    @Override
+    public PageVo<UserEntity> findAllPageable(String name, int page, int size) {
+        Pageable pageable = PageRequest.of(page, size).withSort(Sort.by(new Sort.Order(Sort.Direction.DESC, "user_name")));
+        return new PageVo<>((PageImpl<UserEntity>) userRepository.findUsersByNameForPage(name, pageable));
+    }
 }
