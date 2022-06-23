@@ -1,18 +1,16 @@
 package org.openeuler.sbom.manager.model;
 
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
 
 @Entity // This tells Hibernate to make a table out of this class
+//@Table(name = "user_entity")
 public class UserEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer id;
 
-    private String name;
+    private String userName;
 
     private String email;
 
@@ -24,12 +22,12 @@ public class UserEntity {
         this.id = id;
     }
 
-    public String getName() {
-        return name;
+    public String getUserName() {
+        return userName;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setUserName(String userName) {
+        this.userName = userName;
     }
 
     public String getEmail() {

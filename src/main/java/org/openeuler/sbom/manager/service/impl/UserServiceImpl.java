@@ -5,8 +5,12 @@ import org.openeuler.sbom.manager.model.UserEntity;
 import org.openeuler.sbom.manager.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+import java.util.List;
 
 @Service
+@Transactional(rollbackFor = Exception.class)
 public class UserServiceImpl implements UserService {
 
     @Autowired
@@ -15,7 +19,7 @@ public class UserServiceImpl implements UserService {
     @Override
     public void addNewUserByNameAndEmail(String name, String email) {
         UserEntity n = new UserEntity();
-        n.setName(name);
+        n.setUserName(name);
         n.setEmail(email);
         userRepository.save(n);
     }
@@ -33,6 +37,21 @@ public class UserServiceImpl implements UserService {
     @Override
     public void deleteAllUsers() {
         userRepository.deleteAll();
+    }
+
+    @Override
+    public List<UserEntity> findByUserName1(String name) {
+        return userRepository.findByUserName(name);
+    }
+
+    @Override
+    public List<UserEntity> findByUserName2(String name) {
+        return userRepository.findUsersByName1(name);
+    }
+
+    @Override
+    public List<UserEntity> findByUserName3(String name) {
+        return userRepository.findUsersByName2(name);
     }
 
 }
