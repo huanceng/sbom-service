@@ -67,4 +67,9 @@ public class UserServiceImpl implements UserService {
         Pageable pageable = PageRequest.of(page, size).withSort(Sort.by(new Sort.Order(Sort.Direction.DESC, "user_name")));
         return new PageVo<>((PageImpl<UserEntity>) userRepository.findUsersByNameForPage(name, pageable));
     }
+
+    @Override
+    public void updateUserEmailByUserName(UserEntity user) {
+        userRepository.updateUserEmailByUserName(user);
+    }
 }

@@ -24,4 +24,6 @@ public interface UserService {
     PageVo<UserEntity> findAllPageable(int page, int size);
 
     PageVo<UserEntity> findAllPageable(String name, int page, int size);
+
+    void updateUserEmailByUserName(UserEntity user);
 }
