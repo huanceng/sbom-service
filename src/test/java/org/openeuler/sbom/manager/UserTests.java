@@ -139,5 +139,14 @@ public class UserTests {
         Assert.isTrue(pageResult.getSize() == 2, "page size error");
         Assert.isTrue("Third".equals(pageResult.getContent().get(1).getUserName()), "second record`s name error");
     }
+
+    @Test()
+    @Order(9)
+    public void updateUser() {
+        UserEntity user = new UserEntity();
+        user.setUserName("Second");
+        user.setEmail("second_new@someemail.com");
+        userService.updateUserEmailByUserName(user);
+    }
 }
 
