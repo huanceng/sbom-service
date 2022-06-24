@@ -1,0 +1,1311 @@
+{
+    "SPDXID": "SPDXRef-6a9a1fcf4adc8c0a",
+    "name": "hive",
+    "licenseConcluded": "NOASSERTION",
+    "checksums": [
+        {
+            "algorithm": "SHA256",
+            "checksumValue": "0a50fe6c446a874d70eb1649afe528507bc43aad432e19dc26a584ced71d39a3"
+        }
+    ],
+    "description": "The Apache Hive data warehouse software facilitates querying and\nmanaging large datasets residing in distributed storage. Apache Hive\nprovides a mechanism to project structure onto this data and query\nthe data using a SQL-like language called HiveQL.",
+    "downloadLocation": "NOASSERTION",
+    "externalRefs": [
+        {
+            "referenceCategory": "PACKAGE_MANAGER",
+            "referenceLocator": "pkg:rpm/hive@3.1.2-3.oe2203?arch=noarch&epoch=0&upstream=hive-3.1.2-3.oe2203.src.rpm",
+            "referenceType": "purl"
+        },
+        {
+            "referenceCategory": "PROVIDE_MANAGER",
+            "referenceLocator": "pkg:maven/org.apache.hive.hcatalog/hcatalog-core@3.1.2",
+            "referenceType": "purl"
+        },
+        {
+            "referenceCategory": "PROVIDE_MANAGER",
+            "referenceLocator": "pkg:maven/org.apache.hive.hcatalog/hcatalog-pig-adapter@3.1.2",
+            "referenceType": "purl"
+        },
+        {
+            "referenceCategory": "PROVIDE_MANAGER",
+            "referenceLocator": "pkg:maven/org.apache.hive.hcatalog/hcatalog-server-extensions@3.1.2",
+            "referenceType": "purl"
+        },
+        {
+            "referenceCategory": "PROVIDE_MANAGER",
+            "referenceLocator": "pkg:maven/org.apache.hive.hcatalog/hive-webhcat@3.1.2",
+            "referenceType": "purl"
+        },
+        {
+            "referenceCategory": "PROVIDE_MANAGER",
+            "referenceLocator": "pkg:maven/org.apache.hive.hcatalog/hive-webhcat-java-client@3.1.2",
+            "referenceType": "purl"
+        },
+        {
+            "referenceCategory": "PROVIDE_MANAGER",
+            "referenceLocator": "pkg:maven/org.apache.hive.shims/hive-shims-0.23@3.1.2",
+            "referenceType": "purl"
+        },
+        {
+            "referenceCategory": "PROVIDE_MANAGER",
+            "referenceLocator": "pkg:maven/org.apache.hive.shims/hive-shims-common@3.1.2",
+            "referenceType": "purl"
+        },
+        {
+            "referenceCategory": "PROVIDE_MANAGER",
+            "referenceLocator": "pkg:maven/org.apache.hive.shims/hive-shims-scheduler@3.1.2",
+            "referenceType": "purl"
+        },
+        {
+            "referenceCategory": "PROVIDE_MANAGER",
+            "referenceLocator": "pkg:maven/org.apache.hive/hive-accumulo-handler@3.1.2",
+            "referenceType": "purl"
+        },
+        {
+            "referenceCategory": "PROVIDE_MANAGER",
+            "referenceLocator": "pkg:maven/org.apache.hive/hive-beeline@3.1.2",
+            "referenceType": "purl"
+        },
+        {
+            "referenceCategory": "PROVIDE_MANAGER",
+            "referenceLocator": "pkg:maven/org.apache.hive/hive-classification@3.1.2",
+            "referenceType": "purl"
+        },
+        {
+            "referenceCategory": "PROVIDE_MANAGER",
+            "referenceLocator": "pkg:maven/org.apache.hive/hive-cli@3.1.2",
+            "referenceType": "purl"
+        },
+        {
+            "referenceCategory": "PROVIDE_MANAGER",
+            "referenceLocator": "pkg:maven/org.apache.hive/hive-common@3.1.2",
+            "referenceType": "purl"
+        },
+        {
+            "referenceCategory": "PROVIDE_MANAGER",
+            "referenceLocator": "pkg:maven/org.apache.hive/hive-contrib@3.1.2",
+            "referenceType": "purl"
+        },
+        {
+            "referenceCategory": "PROVIDE_MANAGER",
+            "referenceLocator": "pkg:maven/org.apache.hive/hive-druid-handler@3.1.2",
+            "referenceType": "purl"
+        },
+        {
+            "referenceCategory": "PROVIDE_MANAGER",
+            "referenceLocator": "pkg:maven/org.apache.hive/hive-exec@3.1.2",
+            "referenceType": "purl"
+        },
+        {
+            "referenceCategory": "PROVIDE_MANAGER",
+            "referenceLocator": "pkg:maven/org.apache.hive/hive-hbase-handler@3.1.2",
+            "referenceType": "purl"
+        },
+        {
+            "referenceCategory": "PROVIDE_MANAGER",
+            "referenceLocator": "pkg:maven/org.apache.hive/hive-hplsql@3.1.2",
+            "referenceType": "purl"
+        },
+        {
+            "referenceCategory": "PROVIDE_MANAGER",
+            "referenceLocator": "pkg:maven/org.apache.hive/hive-jdbc@3.1.2",
+            "referenceType": "purl"
+        },
+        {
+            "referenceCategory": "PROVIDE_MANAGER",
+            "referenceLocator": "pkg:maven/org.apache.hive/hive-jdbc-handler@3.1.2",
+            "referenceType": "purl"
+        },
+        {
+            "referenceCategory": "PROVIDE_MANAGER",
+            "referenceLocator": "pkg:maven/org.apache.hive/hive-kryo-registrator@3.1.2",
+            "referenceType": "purl"
+        },
+        {
+            "referenceCategory": "PROVIDE_MANAGER",
+            "referenceLocator": "pkg:maven/org.apache.hive/hive-llap-client@3.1.2",
+            "referenceType": "purl"
+        },
+        {
+            "referenceCategory": "PROVIDE_MANAGER",
+            "referenceLocator": "pkg:maven/org.apache.hive/hive-llap-common@3.1.2",
+            "referenceType": "purl"
+        },
+        {
+            "referenceCategory": "PROVIDE_MANAGER",
+            "referenceLocator": "pkg:maven/org.apache.hive/hive-llap-ext-client@3.1.2",
+            "referenceType": "purl"
+        },
+        {
+            "referenceCategory": "PROVIDE_MANAGER",
+            "referenceLocator": "pkg:maven/org.apache.hive/hive-llap-server@3.1.2",
+            "referenceType": "purl"
+        },
+        {
+            "referenceCategory": "PROVIDE_MANAGER",
+            "referenceLocator": "pkg:maven/org.apache.hive/hive-llap-tez@3.1.2",
+            "referenceType": "purl"
+        },
+        {
+            "referenceCategory": "PROVIDE_MANAGER",
+            "referenceLocator": "pkg:maven/org.apache.hive/hive-metastore@3.1.2",
+            "referenceType": "purl"
+        },
+        {
+            "referenceCategory": "PROVIDE_MANAGER",
+            "referenceLocator": "pkg:maven/org.apache.hive/hive-serde@3.1.2",
+            "referenceType": "purl"
+        },
+        {
+            "referenceCategory": "PROVIDE_MANAGER",
+            "referenceLocator": "pkg:maven/org.apache.hive/hive-service@3.1.2",
+            "referenceType": "purl"
+        },
+        {
+            "referenceCategory": "PROVIDE_MANAGER",
+            "referenceLocator": "pkg:maven/org.apache.hive/hive-service-rpc@3.1.2",
+            "referenceType": "purl"
+        },
+        {
+            "referenceCategory": "PROVIDE_MANAGER",
+            "referenceLocator": "pkg:maven/org.apache.hive/hive-shims@3.1.2",
+            "referenceType": "purl"
+        },
+        {
+            "referenceCategory": "PROVIDE_MANAGER",
+            "referenceLocator": "pkg:maven/org.apache.hive/hive-standalone-metastore@3.1.2",
+            "referenceType": "purl"
+        },
+        {
+            "referenceCategory": "PROVIDE_MANAGER",
+            "referenceLocator": "pkg:maven/org.apache.hive/hive-streaming@3.1.2",
+            "referenceType": "purl"
+        },
+        {
+            "referenceCategory": "PROVIDE_MANAGER",
+            "referenceLocator": "pkg:maven/org.apache.hive/hive-testutils@3.1.2",
+            "referenceType": "purl"
+        },
+        {
+            "referenceCategory": "PROVIDE_MANAGER",
+            "referenceLocator": "pkg:maven/org.apache.hive/hive-upgrade-acid@3.1.2",
+            "referenceType": "purl"
+        },
+        {
+            "referenceCategory": "PROVIDE_MANAGER",
+            "referenceLocator": "pkg:maven/org.apache.hive/hive-vector-code-gen@3.1.2",
+            "referenceType": "purl"
+        },
+        {
+            "referenceCategory": "EXTERNAL_MANAGER",
+            "referenceLocator": "pkg:maven/org.apache.derby/derby@10.14.1.0",
+            "referenceType": "purl"
+        },
+        {
+            "referenceCategory": "EXTERNAL_MANAGER",
+            "referenceLocator": "pkg:maven/javax.annotation/javax.annotation-api@1.2",
+            "referenceType": "purl"
+        },
+        {
+            "referenceCategory": "EXTERNAL_MANAGER",
+            "referenceLocator": "pkg:maven/org.apache.spark/spark-tags_2.11@2.3.0",
+            "referenceType": "purl"
+        },
+        {
+            "referenceCategory": "EXTERNAL_MANAGER",
+            "referenceLocator": "pkg:maven/org.eclipse.jetty/jetty-client@9.3.20.v20170531",
+            "referenceType": "purl"
+        },
+        {
+            "referenceCategory": "EXTERNAL_MANAGER",
+            "referenceLocator": "pkg:maven/org.apache.ant/ant-launcher@1.9.1",
+            "referenceType": "purl"
+        },
+        {
+            "referenceCategory": "EXTERNAL_MANAGER",
+            "referenceLocator": "pkg:maven/com.lmax/disruptor@3.3.6",
+            "referenceType": "purl"
+        },
+        {
+            "referenceCategory": "EXTERNAL_MANAGER",
+            "referenceLocator": "pkg:maven/org.apache.hbase/hbase-http@2.0.0-alpha4",
+            "referenceType": "purl"
+        },
+        {
+            "referenceCategory": "EXTERNAL_MANAGER",
+            "referenceLocator": "pkg:maven/org.glassfish.jersey.bundles.repackaged/jersey-guava@2.25.1",
+            "referenceType": "purl"
+        },
+        {
+            "referenceCategory": "EXTERNAL_MANAGER",
+            "referenceLocator": "pkg:maven/org.eclipse.jetty/jetty-servlet@9.3.20.v20170531",
+            "referenceType": "purl"
+        },
+        {
+            "referenceCategory": "EXTERNAL_MANAGER",
+            "referenceLocator": "pkg:maven/org.eclipse.jetty.websocket/websocket-common@9.3.20.v20170531",
+            "referenceType": "purl"
+        },
+        {
+            "referenceCategory": "EXTERNAL_MANAGER",
+            "referenceLocator": "pkg:maven/com.esotericsoftware/kryo-shaded@3.0.3",
+            "referenceType": "purl"
+        },
+        {
+            "referenceCategory": "EXTERNAL_MANAGER",
+            "referenceLocator": "pkg:maven/net.razorvine/pyrolite@4.13",
+            "referenceType": "purl"
+        },
+        {
+            "referenceCategory": "EXTERNAL_MANAGER",
+            "referenceLocator": "pkg:maven/org.scala-lang/scalap@2.11.0",
+            "referenceType": "purl"
+        },
+        {
+            "referenceCategory": "EXTERNAL_MANAGER",
+            "referenceLocator": "pkg:maven/org.apache.calcite/calcite-core@1.16.0",
+            "referenceType": "purl"
+        },
+        {
+            "referenceCategory": "EXTERNAL_MANAGER",
+            "referenceLocator": "pkg:maven/org.apache.calcite/calcite-druid@1.16.0",
+            "referenceType": "purl"
+        },
+        {
+            "referenceCategory": "EXTERNAL_MANAGER",
+            "referenceLocator": "pkg:maven/org.apache.zookeeper/zookeeper@3.4.6",
+            "referenceType": "purl"
+        },
+        {
+            "referenceCategory": "EXTERNAL_MANAGER",
+            "referenceLocator": "pkg:maven/commons-dbcp/commons-dbcp@1.4",
+            "referenceType": "purl"
+        },
+        {
+            "referenceCategory": "EXTERNAL_MANAGER",
+            "referenceLocator": "pkg:maven/com.vlkan/flatbuffers@1.2.0-3f79e055",
+            "referenceType": "purl"
+        },
+        {
+            "referenceCategory": "EXTERNAL_MANAGER",
+            "referenceLocator": "pkg:maven/com.fasterxml.jackson.dataformat/jackson-dataformat-smile@2.9.5",
+            "referenceType": "purl"
+        },
+        {
+            "referenceCategory": "EXTERNAL_MANAGER",
+            "referenceLocator": "pkg:maven/org.apache.spark/spark-kvstore_2.11@2.3.0",
+            "referenceType": "purl"
+        },
+        {
+            "referenceCategory": "EXTERNAL_MANAGER",
+            "referenceLocator": "pkg:maven/sqlline/sqlline@1.3.0",
+            "referenceType": "purl"
+        },
+        {
+            "referenceCategory": "EXTERNAL_MANAGER",
+            "referenceLocator": "pkg:maven/org.ow2.asm/asm-commons@5.0.1",
+            "referenceType": "purl"
+        },
+        {
+            "referenceCategory": "EXTERNAL_MANAGER",
+            "referenceLocator": "pkg:maven/com.jolbox/bonecp@0.8.0.RELEASE",
+            "referenceType": "purl"
+        },
+        {
+            "referenceCategory": "EXTERNAL_MANAGER",
+            "referenceLocator": "pkg:maven/com.github.stephenc.findbugs/findbugs-annotations@1.3.9-1",
+            "referenceType": "purl"
+        },
+        {
+            "referenceCategory": "EXTERNAL_MANAGER",
+            "referenceLocator": "pkg:maven/org.apache.hbase/hbase-metrics@2.0.0-alpha4",
+            "referenceType": "purl"
+        },
+        {
+            "referenceCategory": "EXTERNAL_MANAGER",
+            "referenceLocator": "pkg:maven/org.apache.hbase/hbase-metrics-api@2.0.0-alpha4",
+            "referenceType": "purl"
+        },
+        {
+            "referenceCategory": "EXTERNAL_MANAGER",
+            "referenceLocator": "pkg:maven/org.apache.spark/spark-core_2.11@2.3.0",
+            "referenceType": "purl"
+        },
+        {
+            "referenceCategory": "EXTERNAL_MANAGER",
+            "referenceLocator": "pkg:maven/org.apache.hbase/hbase-protocol@2.0.0-alpha4",
+            "referenceType": "purl"
+        },
+        {
+            "referenceCategory": "EXTERNAL_MANAGER",
+            "referenceLocator": "pkg:maven/org.codehaus.jettison/jettison@1.1",
+            "referenceType": "purl"
+        },
+        {
+            "referenceCategory": "EXTERNAL_MANAGER",
+            "referenceLocator": "pkg:maven/org.eclipse.jetty/jetty-server@9.3.20.v20170531",
+            "referenceType": "purl"
+        },
+        {
+            "referenceCategory": "EXTERNAL_MANAGER",
+            "referenceLocator": "pkg:maven/org.apache.thrift/libfb303@0.9.3",
+            "referenceType": "purl"
+        },
+        {
+            "referenceCategory": "EXTERNAL_MANAGER",
+            "referenceLocator": "pkg:maven/com.google.code.tempus-fugit/tempus-fugit@1.1",
+            "referenceType": "purl"
+        },
+        {
+            "referenceCategory": "EXTERNAL_MANAGER",
+            "referenceLocator": "pkg:maven/org.glassfish.hk2/hk2-utils@2.5.0-b32",
+            "referenceType": "purl"
+        },
+        {
+            "referenceCategory": "EXTERNAL_MANAGER",
+            "referenceLocator": "pkg:maven/org.apache.hbase.thirdparty/hbase-shaded-miscellaneous@1.0.1",
+            "referenceType": "purl"
+        },
+        {
+            "referenceCategory": "EXTERNAL_MANAGER",
+            "referenceLocator": "pkg:maven/javolution/javolution@5.5.1",
+            "referenceType": "purl"
+        },
+        {
+            "referenceCategory": "EXTERNAL_MANAGER",
+            "referenceLocator": "pkg:maven/org.scala-lang.modules/scala-xml_2.11@1.0.1",
+            "referenceType": "purl"
+        },
+        {
+            "referenceCategory": "EXTERNAL_MANAGER",
+            "referenceLocator": "pkg:maven/org.apache.accumulo/accumulo-trace@1.7.3",
+            "referenceType": "purl"
+        },
+        {
+            "referenceCategory": "EXTERNAL_MANAGER",
+            "referenceLocator": "pkg:maven/com.twitter/chill-java@0.8.4",
+            "referenceType": "purl"
+        },
+        {
+            "referenceCategory": "EXTERNAL_MANAGER",
+            "referenceLocator": "pkg:maven/org.apache.hbase/hbase-hadoop2-compat@2.0.0-alpha4",
+            "referenceType": "purl"
+        },
+        {
+            "referenceCategory": "EXTERNAL_MANAGER",
+            "referenceLocator": "pkg:maven/org.eclipse.jetty/jetty-util@9.3.20.v20170531",
+            "referenceType": "purl"
+        },
+        {
+            "referenceCategory": "EXTERNAL_MANAGER",
+            "referenceLocator": "pkg:maven/net.sf.supercsv/super-csv@2.2.0",
+            "referenceType": "purl"
+        },
+        {
+            "referenceCategory": "EXTERNAL_MANAGER",
+            "referenceLocator": "pkg:maven/org.spark-project.spark/unused@1.0.0",
+            "referenceType": "purl"
+        },
+        {
+            "referenceCategory": "EXTERNAL_MANAGER",
+            "referenceLocator": "pkg:maven/org.datanucleus/datanucleus-core@4.1.17",
+            "referenceType": "purl"
+        },
+        {
+            "referenceCategory": "EXTERNAL_MANAGER",
+            "referenceLocator": "pkg:maven/org.abego.treelayout/org.abego.treelayout.core@1.0.1",
+            "referenceType": "purl"
+        },
+        {
+            "referenceCategory": "EXTERNAL_MANAGER",
+            "referenceLocator": "pkg:maven/com.yahoo.datasketches/sketches-core@0.9.0",
+            "referenceType": "purl"
+        },
+        {
+            "referenceCategory": "EXTERNAL_MANAGER",
+            "referenceLocator": "pkg:maven/org.jodd/jodd-core@3.5.2",
+            "referenceType": "purl"
+        },
+        {
+            "referenceCategory": "EXTERNAL_MANAGER",
+            "referenceLocator": "pkg:maven/org.apache.yetus/audience-annotations@0.5.0",
+            "referenceType": "purl"
+        },
+        {
+            "referenceCategory": "EXTERNAL_MANAGER",
+            "referenceLocator": "pkg:maven/org.eclipse.jdt.core.compiler/ecj@4.4.2",
+            "referenceType": "purl"
+        },
+        {
+            "referenceCategory": "EXTERNAL_MANAGER",
+            "referenceLocator": "pkg:maven/org.glassfish.web/javax.servlet.jsp@2.3.2",
+            "referenceType": "purl"
+        },
+        {
+            "referenceCategory": "EXTERNAL_MANAGER",
+            "referenceLocator": "pkg:maven/org.glassfish.jersey.core/jersey-server@2.25.1",
+            "referenceType": "purl"
+        },
+        {
+            "referenceCategory": "EXTERNAL_MANAGER",
+            "referenceLocator": "pkg:maven/org.apache.spark/spark-launcher_2.11@2.3.0",
+            "referenceType": "purl"
+        },
+        {
+            "referenceCategory": "EXTERNAL_MANAGER",
+            "referenceLocator": "pkg:maven/org.eclipse.jetty.websocket/websocket-servlet@9.3.20.v20170531",
+            "referenceType": "purl"
+        },
+        {
+            "referenceCategory": "EXTERNAL_MANAGER",
+            "referenceLocator": "pkg:maven/org.glassfish.hk2.external/aopalliance-repackaged@2.5.0-b32",
+            "referenceType": "purl"
+        },
+        {
+            "referenceCategory": "EXTERNAL_MANAGER",
+            "referenceLocator": "pkg:maven/io.netty/netty-common@4.1.17.Final",
+            "referenceType": "purl"
+        },
+        {
+            "referenceCategory": "EXTERNAL_MANAGER",
+            "referenceLocator": "pkg:maven/org.apache.logging.log4j/log4j-api@2.10.0",
+            "referenceType": "purl"
+        },
+        {
+            "referenceCategory": "EXTERNAL_MANAGER",
+            "referenceLocator": "pkg:maven/org.apache.taglibs/taglibs-standard-spec@1.2.5",
+            "referenceType": "purl"
+        },
+        {
+            "referenceCategory": "EXTERNAL_MANAGER",
+            "referenceLocator": "pkg:maven/javax.ws.rs/javax.ws.rs-api@2.0.1",
+            "referenceType": "purl"
+        },
+        {
+            "referenceCategory": "EXTERNAL_MANAGER",
+            "referenceLocator": "pkg:maven/org.apache.logging.log4j/log4j-slf4j-impl@2.10.0",
+            "referenceType": "purl"
+        },
+        {
+            "referenceCategory": "EXTERNAL_MANAGER",
+            "referenceLocator": "pkg:maven/org.eclipse.jetty.websocket/websocket-client@9.3.20.v20170531",
+            "referenceType": "purl"
+        },
+        {
+            "referenceCategory": "EXTERNAL_MANAGER",
+            "referenceLocator": "pkg:maven/org.apache.commons/commons-vfs2@2.1",
+            "referenceType": "purl"
+        },
+        {
+            "referenceCategory": "EXTERNAL_MANAGER",
+            "referenceLocator": "pkg:maven/org.postgresql/postgresql@9.4.1208.jre7",
+            "referenceType": "purl"
+        },
+        {
+            "referenceCategory": "EXTERNAL_MANAGER",
+            "referenceLocator": "pkg:maven/org.apache.accumulo/accumulo-core@1.7.3",
+            "referenceType": "purl"
+        },
+        {
+            "referenceCategory": "EXTERNAL_MANAGER",
+            "referenceLocator": "pkg:maven/com.github.joshelser/dropwizard-metrics-hadoop-metrics2-reporter@0.1.2",
+            "referenceType": "purl"
+        },
+        {
+            "referenceCategory": "EXTERNAL_MANAGER",
+            "referenceLocator": "pkg:maven/com.beust/jcommander@1.32",
+            "referenceType": "purl"
+        },
+        {
+            "referenceCategory": "EXTERNAL_MANAGER",
+            "referenceLocator": "pkg:maven/org.lz4/lz4-java@1.4.0",
+            "referenceType": "purl"
+        },
+        {
+            "referenceCategory": "EXTERNAL_MANAGER",
+            "referenceLocator": "pkg:maven/io.netty/netty@3.10.5.Final",
+            "referenceType": "purl"
+        },
+        {
+            "referenceCategory": "EXTERNAL_MANAGER",
+            "referenceLocator": "pkg:maven/org.ow2.asm/asm@5.0.1",
+            "referenceType": "purl"
+        },
+        {
+            "referenceCategory": "EXTERNAL_MANAGER",
+            "referenceLocator": "pkg:maven/commons-logging/commons-logging@1.0.4",
+            "referenceType": "purl"
+        },
+        {
+            "referenceCategory": "EXTERNAL_MANAGER",
+            "referenceLocator": "pkg:maven/org.apache.httpcomponents/httpcore@4.4.4",
+            "referenceType": "purl"
+        },
+        {
+            "referenceCategory": "EXTERNAL_MANAGER",
+            "referenceLocator": "pkg:maven/org.glassfish.jersey.core/jersey-client@2.25.1",
+            "referenceType": "purl"
+        },
+        {
+            "referenceCategory": "EXTERNAL_MANAGER",
+            "referenceLocator": "pkg:maven/org.javassist/javassist@3.20.0-GA",
+            "referenceType": "purl"
+        },
+        {
+            "referenceCategory": "EXTERNAL_MANAGER",
+            "referenceLocator": "pkg:maven/org.apache.xbean/xbean-asm5-shaded@4.4",
+            "referenceType": "purl"
+        },
+        {
+            "referenceCategory": "EXTERNAL_MANAGER",
+            "referenceLocator": "pkg:maven/org.apache.commons/commons-crypto@1.0.0",
+            "referenceType": "purl"
+        },
+        {
+            "referenceCategory": "EXTERNAL_MANAGER",
+            "referenceLocator": "pkg:maven/net.sf.jpam/jpam@1.1",
+            "referenceType": "purl"
+        },
+        {
+            "referenceCategory": "EXTERNAL_MANAGER",
+            "referenceLocator": "pkg:maven/io.airlift/aircompressor@0.10",
+            "referenceType": "purl"
+        },
+        {
+            "referenceCategory": "EXTERNAL_MANAGER",
+            "referenceLocator": "pkg:maven/org.apache.arrow/arrow-vector@0.8.0",
+            "referenceType": "purl"
+        },
+        {
+            "referenceCategory": "EXTERNAL_MANAGER",
+            "referenceLocator": "pkg:maven/com.twitter/chill_2.11@0.8.4",
+            "referenceType": "purl"
+        },
+        {
+            "referenceCategory": "EXTERNAL_MANAGER",
+            "referenceLocator": "pkg:maven/org.datanucleus/javax.jdo@3.2.0-m3",
+            "referenceType": "purl"
+        },
+        {
+            "referenceCategory": "EXTERNAL_MANAGER",
+            "referenceLocator": "pkg:maven/org.apache.ant/ant@1.9.1",
+            "referenceType": "purl"
+        },
+        {
+            "referenceCategory": "EXTERNAL_MANAGER",
+            "referenceLocator": "pkg:maven/org.apache.curator/curator-framework@2.12.0",
+            "referenceType": "purl"
+        },
+        {
+            "referenceCategory": "EXTERNAL_MANAGER",
+            "referenceLocator": "pkg:maven/org.jruby.jcodings/jcodings@1.0.18",
+            "referenceType": "purl"
+        },
+        {
+            "referenceCategory": "EXTERNAL_MANAGER",
+            "referenceLocator": "pkg:maven/com.tdunning/json@1.8",
+            "referenceType": "purl"
+        },
+        {
+            "referenceCategory": "EXTERNAL_MANAGER",
+            "referenceLocator": "pkg:maven/org.apache.hbase/hbase-server@2.0.0-alpha4",
+            "referenceType": "purl"
+        },
+        {
+            "referenceCategory": "EXTERNAL_MANAGER",
+            "referenceLocator": "pkg:maven/org.eclipse.jetty/jetty-annotations@9.3.20.v20170531",
+            "referenceType": "purl"
+        },
+        {
+            "referenceCategory": "EXTERNAL_MANAGER",
+            "referenceLocator": "pkg:maven/org.eclipse.jetty/jetty-plus@9.3.20.v20170531",
+            "referenceType": "purl"
+        },
+        {
+            "referenceCategory": "EXTERNAL_MANAGER",
+            "referenceLocator": "pkg:maven/org.apache.spark/spark-unsafe_2.11@2.3.0",
+            "referenceType": "purl"
+        },
+        {
+            "referenceCategory": "EXTERNAL_MANAGER",
+            "referenceLocator": "pkg:maven/org.apache.accumulo/accumulo-fate@1.7.3",
+            "referenceType": "purl"
+        },
+        {
+            "referenceCategory": "EXTERNAL_MANAGER",
+            "referenceLocator": "pkg:maven/io.druid.extensions/druid-hdfs-storage@0.12.0",
+            "referenceType": "purl"
+        },
+        {
+            "referenceCategory": "EXTERNAL_MANAGER",
+            "referenceLocator": "pkg:maven/org.eclipse.jetty.toolchain/jetty-schemas@3.1",
+            "referenceType": "purl"
+        },
+        {
+            "referenceCategory": "EXTERNAL_MANAGER",
+            "referenceLocator": "pkg:maven/com.thoughtworks.paranamer/paranamer@2.3",
+            "referenceType": "purl"
+        },
+        {
+            "referenceCategory": "EXTERNAL_MANAGER",
+            "referenceLocator": "pkg:maven/commons-cli/commons-cli@1.2",
+            "referenceType": "purl"
+        },
+        {
+            "referenceCategory": "EXTERNAL_MANAGER",
+            "referenceLocator": "pkg:maven/org.codehaus.janino/janino@2.7.6",
+            "referenceType": "purl"
+        },
+        {
+            "referenceCategory": "EXTERNAL_MANAGER",
+            "referenceLocator": "pkg:maven/velocity/velocity@1.5",
+            "referenceType": "purl"
+        },
+        {
+            "referenceCategory": "EXTERNAL_MANAGER",
+            "referenceLocator": "pkg:maven/org.datanucleus/datanucleus-api-jdo@4.2.4",
+            "referenceType": "purl"
+        },
+        {
+            "referenceCategory": "EXTERNAL_MANAGER",
+            "referenceLocator": "pkg:maven/org.apache.hbase/hbase-procedure@2.0.0-alpha4",
+            "referenceType": "purl"
+        },
+        {
+            "referenceCategory": "EXTERNAL_MANAGER",
+            "referenceLocator": "pkg:maven/org.glassfish.jersey.media/jersey-media-jaxb@2.25.1",
+            "referenceType": "purl"
+        },
+        {
+            "referenceCategory": "EXTERNAL_MANAGER",
+            "referenceLocator": "pkg:maven/org.apache.parquet/parquet-hadoop-bundle@1.10.0",
+            "referenceType": "purl"
+        },
+        {
+            "referenceCategory": "EXTERNAL_MANAGER",
+            "referenceLocator": "pkg:maven/org.apache.spark/spark-network-shuffle_2.11@2.3.0",
+            "referenceType": "purl"
+        },
+        {
+            "referenceCategory": "EXTERNAL_MANAGER",
+            "referenceLocator": "pkg:maven/org.apache.taglibs/taglibs-standard-impl@1.2.5",
+            "referenceType": "purl"
+        },
+        {
+            "referenceCategory": "EXTERNAL_MANAGER",
+            "referenceLocator": "pkg:maven/org.datanucleus/datanucleus-rdbms@4.1.19",
+            "referenceType": "purl"
+        },
+        {
+            "referenceCategory": "EXTERNAL_MANAGER",
+            "referenceLocator": "pkg:maven/org.apache.avro/avro-mapred@1.7.7",
+            "referenceType": "purl"
+        },
+        {
+            "referenceCategory": "EXTERNAL_MANAGER",
+            "referenceLocator": "pkg:maven/org.jamon/jamon-runtime@2.3.1",
+            "referenceType": "purl"
+        },
+        {
+            "referenceCategory": "EXTERNAL_MANAGER",
+            "referenceLocator": "pkg:maven/com.googlecode.javaewah/JavaEWAH@0.3.2",
+            "referenceType": "purl"
+        },
+        {
+            "referenceCategory": "EXTERNAL_MANAGER",
+            "referenceLocator": "pkg:maven/org.apache.calcite/calcite-linq4j@1.16.0",
+            "referenceType": "purl"
+        },
+        {
+            "referenceCategory": "EXTERNAL_MANAGER",
+            "referenceLocator": "pkg:maven/org.codehaus.groovy/groovy-all@2.4.11",
+            "referenceType": "purl"
+        },
+        {
+            "referenceCategory": "EXTERNAL_MANAGER",
+            "referenceLocator": "pkg:maven/org.apache.hbase/hbase-hadoop2-compat@2.0.0-alpha4",
+            "referenceType": "purl"
+        },
+        {
+            "referenceCategory": "EXTERNAL_MANAGER",
+            "referenceLocator": "pkg:maven/javax.xml.bind/jaxb-api@2.2.11",
+            "referenceType": "purl"
+        },
+        {
+            "referenceCategory": "EXTERNAL_MANAGER",
+            "referenceLocator": "pkg:maven/org.eclipse.jetty/jetty-jndi@9.3.20.v20170531",
+            "referenceType": "purl"
+        },
+        {
+            "referenceCategory": "EXTERNAL_MANAGER",
+            "referenceLocator": "pkg:maven/org.scala-lang/scala-compiler@2.11.0",
+            "referenceType": "purl"
+        },
+        {
+            "referenceCategory": "EXTERNAL_MANAGER",
+            "referenceLocator": "pkg:maven/com.clearspring.analytics/stream@2.7.0",
+            "referenceType": "purl"
+        },
+        {
+            "referenceCategory": "EXTERNAL_MANAGER",
+            "referenceLocator": "pkg:maven/org.apache.hbase/hbase-common@2.0.0-alpha4",
+            "referenceType": "purl"
+        },
+        {
+            "referenceCategory": "EXTERNAL_MANAGER",
+            "referenceLocator": "pkg:maven/org.objenesis/objenesis@2.1",
+            "referenceType": "purl"
+        },
+        {
+            "referenceCategory": "EXTERNAL_MANAGER",
+            "referenceLocator": "pkg:maven/com.opencsv/opencsv@3.9",
+            "referenceType": "purl"
+        },
+        {
+            "referenceCategory": "EXTERNAL_MANAGER",
+            "referenceLocator": "pkg:maven/javax.jdo/jdo-api@3.0.1",
+            "referenceType": "purl"
+        },
+        {
+            "referenceCategory": "EXTERNAL_MANAGER",
+            "referenceLocator": "pkg:maven/org.glassfish.jersey.containers/jersey-container-servlet-core@2.25.1",
+            "referenceType": "purl"
+        },
+        {
+            "referenceCategory": "EXTERNAL_MANAGER",
+            "referenceLocator": "pkg:maven/org.apache.thrift/libthrift@0.9.3",
+            "referenceType": "purl"
+        },
+        {
+            "referenceCategory": "EXTERNAL_MANAGER",
+            "referenceLocator": "pkg:maven/org.apache.orc/orc-tools@1.5.6",
+            "referenceType": "purl"
+        },
+        {
+            "referenceCategory": "EXTERNAL_MANAGER",
+            "referenceLocator": "pkg:maven/javax.transaction/transaction-api@1.1",
+            "referenceType": "purl"
+        },
+        {
+            "referenceCategory": "EXTERNAL_MANAGER",
+            "referenceLocator": "pkg:maven/commons-codec/commons-codec@1.7",
+            "referenceType": "purl"
+        },
+        {
+            "referenceCategory": "EXTERNAL_MANAGER",
+            "referenceLocator": "pkg:maven/org.apache.commons/commons-collections4@4.1",
+            "referenceType": "purl"
+        },
+        {
+            "referenceCategory": "EXTERNAL_MANAGER",
+            "referenceLocator": "pkg:maven/org.apache.commons/commons-math3@3.6.1",
+            "referenceType": "purl"
+        },
+        {
+            "referenceCategory": "EXTERNAL_MANAGER",
+            "referenceLocator": "pkg:maven/org.glassfish.hk2/hk2-api@2.5.0-b32",
+            "referenceType": "purl"
+        },
+        {
+            "referenceCategory": "EXTERNAL_MANAGER",
+            "referenceLocator": "pkg:maven/org.codehaus.jackson/jackson-mapper-asl@1.9.13",
+            "referenceType": "purl"
+        },
+        {
+            "referenceCategory": "EXTERNAL_MANAGER",
+            "referenceLocator": "pkg:maven/org.apache.orc/orc-core@1.5.6",
+            "referenceType": "purl"
+        },
+        {
+            "referenceCategory": "EXTERNAL_MANAGER",
+            "referenceLocator": "pkg:maven/javax.validation/validation-api@1.1.0.Final",
+            "referenceType": "purl"
+        },
+        {
+            "referenceCategory": "EXTERNAL_MANAGER",
+            "referenceLocator": "pkg:maven/org.threeten/threetenbp@1.3.5",
+            "referenceType": "purl"
+        },
+        {
+            "referenceCategory": "EXTERNAL_MANAGER",
+            "referenceLocator": "pkg:maven/org.apache.accumulo/accumulo-start@1.7.3",
+            "referenceType": "purl"
+        },
+        {
+            "referenceCategory": "EXTERNAL_MANAGER",
+            "referenceLocator": "pkg:maven/org.apache.arrow/arrow-memory@0.8.0",
+            "referenceType": "purl"
+        },
+        {
+            "referenceCategory": "EXTERNAL_MANAGER",
+            "referenceLocator": "pkg:maven/org.apache.commons/commons-compress@1.9",
+            "referenceType": "purl"
+        },
+        {
+            "referenceCategory": "EXTERNAL_MANAGER",
+            "referenceLocator": "pkg:maven/org.apache.hbase/hbase-replication@2.0.0-alpha4",
+            "referenceType": "purl"
+        },
+        {
+            "referenceCategory": "EXTERNAL_MANAGER",
+            "referenceLocator": "pkg:maven/org.glassfish.hk2/hk2-locator@2.5.0-b32",
+            "referenceType": "purl"
+        },
+        {
+            "referenceCategory": "EXTERNAL_MANAGER",
+            "referenceLocator": "pkg:maven/org.glassfish.jersey.core/jersey-common@2.25.1",
+            "referenceType": "purl"
+        },
+        {
+            "referenceCategory": "EXTERNAL_MANAGER",
+            "referenceLocator": "pkg:maven/org.apache.spark/spark-network-common_2.11@2.3.0",
+            "referenceType": "purl"
+        },
+        {
+            "referenceCategory": "EXTERNAL_MANAGER",
+            "referenceLocator": "pkg:maven/org.apache.curator/curator-client@2.12.0",
+            "referenceType": "purl"
+        },
+        {
+            "referenceCategory": "EXTERNAL_MANAGER",
+            "referenceLocator": "pkg:maven/org.apache.hbase/hbase-mapreduce@2.0.0-alpha4",
+            "referenceType": "purl"
+        },
+        {
+            "referenceCategory": "EXTERNAL_MANAGER",
+            "referenceLocator": "pkg:maven/org.apache.httpcomponents/httpclient@4.5.2",
+            "referenceType": "purl"
+        },
+        {
+            "referenceCategory": "EXTERNAL_MANAGER",
+            "referenceLocator": "pkg:maven/com.fasterxml.jackson.module/jackson-module-paranamer@2.9.5",
+            "referenceType": "purl"
+        },
+        {
+            "referenceCategory": "EXTERNAL_MANAGER",
+            "referenceLocator": "pkg:maven/io.druid.extensions/postgresql-metadata-storage@0.12.0",
+            "referenceType": "purl"
+        },
+        {
+            "referenceCategory": "EXTERNAL_MANAGER",
+            "referenceLocator": "pkg:maven/org.eclipse.jetty/apache-jstl@9.3.20.v20170531",
+            "referenceType": "purl"
+        },
+        {
+            "referenceCategory": "EXTERNAL_MANAGER",
+            "referenceLocator": "pkg:maven/org.eclipse.jetty/jetty-xml@9.3.20.v20170531",
+            "referenceType": "purl"
+        },
+        {
+            "referenceCategory": "EXTERNAL_MANAGER",
+            "referenceLocator": "pkg:maven/org.roaringbitmap/RoaringBitmap@0.5.11",
+            "referenceType": "purl"
+        },
+        {
+            "referenceCategory": "EXTERNAL_MANAGER",
+            "referenceLocator": "pkg:maven/org.antlr/antlr4-runtime@4.5",
+            "referenceType": "purl"
+        },
+        {
+            "referenceCategory": "EXTERNAL_MANAGER",
+            "referenceLocator": "pkg:maven/org.antlr/ST4@4.0.4",
+            "referenceType": "purl"
+        },
+        {
+            "referenceCategory": "EXTERNAL_MANAGER",
+            "referenceLocator": "pkg:maven/org.eclipse.jetty/jetty-rewrite@9.3.20.v20170531",
+            "referenceType": "purl"
+        },
+        {
+            "referenceCategory": "EXTERNAL_MANAGER",
+            "referenceLocator": "pkg:maven/org.json4s/json4s-jackson_2.11@3.2.11",
+            "referenceType": "purl"
+        },
+        {
+            "referenceCategory": "EXTERNAL_MANAGER",
+            "referenceLocator": "pkg:maven/org.apache.orc/orc-shims@1.5.6",
+            "referenceType": "purl"
+        },
+        {
+            "referenceCategory": "EXTERNAL_MANAGER",
+            "referenceLocator": "pkg:maven/com.ning/compress-lzf@1.0.3",
+            "referenceType": "purl"
+        },
+        {
+            "referenceCategory": "EXTERNAL_MANAGER",
+            "referenceLocator": "pkg:maven/io.dropwizard.metrics/metrics-graphite@3.1.5",
+            "referenceType": "purl"
+        },
+        {
+            "referenceCategory": "EXTERNAL_MANAGER",
+            "referenceLocator": "pkg:maven/com.esotericsoftware/minlog@1.3.0",
+            "referenceType": "purl"
+        },
+        {
+            "referenceCategory": "EXTERNAL_MANAGER",
+            "referenceLocator": "pkg:maven/com.fasterxml.jackson.core/jackson-core@2.9.5",
+            "referenceType": "purl"
+        },
+        {
+            "referenceCategory": "EXTERNAL_MANAGER",
+            "referenceLocator": "pkg:maven/commons-pool/commons-pool@1.5.4",
+            "referenceType": "purl"
+        },
+        {
+            "referenceCategory": "EXTERNAL_MANAGER",
+            "referenceLocator": "pkg:maven/org.apache.hbase/hbase-hadoop-compat@2.0.0-alpha4",
+            "referenceType": "purl"
+        },
+        {
+            "referenceCategory": "EXTERNAL_MANAGER",
+            "referenceLocator": "pkg:maven/org.apache.hbase.thirdparty/hbase-shaded-netty@1.0.1",
+            "referenceType": "purl"
+        },
+        {
+            "referenceCategory": "EXTERNAL_MANAGER",
+            "referenceLocator": "pkg:maven/org.apache.hbase.thirdparty/hbase-shaded-protobuf@1.0.1",
+            "referenceType": "purl"
+        },
+        {
+            "referenceCategory": "EXTERNAL_MANAGER",
+            "referenceLocator": "pkg:maven/org.apache.htrace/htrace-core@3.2.0-incubating",
+            "referenceType": "purl"
+        },
+        {
+            "referenceCategory": "EXTERNAL_MANAGER",
+            "referenceLocator": "pkg:maven/javax.transaction/transaction-api@1.1",
+            "referenceType": "purl"
+        },
+        {
+            "referenceCategory": "EXTERNAL_MANAGER",
+            "referenceLocator": "pkg:maven/org.scala-lang/scala-reflect@2.11.11",
+            "referenceType": "purl"
+        },
+        {
+            "referenceCategory": "EXTERNAL_MANAGER",
+            "referenceLocator": "pkg:maven/org.glassfish.hk2.external/javax.inject@2.5.0-b32",
+            "referenceType": "purl"
+        },
+        {
+            "referenceCategory": "EXTERNAL_MANAGER",
+            "referenceLocator": "pkg:maven/org.jruby.joni/joni@2.1.11",
+            "referenceType": "purl"
+        },
+        {
+            "referenceCategory": "EXTERNAL_MANAGER",
+            "referenceLocator": "pkg:maven/org.json4s/json4s-core_2.11@3.2.11",
+            "referenceType": "purl"
+        },
+        {
+            "referenceCategory": "EXTERNAL_MANAGER",
+            "referenceLocator": "pkg:maven/com.yahoo.datasketches/memory@0.9.0",
+            "referenceType": "purl"
+        },
+        {
+            "referenceCategory": "EXTERNAL_MANAGER",
+            "referenceLocator": "pkg:maven/org.apache.ivy/ivy@2.4.0",
+            "referenceType": "purl"
+        },
+        {
+            "referenceCategory": "EXTERNAL_MANAGER",
+            "referenceLocator": "pkg:maven/org.eclipse.jetty/jetty-jaas@9.3.20.v20170531",
+            "referenceType": "purl"
+        },
+        {
+            "referenceCategory": "EXTERNAL_MANAGER",
+            "referenceLocator": "pkg:maven/org.eclipse.jetty/jetty-webapp@9.3.20.v20170531",
+            "referenceType": "purl"
+        },
+        {
+            "referenceCategory": "EXTERNAL_MANAGER",
+            "referenceLocator": "pkg:maven/io.dropwizard.metrics/metrics-jvm@3.1.0",
+            "referenceType": "purl"
+        },
+        {
+            "referenceCategory": "EXTERNAL_MANAGER",
+            "referenceLocator": "pkg:maven/com.zaxxer/HikariCP@2.6.1",
+            "referenceType": "purl"
+        },
+        {
+            "referenceCategory": "EXTERNAL_MANAGER",
+            "referenceLocator": "pkg:maven/org.apache.logging.log4j/log4j-web@2.10.0",
+            "referenceType": "purl"
+        },
+        {
+            "referenceCategory": "EXTERNAL_MANAGER",
+            "referenceLocator": "pkg:maven/org.apache.calcite.avatica/avatica@1.11.0",
+            "referenceType": "purl"
+        },
+        {
+            "referenceCategory": "EXTERNAL_MANAGER",
+            "referenceLocator": "pkg:maven/org.apache.curator/curator-recipes@2.12.0",
+            "referenceType": "purl"
+        },
+        {
+            "referenceCategory": "EXTERNAL_MANAGER",
+            "referenceLocator": "pkg:maven/org.codehaus.jackson/jackson-core-asl@1.9.13",
+            "referenceType": "purl"
+        },
+        {
+            "referenceCategory": "EXTERNAL_MANAGER",
+            "referenceLocator": "pkg:maven/com.fasterxml.jackson.module/jackson-module-scala_2.11@2.9.5",
+            "referenceType": "purl"
+        },
+        {
+            "referenceCategory": "EXTERNAL_MANAGER",
+            "referenceLocator": "pkg:maven/org.antlr/antlr-runtime@3.5.2",
+            "referenceType": "purl"
+        },
+        {
+            "referenceCategory": "EXTERNAL_MANAGER",
+            "referenceLocator": "pkg:maven/org.eclipse.jetty/apache-jsp@9.3.20.v20170531",
+            "referenceType": "purl"
+        },
+        {
+            "referenceCategory": "EXTERNAL_MANAGER",
+            "referenceLocator": "pkg:maven/com.esri.geometry/esri-geometry-api@2.0.0",
+            "referenceType": "purl"
+        },
+        {
+            "referenceCategory": "EXTERNAL_MANAGER",
+            "referenceLocator": "pkg:maven/org.eclipse.jetty/jetty-io@9.3.20.v20170531",
+            "referenceType": "purl"
+        },
+        {
+            "referenceCategory": "EXTERNAL_MANAGER",
+            "referenceLocator": "pkg:maven/org.eclipse.jetty/jetty-security@9.3.20.v20170531",
+            "referenceType": "purl"
+        },
+        {
+            "referenceCategory": "EXTERNAL_MANAGER",
+            "referenceLocator": "pkg:maven/org.eclipse.jetty/jetty-runner@9.3.20.v20170531",
+            "referenceType": "purl"
+        },
+        {
+            "referenceCategory": "EXTERNAL_MANAGER",
+            "referenceLocator": "pkg:maven/jline/jline@2.12",
+            "referenceType": "purl"
+        },
+        {
+            "referenceCategory": "EXTERNAL_MANAGER",
+            "referenceLocator": "pkg:maven/org.glassfish.hk2/osgi-resource-locator@1.0.1",
+            "referenceType": "purl"
+        },
+        {
+            "referenceCategory": "EXTERNAL_MANAGER",
+            "referenceLocator": "pkg:maven/commons-io/commons-io@2.4",
+            "referenceType": "purl"
+        },
+        {
+            "referenceCategory": "EXTERNAL_MANAGER",
+            "referenceLocator": "pkg:maven/io.dropwizard.metrics/metrics-core@3.1.0",
+            "referenceType": "purl"
+        },
+        {
+            "referenceCategory": "EXTERNAL_MANAGER",
+            "referenceLocator": "pkg:maven/io.dropwizard.metrics/metrics-json@3.1.0",
+            "referenceType": "purl"
+        },
+        {
+            "referenceCategory": "EXTERNAL_MANAGER",
+            "referenceLocator": "pkg:maven/io.netty/netty-all@4.1.17.Final",
+            "referenceType": "purl"
+        },
+        {
+            "referenceCategory": "EXTERNAL_MANAGER",
+            "referenceLocator": "pkg:maven/org.codehaus.janino/commons-compiler@2.7.6",
+            "referenceType": "purl"
+        },
+        {
+            "referenceCategory": "EXTERNAL_MANAGER",
+            "referenceLocator": "pkg:maven/org.apache.hbase/hbase-protocol-shaded@2.0.0-alpha4",
+            "referenceType": "purl"
+        },
+        {
+            "referenceCategory": "EXTERNAL_MANAGER",
+            "referenceLocator": "pkg:maven/stax/stax-api@1.0.1",
+            "referenceType": "purl"
+        },
+        {
+            "referenceCategory": "EXTERNAL_MANAGER",
+            "referenceLocator": "pkg:maven/org.eclipse.jetty.websocket/websocket-api@9.3.20.v20170531",
+            "referenceType": "purl"
+        },
+        {
+            "referenceCategory": "EXTERNAL_MANAGER",
+            "referenceLocator": "pkg:maven/org.apache.hbase/hbase-prefix-tree@2.0.0-alpha4",
+            "referenceType": "purl"
+        },
+        {
+            "referenceCategory": "EXTERNAL_MANAGER",
+            "referenceLocator": "pkg:maven/org.eclipse.jetty/jetty-http@9.3.20.v20170531",
+            "referenceType": "purl"
+        },
+        {
+            "referenceCategory": "EXTERNAL_MANAGER",
+            "referenceLocator": "pkg:maven/joda-time/joda-time@2.9.9",
+            "referenceType": "purl"
+        },
+        {
+            "referenceCategory": "EXTERNAL_MANAGER",
+            "referenceLocator": "pkg:maven/org.apache.logging.log4j/log4j-core@2.10.0",
+            "referenceType": "purl"
+        },
+        {
+            "referenceCategory": "EXTERNAL_MANAGER",
+            "referenceLocator": "pkg:maven/org.apache.avro/avro-ipc@1.7.7",
+            "referenceType": "purl"
+        },
+        {
+            "referenceCategory": "EXTERNAL_MANAGER",
+            "referenceLocator": "pkg:maven/org.apache.avro/avro-ipc@1.7.7",
+            "referenceType": "purl"
+        },
+        {
+            "referenceCategory": "EXTERNAL_MANAGER",
+            "referenceLocator": "pkg:maven/com.fasterxml.jackson.core/jackson-annotations@2.9.5",
+            "referenceType": "purl"
+        },
+        {
+            "referenceCategory": "EXTERNAL_MANAGER",
+            "referenceLocator": "pkg:maven/org.json4s/json4s-ast_2.11@3.2.11",
+            "referenceType": "purl"
+        },
+        {
+            "referenceCategory": "EXTERNAL_MANAGER",
+            "referenceLocator": "pkg:maven/net.sf.opencsv/opencsv@2.3",
+            "referenceType": "purl"
+        },
+        {
+            "referenceCategory": "EXTERNAL_MANAGER",
+            "referenceLocator": "pkg:maven/com.google.protobuf/protobuf-java@2.5.0",
+            "referenceType": "purl"
+        },
+        {
+            "referenceCategory": "EXTERNAL_MANAGER",
+            "referenceLocator": "pkg:maven/org.netbeans.external/org-apache-commons-lang@RELEASE113",
+            "referenceType": "purl"
+        },
+        {
+            "referenceCategory": "EXTERNAL_MANAGER",
+            "referenceLocator": "pkg:maven/com.google.guava/guava@27.0-jre",
+            "referenceType": "purl"
+        },
+        {
+            "referenceCategory": "EXTERNAL_MANAGER",
+            "referenceLocator": "pkg:maven/com.fasterxml.jackson.core/jackson-databind@2.9.5",
+            "referenceType": "purl"
+        },
+        {
+            "referenceCategory": "EXTERNAL_MANAGER",
+            "referenceLocator": "pkg:maven/org.xerial.snappy/snappy-java@1.1.4",
+            "referenceType": "purl"
+        },
+        {
+            "referenceCategory": "EXTERNAL_MANAGER",
+            "referenceLocator": "pkg:maven/org.eclipse.jetty.websocket/websocket-server@9.3.20.v20170531",
+            "referenceType": "purl"
+        },
+        {
+            "referenceCategory": "EXTERNAL_MANAGER",
+            "referenceLocator": "pkg:maven/org.apache.arrow/arrow-format@0.8.0",
+            "referenceType": "purl"
+        },
+        {
+            "referenceCategory": "EXTERNAL_MANAGER",
+            "referenceLocator": "pkg:maven/com.google.code.gson/gson@2.2.4",
+            "referenceType": "purl"
+        },
+        {
+            "referenceCategory": "EXTERNAL_MANAGER",
+            "referenceLocator": "pkg:maven/com.carrotsearch/hppc@0.7.2",
+            "referenceType": "purl"
+        },
+        {
+            "referenceCategory": "EXTERNAL_MANAGER",
+            "referenceLocator": "pkg:maven/javax.servlet.jsp/javax.servlet.jsp-api@2.3.1",
+            "referenceType": "purl"
+        },
+        {
+            "referenceCategory": "EXTERNAL_MANAGER",
+            "referenceLocator": "pkg:maven/com.google.code.findbugs/jsr305@3.0.0",
+            "referenceType": "purl"
+        },
+        {
+            "referenceCategory": "EXTERNAL_MANAGER",
+            "referenceLocator": "pkg:maven/org.scala-lang.modules/scala-parser-combinators_2.11@1.0.1",
+            "referenceType": "purl"
+        },
+        {
+            "referenceCategory": "EXTERNAL_MANAGER",
+            "referenceLocator": "pkg:maven/org.ow2.asm/asm-tree@5.0.1",
+            "referenceType": "purl"
+        },
+        {
+            "referenceCategory": "EXTERNAL_MANAGER",
+            "referenceLocator": "pkg:maven/org.apache.avro/avro@1.7.7",
+            "referenceType": "purl"
+        },
+        {
+            "referenceCategory": "EXTERNAL_MANAGER",
+            "referenceLocator": "pkg:maven/org.apache.commons/commons-lang3@3.2",
+            "referenceType": "purl"
+        },
+        {
+            "referenceCategory": "EXTERNAL_MANAGER",
+            "referenceLocator": "pkg:maven/org.apache.hbase/hbase-common@2.0.0-alpha4",
+            "referenceType": "purl"
+        },
+        {
+            "referenceCategory": "EXTERNAL_MANAGER",
+            "referenceLocator": "pkg:maven/javax.servlet/javax.servlet-api@3.1.0",
+            "referenceType": "purl"
+        },
+        {
+            "referenceCategory": "EXTERNAL_MANAGER",
+            "referenceLocator": "pkg:maven/io.netty/netty-buffer@4.1.17.Final",
+            "referenceType": "purl"
+        },
+        {
+            "referenceCategory": "EXTERNAL_MANAGER",
+            "referenceLocator": "pkg:maven/org.scala-lang/scala-library@2.11.8",
+            "referenceType": "purl"
+        },
+        {
+            "referenceCategory": "EXTERNAL_MANAGER",
+            "referenceLocator": "pkg:maven/com.github.luben/zstd-jni@1.3.2-2",
+            "referenceType": "purl"
+        },
+        {
+            "referenceCategory": "EXTERNAL_MANAGER",
+            "referenceLocator": "pkg:maven/net.sf.py4j/py4j@0.10.6",
+            "referenceType": "purl"
+        },
+        {
+            "referenceCategory": "EXTERNAL_MANAGER",
+            "referenceLocator": "pkg:maven/org.apache.commons/commons-math@2.1",
+            "referenceType": "purl"
+        },
+        {
+            "referenceCategory": "EXTERNAL_MANAGER",
+            "referenceLocator": "pkg:maven/org.apache.hbase/hbase-client@2.0.0-alpha4",
+            "referenceType": "purl"
+        },
+        {
+            "referenceCategory": "EXTERNAL_MANAGER",
+            "referenceLocator": "pkg:maven/org.apache.logging.log4j/log4j-1.2-api@2.10.0",
+            "referenceType": "purl"
+        },
+        {
+            "referenceCategory": "EXTERNAL_MANAGER",
+            "referenceLocator": "pkg:maven/io.druid.extensions/mysql-metadata-storage@0.12.0",
+            "referenceType": "purl"
+        }
+    ],
+    "filesAnalyzed": false,
+    "homepage": "http://hive.apache.org/",
+    "licenseDeclared": "NOASSERTION",
+    "sourceInfo": "acquired package info from repodata DB: repodata/f344a955efaed1bd8fffc33ce0e7412fd4794215424588cfcfa5a49b166c099a-primary.sqlite.bz2",
+    "supplier": "Organization: http://openeuler.org",
+    "versionInfo": "0:3.1.2-3.oe2203"
+}

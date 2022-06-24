@@ -1,7 +1,6 @@
 package org.openeuler.sbom.manager;
 
 
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.MethodOrderer;
@@ -14,7 +13,9 @@ import org.openeuler.sbom.manager.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.core.io.ClassPathResource;
 import org.springframework.http.MediaType;
+import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.util.Assert;
 import org.springframework.util.CollectionUtils;
@@ -22,8 +23,7 @@ import org.springframework.util.CollectionUtils;
 import java.util.List;
 
 import static org.hamcrest.Matchers.hasSize;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
@@ -31,6 +31,9 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @AutoConfigureMockMvc
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 public class UserTests {
+
+    private static final String SAMPLE_UPLOAD_FILE_NAME = "sample/sample-oss-package.json";
+    private static final String SAMPLE_UPLOAD_COPY_FILE_NAME = "sample/sample-oss-package-copy.json";
 
     @Autowired
     private MockMvc mockMvc;
@@ -148,5 +151,63 @@ public class UserTests {
         user.setEmail("second_new@someemail.com");
         userService.updateUserEmailByUserName(user);
     }
+
+    @Test
+    public void uploadSbomFile() throws Exception {
+        ClassPathResource classPathResource = new ClassPathResource(SAMPLE_UPLOAD_FILE_NAME);
+        MockMultipartFile file = new MockMultipartFile("upFileName", SAMPLE_UPLOAD_FILE_NAME
+                , "json", classPathResource.getInputStream());
+
+        this.mockMvc
+                .perform(multipart("/sbom/uploadSbomFile").file(file)
+                        .param("artifactName", "openEuler-22.03-LTS-everything-x86_64-dvd.iso")
+                        .contentType(MediaType.MULTIPART_FORM_DATA))
+                .andDo(print())
+                .andExpect(status().isAccepted())
+                .andExpect(content().string("Success"));
+    }
+
+    @Test
+    public void uploadSbomFiles() throws Exception {
+        MockMultipartFile file = new MockMultipartFile("upFileNames", SAMPLE_UPLOAD_FILE_NAME
+                , "json", new ClassPathResource(SAMPLE_UPLOAD_FILE_NAME).getInputStream());
+        MockMultipartFile copyFile = new MockMultipartFile("upFileNames", SAMPLE_UPLOAD_COPY_FILE_NAME
+                , "json", new ClassPathResource(SAMPLE_UPLOAD_COPY_FILE_NAME).getInputStream());
+
+        this.mockMvc
+                .perform(multipart("/sbom/uploadSbomFiles").file(file).file(copyFile)
+                        .param("artifactName", "openEuler-22.03-LTS-x86_64-dvd.iso")
+                        .contentType(MediaType.MULTIPART_FORM_DATA))
+                .andDo(print())
+                .andExpect(status().isAccepted())
+                .andExpect(content().string("Success"));
+    }
+
+    @Test
+    @Order(10)
+    public void downloadSbom() throws Exception {
+        this.mockMvc
+                .perform(get("/sbom/downloadSbom/openEuler-dvd-22.03-LTS.iso")
+                        .queryParam("version", "22.03")
+                        .contentType(MediaType.ALL)
+                        .accept(MediaType.APPLICATION_OCTET_STREAM))
+                .andDo(print())
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.content.*", hasSize(2)));
+    }
+
+    @Test
+    @Order(10)
+    public void exportSbom() throws Exception {
+        this.mockMvc
+                .perform(post("/sbom/exportSbom")
+                        .param("artifactName","openEuler-everything-22.03-LTS.iso")
+                        .contentType(MediaType.ALL)
+                        .accept(MediaType.APPLICATION_OCTET_STREAM))
+                .andDo(print())
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.content.*", hasSize(2)));
+    }
+
 }
 
