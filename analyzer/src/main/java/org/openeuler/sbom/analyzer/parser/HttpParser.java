@@ -1,10 +1,11 @@
 package org.openeuler.sbom.analyzer.parser;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import org.apache.commons.lang3.StringUtils;
 import org.openeuler.sbom.analyzer.model.HttpSniffData;
 import org.openeuler.sbom.analyzer.model.ProcessIdentifier;
-import org.openeuler.sbom.analyzer.utils.Mapper;
 import org.openeuler.sbom.analyzer.utils.PackageGenerator;
-import org.apache.commons.lang3.StringUtils;
+import org.openeuler.sbom.utils.Mapper;
 import org.ossreviewtoolkit.model.CuratedPackage;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -40,7 +41,13 @@ public class HttpParser implements Parser {
         logger.info("start to parse HTTP");
         Set<CuratedPackage> packages;
         try(Stream<String> stream = Files.lines(Paths.get(logPath))) {
-            packages = stream.map(line -> Mapper.readValue(line.trim(), HttpSniffData.class))
+            packages = stream.map(line -> {
+                        try {
+                            return Mapper.jsonMapper.readValue(line.trim(), HttpSniffData.class);
+                        } catch (JsonProcessingException e) {
+                            throw new RuntimeException(e);
+                        }
+                    })
                     .filter(data -> allProcess.contains(new ProcessIdentifier(data.pid(), data.ppid(), data.cmd())))
                     .map(data -> getHostPath(data.data()))
                     .map(this::getPackage)

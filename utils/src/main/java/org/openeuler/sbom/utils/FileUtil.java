@@ -1,4 +1,4 @@
-package org.openeuler.sbom.analyzer.utils;
+package org.openeuler.sbom.utils;
 
 import org.apache.commons.compress.archivers.tar.TarArchiveEntry;
 import org.apache.commons.compress.archivers.tar.TarArchiveInputStream;

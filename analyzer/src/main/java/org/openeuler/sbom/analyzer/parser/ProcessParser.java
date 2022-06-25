@@ -1,9 +1,10 @@
 package org.openeuler.sbom.analyzer.parser;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import org.apache.commons.lang3.StringUtils;
 import org.openeuler.sbom.analyzer.model.ProcessData;
 import org.openeuler.sbom.analyzer.model.ProcessIdentifier;
-import org.openeuler.sbom.analyzer.utils.Mapper;
-import org.apache.commons.lang3.StringUtils;
+import org.openeuler.sbom.utils.Mapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -31,7 +32,12 @@ public class ProcessParser {
         var wrapper = new Object() {int mainPid = -1;};
         try(Stream<String> stream = Files.lines(Paths.get(logPath))) {
             stream.forEach(line -> {
-                ProcessData data = Mapper.readValue(line.trim(), ProcessData.class);
+                ProcessData data;
+                try {
+                    data = Mapper.jsonMapper.readValue(line.trim(), ProcessData.class);
+                } catch (JsonProcessingException e) {
+                    throw new RuntimeException(e);
+                }
                 if (StringUtils.contains(data.fullCmd(), taskId + "_")) {
                     wrapper.mainPid = data.pid();
                 }

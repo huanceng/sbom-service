@@ -1,9 +1,10 @@
 package org.openeuler.sbom.analyzer.parser;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import org.apache.commons.lang3.StringUtils;
 import org.openeuler.sbom.analyzer.model.Http2SniffData;
 import org.openeuler.sbom.analyzer.model.ProcessIdentifier;
-import org.openeuler.sbom.analyzer.utils.Mapper;
-import org.apache.commons.lang3.StringUtils;
+import org.openeuler.sbom.utils.Mapper;
 import org.ossreviewtoolkit.model.CuratedPackage;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -31,7 +32,13 @@ public class Http2Parser extends HttpParser {
         logger.info("start to parse HTTP/2");
         Set<CuratedPackage> packages;
         try(Stream<String> stream = Files.lines(Paths.get(logPath))) {
-            packages = stream.map(line -> Mapper.readValue(line.trim(), Http2SniffData.class))
+            packages = stream.map(line -> {
+                        try {
+                            return Mapper.jsonMapper.readValue(line.trim(), Http2SniffData.class);
+                        } catch (JsonProcessingException e) {
+                            throw new RuntimeException(e);
+                        }
+                    })
                     .filter(data -> allProcess.contains(new ProcessIdentifier(data.pid(), data.ppid(), data.cmd())))
                     .map(data -> getHostPath(data.data()))
                     .map(this::getPackage)
