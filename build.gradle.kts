@@ -8,6 +8,7 @@ group = "org.openeuler.sbom"
 version = "1.0-SNAPSHOT"
 
 val commonsIoVersion: String by project
+val commonsLang3Version: String by project
 
 dependencies {
     implementation(project(":analyzer"))
@@ -15,6 +16,7 @@ dependencies {
     implementation("org.springframework.boot:spring-boot-starter-data-jpa")
     implementation("org.springframework.boot:spring-boot-starter-web")
     implementation("com.fasterxml.jackson.core:jackson-databind")
+    implementation("org.apache.commons:commons-lang3:$commonsLang3Version")
     implementation("commons-io:commons-io:$commonsIoVersion")
     runtimeOnly("org.postgresql:postgresql")
 

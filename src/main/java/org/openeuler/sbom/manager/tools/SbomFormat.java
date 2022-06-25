@@ -1,4 +1,4 @@
-package org.openeuler.sbom;
+package org.openeuler.sbom.manager.tools;
 
 public enum SbomFormat {
     JSON,

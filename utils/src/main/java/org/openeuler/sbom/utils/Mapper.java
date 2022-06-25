@@ -17,6 +17,8 @@ public class Mapper {
     }
 
     public static final JsonMapper jsonMapper = (JsonMapper) initMapper(new JsonMapper());
+
     public static final XmlMapper xmlMapper = (XmlMapper) initMapper(new XmlMapper());
+
     public static final YAMLMapper yamlMapper = (YAMLMapper) initMapper(new YAMLMapper());
 }
