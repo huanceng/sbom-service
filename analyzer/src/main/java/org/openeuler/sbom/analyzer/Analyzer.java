@@ -1,13 +1,13 @@
 package org.openeuler.sbom.analyzer;
 
+import org.apache.commons.io.FileUtils;
 import org.openeuler.sbom.analyzer.model.ProcessIdentifier;
 import org.openeuler.sbom.analyzer.parser.CollectedInfoParser;
 import org.openeuler.sbom.analyzer.parser.Http2Parser;
 import org.openeuler.sbom.analyzer.parser.HttpParser;
 import org.openeuler.sbom.analyzer.parser.ProcessParser;
-import org.openeuler.sbom.analyzer.utils.FileUtil;
-import org.openeuler.sbom.analyzer.utils.Mapper;
-import org.apache.commons.io.FileUtils;
+import org.openeuler.sbom.utils.FileUtil;
+import org.openeuler.sbom.utils.Mapper;
 import org.ossreviewtoolkit.model.AnalyzerResult;
 import org.ossreviewtoolkit.model.AnalyzerRun;
 import org.ossreviewtoolkit.model.CuratedPackage;
@@ -106,7 +106,7 @@ public class Analyzer {
 
             FileUtil.ensureDirExists(outputDir);
             Path outputPath = Path.of(outputDir, RESULT_FILE);
-            Mapper.jsonMapper.findAndRegisterModules().writerWithDefaultPrettyPrinter().writeValue(outputPath.toFile(), ortResult);
+            Mapper.jsonMapper.writerWithDefaultPrettyPrinter().writeValue(outputPath.toFile(), ortResult);
 
             for (String f : RESERVED_FILES) {
                 FileUtils.copyFileToDirectory(Paths.get(workspace, f).toFile(), Path.of(outputDir).toFile());

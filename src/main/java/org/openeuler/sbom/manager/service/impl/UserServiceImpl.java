@@ -1,11 +1,14 @@
 package org.openeuler.sbom.manager.service.impl;
 
-import org.openeuler.sbom.manager.model.PageVo;
 import org.openeuler.sbom.manager.dao.UserRepository;
+import org.openeuler.sbom.manager.model.PageVo;
 import org.openeuler.sbom.manager.model.UserEntity;
 import org.openeuler.sbom.manager.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.*;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 

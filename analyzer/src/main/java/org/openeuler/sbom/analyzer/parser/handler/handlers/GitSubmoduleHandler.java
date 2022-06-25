@@ -1,12 +1,13 @@
 package org.openeuler.sbom.analyzer.parser.handler.handlers;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import org.apache.commons.lang3.StringUtils;
 import org.openeuler.sbom.analyzer.model.GitSubmoduleData;
 import org.openeuler.sbom.analyzer.parser.handler.AbstractHandlerFactory;
 import org.openeuler.sbom.analyzer.parser.handler.Handler;
 import org.openeuler.sbom.analyzer.parser.handler.HandlerEnum;
-import org.openeuler.sbom.analyzer.utils.Mapper;
 import org.openeuler.sbom.analyzer.utils.PackageGenerator;
-import org.apache.commons.lang3.StringUtils;
+import org.openeuler.sbom.utils.Mapper;
 import org.ossreviewtoolkit.model.CuratedPackage;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -39,7 +40,13 @@ public class GitSubmoduleHandler implements Handler {
     public CuratedPackage handle(String recordJson) {
         logger.info("handling git submodule record: '{}'", recordJson);
 
-        GitSubmoduleData data = Mapper.readValue(recordJson, GitSubmoduleData.class);
+        GitSubmoduleData data;
+        try {
+            data = Mapper.jsonMapper.readValue(recordJson, GitSubmoduleData.class);
+        } catch (JsonProcessingException e) {
+            return null;
+        }
+
         if (!StringUtils.equals(data.tag(), handlerType.getTag())) {
             logger.warn("invalid tag for record '{}'", recordJson);
             return null;

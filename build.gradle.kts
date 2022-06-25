@@ -1,23 +1,52 @@
 plugins {
-    id("org.springframework.boot") version "2.7.0"
-    id("io.spring.dependency-management") version "1.0.11.RELEASE"
+    id("org.springframework.boot")
+    id("io.spring.dependency-management")
     id("java")
 }
 
 group = "org.openeuler.sbom"
 version = "1.0-SNAPSHOT"
 
-repositories {
-    mavenCentral()
-}
+val commonsIoVersion: String by project
 
 dependencies {
+    implementation(project(":analyzer"))
+
     implementation("org.springframework.boot:spring-boot-starter-data-jpa")
     implementation("org.springframework.boot:spring-boot-starter-web")
-    implementation("com.fasterxml.jackson.core:jackson-databind:2.13.3")
-    implementation("commons-io:commons-io:2.11.0")
+    implementation("com.fasterxml.jackson.core:jackson-databind")
+    implementation("commons-io:commons-io:$commonsIoVersion")
     runtimeOnly("org.postgresql:postgresql")
+
     testImplementation("org.springframework.boot:spring-boot-starter-test")
+}
+
+configurations {
+    all {
+        exclude(group = "org.springframework.boot", module = "spring-boot-starter-logging")
+    }
+}
+
+allprojects {
+    apply(plugin = "org.springframework.boot")
+    apply(plugin = "io.spring.dependency-management")
+    apply(plugin = "java")
+
+    repositories {
+        mavenCentral()
+    }
+
+    dependencies {
+        implementation("org.apache.logging.log4j:log4j-api")
+        implementation("org.apache.logging.log4j:log4j-core")
+        implementation("org.apache.logging.log4j:log4j-slf4j-impl")
+        implementation("org.slf4j:slf4j-api")
+    }
+}
+
+subprojects {
+    group = rootProject.group
+    version = rootProject.version
 }
 
 tasks.getByName<Test>("test") {
