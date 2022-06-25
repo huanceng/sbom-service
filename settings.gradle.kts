@@ -12,5 +12,4 @@ pluginManagement {
 includeBuild("ort")
 
 include("analyzer")
-include("tools")
 include("utils")
