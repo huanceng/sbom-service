@@ -12,6 +12,10 @@ val commonsLang3Version: String by project
 
 dependencies {
     implementation(project(":analyzer"))
+    implementation(project(":utils"))
+
+    implementation("oss-review-toolkit:model")
+    implementation("oss-review-toolkit:utils:spdx-utils")
 
     implementation("org.springframework.boot:spring-boot-starter-data-jpa")
     implementation("org.springframework.boot:spring-boot-starter-web")

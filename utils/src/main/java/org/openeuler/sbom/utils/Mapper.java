@@ -21,4 +21,17 @@ public class Mapper {
     public static final XmlMapper xmlMapper = (XmlMapper) initMapper(new XmlMapper());
 
     public static final YAMLMapper yamlMapper = (YAMLMapper) initMapper(new YAMLMapper());
+
+    public static ObjectMapper initSbomMapper(ObjectMapper mapper) {
+        return mapper.registerModule(new JavaTimeModule())
+                .findAndRegisterModules()
+                .disable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS)
+                .enable(SerializationFeature.INDENT_OUTPUT);
+    }
+
+    public static final JsonMapper jsonSbomMapper = (JsonMapper) initSbomMapper(new JsonMapper());
+
+    public static final XmlMapper xmlSbomMapper = (XmlMapper) initSbomMapper(new XmlMapper());
+
+    public static final YAMLMapper yamlSbomMapper = (YAMLMapper) initSbomMapper(new YAMLMapper());
 }

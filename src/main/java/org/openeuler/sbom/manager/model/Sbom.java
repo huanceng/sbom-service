@@ -4,8 +4,11 @@ import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
+import javax.persistence.ForeignKey;
 import javax.persistence.Id;
 import javax.persistence.Index;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
@@ -41,8 +44,9 @@ public class Sbom {
     @Column(columnDefinition = "TEXT", name = "license_list_version")
     private String licenseListVersion;
 
-    @OneToOne(mappedBy = "sbom", fetch = FetchType.LAZY, optional = false, cascade = CascadeType.ALL, orphanRemoval = true)
-    private Product product;
+//    @ManyToOne(fetch = FetchType.LAZY, optional = false, cascade = CascadeType.ALL)
+//    @JoinColumn(name = "product_id", foreignKey = @ForeignKey(name = "product_id_fk"))
+//    private Product product;
 
     @OneToMany(mappedBy = "sbom", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Package> packages;
@@ -117,13 +121,13 @@ public class Sbom {
         this.licenseListVersion = licenseListVersion;
     }
 
-    public Product getProduct() {
-        return product;
-    }
-
-    public void setProduct(Product product) {
-        this.product = product;
-    }
+//    public Product getProduct() {
+//        return product;
+//    }
+//
+//    public void setProduct(Product product) {
+//        this.product = product;
+//    }
 
     public List<Package> getPackages() {
         return packages;
