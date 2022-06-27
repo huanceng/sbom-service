@@ -54,7 +54,7 @@ public class UserTests {
     @Test()
     @Order(2)
     public void findAllRecordBeforeAdd() throws Exception {
-        this.mockMvc.perform(get("/sbom/allUser"))
+        this.mockMvc.perform(get("/user/allUser"))
                 .andDo(print())
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.*", hasSize(0)));
@@ -64,7 +64,7 @@ public class UserTests {
     @Order(3)
     public void addUser() throws Exception {
         this.mockMvc
-                .perform(post("/sbom/addUser")
+                .perform(post("/user/addUser")
                         .param("name", "First")
                         .param("email", "first@someemail.com")
                         .contentType(MediaType.APPLICATION_JSON)
@@ -81,7 +81,7 @@ public class UserTests {
         user.setUserName("Second");
         user.setEmail("second@someemail.com");
         this.mockMvc
-                .perform(post("/sbom/addUserRecord")
+                .perform(post("/user/addUserRecord")
                         .content(new ObjectMapper().writeValueAsString(user))
                         .contentType(MediaType.APPLICATION_JSON)
                         .accept(MediaType.APPLICATION_JSON))
@@ -105,7 +105,7 @@ public class UserTests {
     @Order(5)
     public void findAllRecordAfterAdd() throws Exception {
         String responseJsonString = this.mockMvc
-                .perform(get("/sbom/allUser"))
+                .perform(get("/user/allUser"))
                 .andDo(print())
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.*", hasSize(12)))
@@ -120,7 +120,7 @@ public class UserTests {
     }
 
     @Test()
-    @Order(6)
+    @Order(5)
     public void findRecordByName() {
         Assert.isTrue(!CollectionUtils.isEmpty(userService.findByUserName1("First")), "can`t find First");
         Assert.isTrue(!CollectionUtils.isEmpty(userService.findByUserName2("Second")), "can`t find Second 2");
@@ -128,7 +128,7 @@ public class UserTests {
     }
 
     @Test()
-    @Order(7)
+    @Order(5)
     public void findAllPageable() {
         PageVo<UserEntity> pageResult = userService.findAllPageable(2, 2);
 
@@ -138,7 +138,7 @@ public class UserTests {
     }
 
     @Test()
-    @Order(8)
+    @Order(5)
     public void findAllPageableByUserName() {
         PageVo<UserEntity> pageResult = userService.findAllPageable("Third", 2, 2);
 
@@ -148,7 +148,7 @@ public class UserTests {
     }
 
     @Test()
-    @Order(9)
+    @Order(6)
     public void updateUser() {
         UserEntity user = new UserEntity();
         user.setUserName("Second");
@@ -163,7 +163,7 @@ public class UserTests {
                 , "json", classPathResource.getInputStream());
 
         this.mockMvc
-                .perform(multipart("/sbom/uploadSbomFile").file(file)
+                .perform(multipart("/user/uploadSbomFile").file(file)
                         .param("artifactName", "openEuler-22.03-LTS-everything-x86_64-dvd.iso")
                         .contentType(MediaType.MULTIPART_FORM_DATA))
                 .andDo(print())
@@ -179,7 +179,7 @@ public class UserTests {
                 , "json", new ClassPathResource(SAMPLE_UPLOAD_COPY_FILE_NAME).getInputStream());
 
         this.mockMvc
-                .perform(multipart("/sbom/uploadSbomFiles").file(file).file(copyFile)
+                .perform(multipart("/user/uploadSbomFiles").file(file).file(copyFile)
                         .param("artifactName", "openEuler-22.03-LTS-x86_64-dvd.iso")
                         .contentType(MediaType.MULTIPART_FORM_DATA))
                 .andDo(print())
@@ -188,10 +188,10 @@ public class UserTests {
     }
 
     @Test
-    @Order(10)
+    @Order(5)
     public void downloadSbom() throws Exception {
         this.mockMvc
-                .perform(get("/sbom/downloadSbom/openEuler-dvd-22.03-LTS.iso")
+                .perform(get("/user/downloadSbom/openEuler-dvd-22.03-LTS.iso")
                         .queryParam("version", "22.03")
                         .contentType(MediaType.ALL)
                         .accept(MediaType.APPLICATION_OCTET_STREAM))
@@ -201,10 +201,10 @@ public class UserTests {
     }
 
     @Test
-    @Order(10)
+    @Order(5)
     public void exportSbom() throws Exception {
         this.mockMvc
-                .perform(post("/sbom/exportSbom")
+                .perform(post("/user/exportSbom")
                         .param("artifactName","openEuler-everything-22.03-LTS.iso")
                         .contentType(MediaType.ALL)
                         .accept(MediaType.APPLICATION_OCTET_STREAM))
