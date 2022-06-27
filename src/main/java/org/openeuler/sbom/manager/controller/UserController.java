@@ -35,8 +35,8 @@ import java.util.List;
 import java.util.Objects;
 
 @Controller
-@RequestMapping(path = "/sbom")
-public class SbomController {
+@RequestMapping(path = "/user")
+public class UserController {
 
     private static final Logger logger = LoggerFactory.getLogger(SbomManagerApplication.class);
 
