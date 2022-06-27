@@ -1,0 +1,1559 @@
+{
+  "SPDXID" : "SPDXRef-DOCUMENT",
+  "spdxVersion" : "SPDX-2.2",
+  "creationInfo" : {
+    "created" : "2022-06-27T08:05:09Z",
+    "creators" : [ "Tool: OSS Review Toolkit - e5b343ff71-dirty" ],
+    "licenseListVersion" : "3.16"
+  },
+  "name" : "Unnamed document",
+  "dataLicense" : "CC0-1.0",
+  "documentNamespace" : "spdx://57eaa8d8-9572-44ff-ace4-d4ac38292265",
+  "documentDescribes" : [ "SPDXRef-Project-PIP-requirements.txt", "SPDXRef-Project-Tracer-github" ],
+  "packages" : [ {
+    "SPDXID" : "SPDXRef-Project-PIP-requirements.txt",
+    "copyrightText" : "NONE",
+    "downloadLocation" : "NONE",
+    "filesAnalyzed" : false,
+    "homepage" : "NONE",
+    "licenseConcluded" : "NOASSERTION",
+    "licenseDeclared" : "NOASSERTION",
+    "name" : "requirements.txt",
+    "summary" : "NONE"
+  }, {
+    "SPDXID" : "SPDXRef-Project-Tracer-github",
+    "copyrightText" : "NONE",
+    "downloadLocation" : "NONE",
+    "filesAnalyzed" : false,
+    "homepage" : "NONE",
+    "licenseConcluded" : "NOASSERTION",
+    "licenseDeclared" : "NOASSERTION",
+    "name" : "github",
+    "summary" : "NONE"
+  }, {
+    "SPDXID" : "SPDXRef-Package-PyPI-asttokens-2.0.5",
+    "copyrightText" : "NONE",
+    "downloadLocation" : "https://files.pythonhosted.org/packages/16/d5/b0ad240c22bba2f4591693b0ca43aae94fbd77fb1e2b107d54fff1462b6f/asttokens-2.0.5-py2.py3-none-any.whl",
+    "externalRefs" : [ {
+      "referenceCategory" : "PACKAGE_MANAGER",
+      "referenceType" : "purl",
+      "referenceLocator" : "pkg:pypi/asttokens@2.0.5"
+    } ],
+    "filesAnalyzed" : false,
+    "homepage" : "https://github.com/gristlabs/asttokens",
+    "licenseConcluded" : "NOASSERTION",
+    "licenseDeclared" : "Apache-2.0",
+    "name" : "asttokens",
+    "summary" : "Annotate AST trees with source code positions",
+    "versionInfo" : "2.0.5"
+  }, {
+    "SPDXID" : "SPDXRef-Package-PyPI-asttokens-2.0.5-vcs",
+    "copyrightText" : "NONE",
+    "downloadLocation" : "git+https://github.com/gristlabs/asttokens.git",
+    "externalRefs" : [ {
+      "referenceCategory" : "PACKAGE_MANAGER",
+      "referenceType" : "purl",
+      "referenceLocator" : "pkg:pypi/asttokens@2.0.5"
+    } ],
+    "filesAnalyzed" : false,
+    "homepage" : "https://github.com/gristlabs/asttokens",
+    "licenseConcluded" : "NOASSERTION",
+    "licenseDeclared" : "NOASSERTION",
+    "name" : "asttokens",
+    "summary" : "Annotate AST trees with source code positions",
+    "versionInfo" : "2.0.5"
+  }, {
+    "SPDXID" : "SPDXRef-Package-PyPI-asttokens-2.0.5-source-artifact",
+    "copyrightText" : "NONE",
+    "downloadLocation" : "https://files.pythonhosted.org/packages/aa/51/59965dead3960a97358f289c7c11ebc1f6c5d28710fab5d421000fe60353/asttokens-2.0.5.tar.gz",
+    "externalRefs" : [ {
+      "referenceCategory" : "PACKAGE_MANAGER",
+      "referenceType" : "purl",
+      "referenceLocator" : "pkg:pypi/asttokens@2.0.5"
+    } ],
+    "filesAnalyzed" : false,
+    "homepage" : "https://github.com/gristlabs/asttokens",
+    "licenseConcluded" : "NOASSERTION",
+    "licenseDeclared" : "NOASSERTION",
+    "name" : "asttokens",
+    "summary" : "Annotate AST trees with source code positions",
+    "versionInfo" : "2.0.5"
+  }, {
+    "SPDXID" : "SPDXRef-Package-PyPI-astunparse-1.6.3",
+    "copyrightText" : "NONE",
+    "downloadLocation" : "https://files.pythonhosted.org/packages/2b/03/13dde6512ad7b4557eb792fbcf0c653af6076b81e5941d36ec61f7ce6028/astunparse-1.6.3-py2.py3-none-any.whl",
+    "externalRefs" : [ {
+      "referenceCategory" : "PACKAGE_MANAGER",
+      "referenceType" : "purl",
+      "referenceLocator" : "pkg:pypi/astunparse@1.6.3"
+    } ],
+    "filesAnalyzed" : false,
+    "homepage" : "https://github.com/simonpercivall/astunparse",
+    "licenseConcluded" : "NOASSERTION",
+    "licenseDeclared" : "BSD-3-Clause",
+    "name" : "astunparse",
+    "summary" : "An AST unparser for Python",
+    "versionInfo" : "1.6.3"
+  }, {
+    "SPDXID" : "SPDXRef-Package-PyPI-astunparse-1.6.3-vcs",
+    "copyrightText" : "NONE",
+    "downloadLocation" : "git+https://github.com/simonpercivall/astunparse.git",
+    "externalRefs" : [ {
+      "referenceCategory" : "PACKAGE_MANAGER",
+      "referenceType" : "purl",
+      "referenceLocator" : "pkg:pypi/astunparse@1.6.3"
+    } ],
+    "filesAnalyzed" : false,
+    "homepage" : "https://github.com/simonpercivall/astunparse",
+    "licenseConcluded" : "NOASSERTION",
+    "licenseDeclared" : "NOASSERTION",
+    "name" : "astunparse",
+    "summary" : "An AST unparser for Python",
+    "versionInfo" : "1.6.3"
+  }, {
+    "SPDXID" : "SPDXRef-Package-PyPI-astunparse-1.6.3-source-artifact",
+    "copyrightText" : "NONE",
+    "downloadLocation" : "https://files.pythonhosted.org/packages/f3/af/4182184d3c338792894f34a62672919db7ca008c89abee9b564dd34d8029/astunparse-1.6.3.tar.gz",
+    "externalRefs" : [ {
+      "referenceCategory" : "PACKAGE_MANAGER",
+      "referenceType" : "purl",
+      "referenceLocator" : "pkg:pypi/astunparse@1.6.3"
+    } ],
+    "filesAnalyzed" : false,
+    "homepage" : "https://github.com/simonpercivall/astunparse",
+    "licenseConcluded" : "NOASSERTION",
+    "licenseDeclared" : "NOASSERTION",
+    "name" : "astunparse",
+    "summary" : "An AST unparser for Python",
+    "versionInfo" : "1.6.3"
+  }, {
+    "SPDXID" : "SPDXRef-Package-PyPI-numpy-1.21.6",
+    "copyrightText" : "NONE",
+    "downloadLocation" : "https://files.pythonhosted.org/packages/ff/c6/05ae3c7f75b596e1bb3d78131c331eada9376a03d1af9801bd40e4675023/numpy-1.21.6-cp310-cp310-macosx_10_9_universal2.whl",
+    "externalRefs" : [ {
+      "referenceCategory" : "PACKAGE_MANAGER",
+      "referenceType" : "purl",
+      "referenceLocator" : "pkg:pypi/numpy@1.21.6"
+    } ],
+    "filesAnalyzed" : false,
+    "homepage" : "https://www.numpy.org",
+    "licenseConcluded" : "NOASSERTION",
+    "licenseDeclared" : "BSD-3-Clause",
+    "name" : "numpy",
+    "summary" : "NumPy is the fundamental package for array computing with Python.",
+    "versionInfo" : "1.21.6"
+  }, {
+    "SPDXID" : "SPDXRef-Package-PyPI-numpy-1.21.6-source-artifact",
+    "copyrightText" : "NONE",
+    "downloadLocation" : "https://files.pythonhosted.org/packages/45/b7/de7b8e67f2232c26af57c205aaad29fe17754f793404f59c8a730c7a191a/numpy-1.21.6.zip",
+    "externalRefs" : [ {
+      "referenceCategory" : "PACKAGE_MANAGER",
+      "referenceType" : "purl",
+      "referenceLocator" : "pkg:pypi/numpy@1.21.6"
+    } ],
+    "filesAnalyzed" : false,
+    "homepage" : "https://www.numpy.org",
+    "licenseConcluded" : "NOASSERTION",
+    "licenseDeclared" : "NOASSERTION",
+    "name" : "numpy",
+    "summary" : "NumPy is the fundamental package for array computing with Python.",
+    "versionInfo" : "1.21.6"
+  }, {
+    "SPDXID" : "SPDXRef-Package-PyPI-packaging-21.3",
+    "copyrightText" : "NONE",
+    "downloadLocation" : "https://files.pythonhosted.org/packages/05/8e/8de486cbd03baba4deef4142bd643a3e7bbe954a784dc1bb17142572d127/packaging-21.3-py3-none-any.whl",
+    "externalRefs" : [ {
+      "referenceCategory" : "PACKAGE_MANAGER",
+      "referenceType" : "purl",
+      "referenceLocator" : "pkg:pypi/packaging@21.3"
+    } ],
+    "filesAnalyzed" : false,
+    "homepage" : "https://github.com/pypa/packaging",
+    "licenseConcluded" : "NOASSERTION",
+    "licenseDeclared" : "Apache-2.0 AND (BSD-2-Clause OR Apache-2.0)",
+    "name" : "packaging",
+    "summary" : "Core utilities for Python packages",
+    "versionInfo" : "21.3"
+  }, {
+    "SPDXID" : "SPDXRef-Package-PyPI-packaging-21.3-vcs",
+    "copyrightText" : "NONE",
+    "downloadLocation" : "git+https://github.com/pypa/packaging.git",
+    "externalRefs" : [ {
+      "referenceCategory" : "PACKAGE_MANAGER",
+      "referenceType" : "purl",
+      "referenceLocator" : "pkg:pypi/packaging@21.3"
+    } ],
+    "filesAnalyzed" : false,
+    "homepage" : "https://github.com/pypa/packaging",
+    "licenseConcluded" : "NOASSERTION",
+    "licenseDeclared" : "NOASSERTION",
+    "name" : "packaging",
+    "summary" : "Core utilities for Python packages",
+    "versionInfo" : "21.3"
+  }, {
+    "SPDXID" : "SPDXRef-Package-PyPI-packaging-21.3-source-artifact",
+    "copyrightText" : "NONE",
+    "downloadLocation" : "https://files.pythonhosted.org/packages/df/9e/d1a7217f69310c1db8fdf8ab396229f55a699ce34a203691794c5d1cad0c/packaging-21.3.tar.gz",
+    "externalRefs" : [ {
+      "referenceCategory" : "PACKAGE_MANAGER",
+      "referenceType" : "purl",
+      "referenceLocator" : "pkg:pypi/packaging@21.3"
+    } ],
+    "filesAnalyzed" : false,
+    "homepage" : "https://github.com/pypa/packaging",
+    "licenseConcluded" : "NOASSERTION",
+    "licenseDeclared" : "NOASSERTION",
+    "name" : "packaging",
+    "summary" : "Core utilities for Python packages",
+    "versionInfo" : "21.3"
+  }, {
+    "SPDXID" : "SPDXRef-Package-PyPI-pillow-9.1.1",
+    "copyrightText" : "NONE",
+    "downloadLocation" : "https://files.pythonhosted.org/packages/12/8e/ae0a7bad43a812e86cfb6b76e9bfd9ca469cd62253857c23eb1c4bcf6675/Pillow-9.1.1-cp310-cp310-macosx_10_10_x86_64.whl",
+    "externalRefs" : [ {
+      "referenceCategory" : "PACKAGE_MANAGER",
+      "referenceType" : "purl",
+      "referenceLocator" : "pkg:pypi/pillow@9.1.1"
+    } ],
+    "filesAnalyzed" : false,
+    "homepage" : "https://python-pillow.org",
+    "licenseConcluded" : "NOASSERTION",
+    "licenseDeclared" : "HPND",
+    "name" : "pillow",
+    "summary" : "Python Imaging Library (Fork)",
+    "versionInfo" : "9.1.1"
+  }, {
+    "SPDXID" : "SPDXRef-Package-PyPI-pillow-9.1.1-source-artifact",
+    "copyrightText" : "NONE",
+    "downloadLocation" : "https://files.pythonhosted.org/packages/43/6e/59853546226ee6200f9ba6e574d11604b60ad0754d2cbd1c8f3246b70418/Pillow-9.1.1.tar.gz",
+    "externalRefs" : [ {
+      "referenceCategory" : "PACKAGE_MANAGER",
+      "referenceType" : "purl",
+      "referenceLocator" : "pkg:pypi/pillow@9.1.1"
+    } ],
+    "filesAnalyzed" : false,
+    "homepage" : "https://python-pillow.org",
+    "licenseConcluded" : "NOASSERTION",
+    "licenseDeclared" : "NOASSERTION",
+    "name" : "pillow",
+    "summary" : "Python Imaging Library (Fork)",
+    "versionInfo" : "9.1.1"
+  }, {
+    "SPDXID" : "SPDXRef-Package-PyPI-protobuf-4.21.2",
+    "copyrightText" : "NONE",
+    "downloadLocation" : "https://files.pythonhosted.org/packages/2d/78/6fe30aa64e12927f2f76b82b212fd746ee252a95aea76d2816eb67d8a8f7/protobuf-4.21.2-cp310-abi3-win32.whl",
+    "externalRefs" : [ {
+      "referenceCategory" : "PACKAGE_MANAGER",
+      "referenceType" : "purl",
+      "referenceLocator" : "pkg:pypi/protobuf@4.21.2"
+    } ],
+    "filesAnalyzed" : false,
+    "homepage" : "https://developers.google.com/protocol-buffers/",
+    "licenseConcluded" : "NOASSERTION",
+    "licenseDeclared" : "BSD-3-Clause",
+    "name" : "protobuf",
+    "summary" : "None",
+    "versionInfo" : "4.21.2"
+  }, {
+    "SPDXID" : "SPDXRef-Package-PyPI-protobuf-4.21.2-source-artifact",
+    "copyrightText" : "NONE",
+    "downloadLocation" : "https://files.pythonhosted.org/packages/28/01/d85a74fb076a172519f9d24cc68cdcf9a0cdc7c62ec6ae27feb33a88b602/protobuf-4.21.2.tar.gz",
+    "externalRefs" : [ {
+      "referenceCategory" : "PACKAGE_MANAGER",
+      "referenceType" : "purl",
+      "referenceLocator" : "pkg:pypi/protobuf@4.21.2"
+    } ],
+    "filesAnalyzed" : false,
+    "homepage" : "https://developers.google.com/protocol-buffers/",
+    "licenseConcluded" : "NOASSERTION",
+    "licenseDeclared" : "NOASSERTION",
+    "name" : "protobuf",
+    "summary" : "None",
+    "versionInfo" : "4.21.2"
+  }, {
+    "SPDXID" : "SPDXRef-Package-PyPI-psutil-5.9.1",
+    "copyrightText" : "NONE",
+    "downloadLocation" : "https://files.pythonhosted.org/packages/77/06/f9fd79449440d7217d6bf2c90998d540e125cfeffe39d214a328dadc46f4/psutil-5.9.1-cp27-cp27m-manylinux2010_i686.whl",
+    "externalRefs" : [ {
+      "referenceCategory" : "PACKAGE_MANAGER",
+      "referenceType" : "purl",
+      "referenceLocator" : "pkg:pypi/psutil@5.9.1"
+    } ],
+    "filesAnalyzed" : false,
+    "homepage" : "https://github.com/giampaolo/psutil",
+    "licenseConcluded" : "NOASSERTION",
+    "licenseDeclared" : "BSD-3-Clause",
+    "name" : "psutil",
+    "summary" : "Cross-platform lib for process and system monitoring in Python.",
+    "versionInfo" : "5.9.1"
+  }, {
+    "SPDXID" : "SPDXRef-Package-PyPI-psutil-5.9.1-vcs",
+    "copyrightText" : "NONE",
+    "downloadLocation" : "git+https://github.com/giampaolo/psutil.git",
+    "externalRefs" : [ {
+      "referenceCategory" : "PACKAGE_MANAGER",
+      "referenceType" : "purl",
+      "referenceLocator" : "pkg:pypi/psutil@5.9.1"
+    } ],
+    "filesAnalyzed" : false,
+    "homepage" : "https://github.com/giampaolo/psutil",
+    "licenseConcluded" : "NOASSERTION",
+    "licenseDeclared" : "NOASSERTION",
+    "name" : "psutil",
+    "summary" : "Cross-platform lib for process and system monitoring in Python.",
+    "versionInfo" : "5.9.1"
+  }, {
+    "SPDXID" : "SPDXRef-Package-PyPI-psutil-5.9.1-source-artifact",
+    "copyrightText" : "NONE",
+    "downloadLocation" : "https://files.pythonhosted.org/packages/d6/de/0999ea2562b96d7165812606b18f7169307b60cd378bc29cf3673322c7e9/psutil-5.9.1.tar.gz",
+    "externalRefs" : [ {
+      "referenceCategory" : "PACKAGE_MANAGER",
+      "referenceType" : "purl",
+      "referenceLocator" : "pkg:pypi/psutil@5.9.1"
+    } ],
+    "filesAnalyzed" : false,
+    "homepage" : "https://github.com/giampaolo/psutil",
+    "licenseConcluded" : "NOASSERTION",
+    "licenseDeclared" : "NOASSERTION",
+    "name" : "psutil",
+    "summary" : "Cross-platform lib for process and system monitoring in Python.",
+    "versionInfo" : "5.9.1"
+  }, {
+    "SPDXID" : "SPDXRef-Package-PyPI-pyparsing-3.0.9",
+    "copyrightText" : "NONE",
+    "downloadLocation" : "https://files.pythonhosted.org/packages/6c/10/a7d0fa5baea8fe7b50f448ab742f26f52b80bfca85ac2be9d35cdd9a3246/pyparsing-3.0.9-py3-none-any.whl",
+    "externalRefs" : [ {
+      "referenceCategory" : "PACKAGE_MANAGER",
+      "referenceType" : "purl",
+      "referenceLocator" : "pkg:pypi/pyparsing@3.0.9"
+    } ],
+    "filesAnalyzed" : false,
+    "homepage" : "None",
+    "licenseConcluded" : "NOASSERTION",
+    "licenseDeclared" : "MIT",
+    "name" : "pyparsing",
+    "summary" : "pyparsing module - Classes and methods to define and execute parsing grammars",
+    "versionInfo" : "3.0.9"
+  }, {
+    "SPDXID" : "SPDXRef-Package-PyPI-pyparsing-3.0.9-source-artifact",
+    "copyrightText" : "NONE",
+    "downloadLocation" : "https://files.pythonhosted.org/packages/71/22/207523d16464c40a0310d2d4d8926daffa00ac1f5b1576170a32db749636/pyparsing-3.0.9.tar.gz",
+    "externalRefs" : [ {
+      "referenceCategory" : "PACKAGE_MANAGER",
+      "referenceType" : "purl",
+      "referenceLocator" : "pkg:pypi/pyparsing@3.0.9"
+    } ],
+    "filesAnalyzed" : false,
+    "homepage" : "None",
+    "licenseConcluded" : "NOASSERTION",
+    "licenseDeclared" : "NOASSERTION",
+    "name" : "pyparsing",
+    "summary" : "pyparsing module - Classes and methods to define and execute parsing grammars",
+    "versionInfo" : "3.0.9"
+  }, {
+    "SPDXID" : "SPDXRef-Package-PyPI-scipy-1.7.3",
+    "copyrightText" : "NONE",
+    "downloadLocation" : "https://files.pythonhosted.org/packages/4e/88/77ebba491d83a55f0a7d7817cc587c57110e96bc6e55b840e2838293effe/scipy-1.7.3-1-cp310-cp310-macosx_12_0_arm64.whl",
+    "externalRefs" : [ {
+      "referenceCategory" : "PACKAGE_MANAGER",
+      "referenceType" : "purl",
+      "referenceLocator" : "pkg:pypi/scipy@1.7.3"
+    } ],
+    "filesAnalyzed" : false,
+    "homepage" : "https://www.scipy.org",
+    "licenseConcluded" : "NOASSERTION",
+    "licenseDeclared" : "BSD-3-Clause",
+    "name" : "scipy",
+    "summary" : "SciPy: Scientific Library for Python",
+    "versionInfo" : "1.7.3"
+  }, {
+    "SPDXID" : "SPDXRef-Package-PyPI-scipy-1.7.3-source-artifact",
+    "copyrightText" : "NONE",
+    "downloadLocation" : "https://files.pythonhosted.org/packages/61/67/1a654b96309c991762ee9bc39c363fc618076b155fe52d295211cf2536c7/scipy-1.7.3.tar.gz",
+    "externalRefs" : [ {
+      "referenceCategory" : "PACKAGE_MANAGER",
+      "referenceType" : "purl",
+      "referenceLocator" : "pkg:pypi/scipy@1.7.3"
+    } ],
+    "filesAnalyzed" : false,
+    "homepage" : "https://www.scipy.org",
+    "licenseConcluded" : "NOASSERTION",
+    "licenseDeclared" : "NOASSERTION",
+    "name" : "scipy",
+    "summary" : "SciPy: Scientific Library for Python",
+    "versionInfo" : "1.7.3"
+  }, {
+    "SPDXID" : "SPDXRef-Package-PyPI-six-1.16.0",
+    "copyrightText" : "NONE",
+    "downloadLocation" : "https://files.pythonhosted.org/packages/d9/5a/e7c31adbe875f2abbb91bd84cf2dc52d792b5a01506781dbcf25c91daf11/six-1.16.0-py2.py3-none-any.whl",
+    "externalRefs" : [ {
+      "referenceCategory" : "PACKAGE_MANAGER",
+      "referenceType" : "purl",
+      "referenceLocator" : "pkg:pypi/six@1.16.0"
+    } ],
+    "filesAnalyzed" : false,
+    "homepage" : "https://github.com/benjaminp/six",
+    "licenseConcluded" : "NOASSERTION",
+    "licenseDeclared" : "MIT",
+    "name" : "six",
+    "summary" : "Python 2 and 3 compatibility utilities",
+    "versionInfo" : "1.16.0"
+  }, {
+    "SPDXID" : "SPDXRef-Package-PyPI-six-1.16.0-vcs",
+    "copyrightText" : "NONE",
+    "downloadLocation" : "git+https://github.com/benjaminp/six.git",
+    "externalRefs" : [ {
+      "referenceCategory" : "PACKAGE_MANAGER",
+      "referenceType" : "purl",
+      "referenceLocator" : "pkg:pypi/six@1.16.0"
+    } ],
+    "filesAnalyzed" : false,
+    "homepage" : "https://github.com/benjaminp/six",
+    "licenseConcluded" : "NOASSERTION",
+    "licenseDeclared" : "NOASSERTION",
+    "name" : "six",
+    "summary" : "Python 2 and 3 compatibility utilities",
+    "versionInfo" : "1.16.0"
+  }, {
+    "SPDXID" : "SPDXRef-Package-PyPI-six-1.16.0-source-artifact",
+    "copyrightText" : "NONE",
+    "downloadLocation" : "https://files.pythonhosted.org/packages/71/39/171f1c67cd00715f190ba0b100d606d440a28c93c7714febeca8b79af85e/six-1.16.0.tar.gz",
+    "externalRefs" : [ {
+      "referenceCategory" : "PACKAGE_MANAGER",
+      "referenceType" : "purl",
+      "referenceLocator" : "pkg:pypi/six@1.16.0"
+    } ],
+    "filesAnalyzed" : false,
+    "homepage" : "https://github.com/benjaminp/six",
+    "licenseConcluded" : "NOASSERTION",
+    "licenseDeclared" : "NOASSERTION",
+    "name" : "six",
+    "summary" : "Python 2 and 3 compatibility utilities",
+    "versionInfo" : "1.16.0"
+  }, {
+    "SPDXID" : "SPDXRef-Package-PyPI-wheel-0.37.1",
+    "copyrightText" : "NONE",
+    "downloadLocation" : "https://files.pythonhosted.org/packages/27/d6/003e593296a85fd6ed616ed962795b2f87709c3eee2bca4f6d0fe55c6d00/wheel-0.37.1-py2.py3-none-any.whl",
+    "externalRefs" : [ {
+      "referenceCategory" : "PACKAGE_MANAGER",
+      "referenceType" : "purl",
+      "referenceLocator" : "pkg:pypi/wheel@0.37.1"
+    } ],
+    "filesAnalyzed" : false,
+    "homepage" : "https://github.com/pypa/wheel",
+    "licenseConcluded" : "NOASSERTION",
+    "licenseDeclared" : "MIT",
+    "name" : "wheel",
+    "summary" : "A built-package format for Python",
+    "versionInfo" : "0.37.1"
+  }, {
+    "SPDXID" : "SPDXRef-Package-PyPI-wheel-0.37.1-vcs",
+    "copyrightText" : "NONE",
+    "downloadLocation" : "git+https://github.com/pypa/wheel.git",
+    "externalRefs" : [ {
+      "referenceCategory" : "PACKAGE_MANAGER",
+      "referenceType" : "purl",
+      "referenceLocator" : "pkg:pypi/wheel@0.37.1"
+    } ],
+    "filesAnalyzed" : false,
+    "homepage" : "https://github.com/pypa/wheel",
+    "licenseConcluded" : "NOASSERTION",
+    "licenseDeclared" : "NOASSERTION",
+    "name" : "wheel",
+    "summary" : "A built-package format for Python",
+    "versionInfo" : "0.37.1"
+  }, {
+    "SPDXID" : "SPDXRef-Package-PyPI-wheel-0.37.1-source-artifact",
+    "copyrightText" : "NONE",
+    "downloadLocation" : "https://files.pythonhosted.org/packages/c0/6c/9f840c2e55b67b90745af06a540964b73589256cb10cc10057c87ac78fc2/wheel-0.37.1.tar.gz",
+    "externalRefs" : [ {
+      "referenceCategory" : "PACKAGE_MANAGER",
+      "referenceType" : "purl",
+      "referenceLocator" : "pkg:pypi/wheel@0.37.1"
+    } ],
+    "filesAnalyzed" : false,
+    "homepage" : "https://github.com/pypa/wheel",
+    "licenseConcluded" : "NOASSERTION",
+    "licenseDeclared" : "NOASSERTION",
+    "name" : "wheel",
+    "summary" : "A built-package format for Python",
+    "versionInfo" : "0.37.1"
+  }, {
+    "SPDXID" : "SPDXRef-Package-github-abseil-cpp-20210324.2",
+    "copyrightText" : "NONE",
+    "downloadLocation" : "NONE",
+    "externalRefs" : [ {
+      "referenceCategory" : "PACKAGE_MANAGER",
+      "referenceType" : "purl",
+      "referenceLocator" : "pkg:github/abseil-cpp@20210324.2"
+    } ],
+    "filesAnalyzed" : false,
+    "homepage" : "https://abseil.io",
+    "licenseConcluded" : "NOASSERTION",
+    "licenseDeclared" : "Apache-2.0",
+    "name" : "abseil-cpp",
+    "summary" : "Abseil Common Libraries (C++)",
+    "versionInfo" : "20210324.2"
+  }, {
+    "SPDXID" : "SPDXRef-Package-github-abseil-cpp-20210324.2-vcs",
+    "copyrightText" : "NONE",
+    "downloadLocation" : "git+https://github.com/abseil/abseil-cpp.git",
+    "externalRefs" : [ {
+      "referenceCategory" : "PACKAGE_MANAGER",
+      "referenceType" : "purl",
+      "referenceLocator" : "pkg:github/abseil-cpp@20210324.2"
+    } ],
+    "filesAnalyzed" : false,
+    "homepage" : "https://abseil.io",
+    "licenseConcluded" : "NOASSERTION",
+    "licenseDeclared" : "NOASSERTION",
+    "name" : "abseil-cpp",
+    "summary" : "Abseil Common Libraries (C++)",
+    "versionInfo" : "20210324.2"
+  }, {
+    "SPDXID" : "SPDXRef-Package-github-akg-1.7.0",
+    "copyrightText" : "NONE",
+    "downloadLocation" : "NONE",
+    "externalRefs" : [ {
+      "referenceCategory" : "PACKAGE_MANAGER",
+      "referenceType" : "purl",
+      "referenceLocator" : "pkg:github/akg@1.7.0"
+    } ],
+    "filesAnalyzed" : false,
+    "homepage" : "NONE",
+    "licenseConcluded" : "NOASSERTION",
+    "licenseDeclared" : "Apache-2.0",
+    "name" : "akg",
+    "summary" : "AKG(Auto Kernel Generator) is an optimizer for operators in Deep Learning Networks, which provides the ability to automatically fuse ops with specific patterns.",
+    "versionInfo" : "1.7.0"
+  }, {
+    "SPDXID" : "SPDXRef-Package-github-akg-1.7.0-vcs",
+    "copyrightText" : "NONE",
+    "downloadLocation" : "git+https://gitee.com/mindspore/akg.git",
+    "externalRefs" : [ {
+      "referenceCategory" : "PACKAGE_MANAGER",
+      "referenceType" : "purl",
+      "referenceLocator" : "pkg:github/akg@1.7.0"
+    } ],
+    "filesAnalyzed" : false,
+    "homepage" : "NONE",
+    "licenseConcluded" : "NOASSERTION",
+    "licenseDeclared" : "NOASSERTION",
+    "name" : "akg",
+    "summary" : "AKG(Auto Kernel Generator) is an optimizer for operators in Deep Learning Networks, which provides the ability to automatically fuse ops with specific patterns.",
+    "versionInfo" : "1.7.0"
+  }, {
+    "SPDXID" : "SPDXRef-Package-github-c-ares-1-15-0",
+    "copyrightText" : "NONE",
+    "downloadLocation" : "NONE",
+    "externalRefs" : [ {
+      "referenceCategory" : "PACKAGE_MANAGER",
+      "referenceType" : "purl",
+      "referenceLocator" : "pkg:github/c-ares@1_15_0"
+    } ],
+    "filesAnalyzed" : false,
+    "homepage" : "https://c-ares.org/",
+    "licenseConcluded" : "NOASSERTION",
+    "licenseDeclared" : "NOASSERTION",
+    "name" : "c-ares",
+    "summary" : "A C library for asynchronous DNS requests",
+    "versionInfo" : "1_15_0"
+  }, {
+    "SPDXID" : "SPDXRef-Package-github-c-ares-1-15-0-vcs",
+    "copyrightText" : "NONE",
+    "downloadLocation" : "git+https://github.com/c-ares/c-ares.git",
+    "externalRefs" : [ {
+      "referenceCategory" : "PACKAGE_MANAGER",
+      "referenceType" : "purl",
+      "referenceLocator" : "pkg:github/c-ares@1_15_0"
+    } ],
+    "filesAnalyzed" : false,
+    "homepage" : "https://c-ares.org/",
+    "licenseConcluded" : "NOASSERTION",
+    "licenseDeclared" : "NOASSERTION",
+    "name" : "c-ares",
+    "summary" : "A C library for asynchronous DNS requests",
+    "versionInfo" : "1_15_0"
+  }, {
+    "SPDXID" : "SPDXRef-Package-github-cppjieba-5.0.3",
+    "copyrightText" : "NONE",
+    "downloadLocation" : "NONE",
+    "externalRefs" : [ {
+      "referenceCategory" : "PACKAGE_MANAGER",
+      "referenceType" : "purl",
+      "referenceLocator" : "pkg:github/cppjieba@5.0.3"
+    } ],
+    "filesAnalyzed" : false,
+    "homepage" : "NONE",
+    "licenseConcluded" : "NOASSERTION",
+    "licenseDeclared" : "NOASSERTION",
+    "name" : "cppjieba",
+    "summary" : "\"结巴\"中文分词的C++版本",
+    "versionInfo" : "5.0.3"
+  }, {
+    "SPDXID" : "SPDXRef-Package-github-cppjieba-5.0.3-vcs",
+    "copyrightText" : "NONE",
+    "downloadLocation" : "git+https://github.com/yanyiwu/cppjieba.git",
+    "externalRefs" : [ {
+      "referenceCategory" : "PACKAGE_MANAGER",
+      "referenceType" : "purl",
+      "referenceLocator" : "pkg:github/cppjieba@5.0.3"
+    } ],
+    "filesAnalyzed" : false,
+    "homepage" : "NONE",
+    "licenseConcluded" : "NOASSERTION",
+    "licenseDeclared" : "NOASSERTION",
+    "name" : "cppjieba",
+    "summary" : "\"结巴\"中文分词的C++版本",
+    "versionInfo" : "5.0.3"
+  }, {
+    "SPDXID" : "SPDXRef-Package-github-eigen-3.3.9",
+    "copyrightText" : "NONE",
+    "downloadLocation" : "NONE",
+    "externalRefs" : [ {
+      "referenceCategory" : "PACKAGE_MANAGER",
+      "referenceType" : "purl",
+      "referenceLocator" : "pkg:github/eigen@3.3.9"
+    } ],
+    "filesAnalyzed" : false,
+    "homepage" : "https://gitlab.com/libeigen/eigen",
+    "licenseConcluded" : "NOASSERTION",
+    "licenseDeclared" : "NOASSERTION",
+    "name" : "eigen",
+    "summary" : "Eigen is a C++ template library for linear algebra: matrices, vectors, numerical solvers, and related algorithms.",
+    "versionInfo" : "3.3.9"
+  }, {
+    "SPDXID" : "SPDXRef-Package-github-eigen-3.3.9-vcs",
+    "copyrightText" : "NONE",
+    "downloadLocation" : "git+https://gitlab.com/libeigen/eigen.git",
+    "externalRefs" : [ {
+      "referenceCategory" : "PACKAGE_MANAGER",
+      "referenceType" : "purl",
+      "referenceLocator" : "pkg:github/eigen@3.3.9"
+    } ],
+    "filesAnalyzed" : false,
+    "homepage" : "https://gitlab.com/libeigen/eigen",
+    "licenseConcluded" : "NOASSERTION",
+    "licenseDeclared" : "NOASSERTION",
+    "name" : "eigen",
+    "summary" : "Eigen is a C++ template library for linear algebra: matrices, vectors, numerical solvers, and related algorithms.",
+    "versionInfo" : "3.3.9"
+  }, {
+    "SPDXID" : "SPDXRef-Package-github-flatbuffers-2.0.0",
+    "copyrightText" : "NONE",
+    "downloadLocation" : "NONE",
+    "externalRefs" : [ {
+      "referenceCategory" : "PACKAGE_MANAGER",
+      "referenceType" : "purl",
+      "referenceLocator" : "pkg:github/flatbuffers@2.0.0"
+    } ],
+    "filesAnalyzed" : false,
+    "homepage" : "http://google.github.io/flatbuffers/",
+    "licenseConcluded" : "NOASSERTION",
+    "licenseDeclared" : "Apache-2.0",
+    "name" : "flatbuffers",
+    "summary" : "FlatBuffers: Memory Efficient Serialization Library",
+    "versionInfo" : "2.0.0"
+  }, {
+    "SPDXID" : "SPDXRef-Package-github-flatbuffers-2.0.0-vcs",
+    "copyrightText" : "NONE",
+    "downloadLocation" : "git+https://github.com/google/flatbuffers.git",
+    "externalRefs" : [ {
+      "referenceCategory" : "PACKAGE_MANAGER",
+      "referenceType" : "purl",
+      "referenceLocator" : "pkg:github/flatbuffers@2.0.0"
+    } ],
+    "filesAnalyzed" : false,
+    "homepage" : "http://google.github.io/flatbuffers/",
+    "licenseConcluded" : "NOASSERTION",
+    "licenseDeclared" : "NOASSERTION",
+    "name" : "flatbuffers",
+    "summary" : "FlatBuffers: Memory Efficient Serialization Library",
+    "versionInfo" : "2.0.0"
+  }, {
+    "SPDXID" : "SPDXRef-Package-github-glog-0.4.0",
+    "copyrightText" : "NONE",
+    "downloadLocation" : "NONE",
+    "externalRefs" : [ {
+      "referenceCategory" : "PACKAGE_MANAGER",
+      "referenceType" : "purl",
+      "referenceLocator" : "pkg:github/glog@0.4.0"
+    } ],
+    "filesAnalyzed" : false,
+    "homepage" : "NONE",
+    "licenseConcluded" : "NOASSERTION",
+    "licenseDeclared" : "NOASSERTION",
+    "name" : "glog",
+    "summary" : "C++ implementation of the Google logging module",
+    "versionInfo" : "0.4.0"
+  }, {
+    "SPDXID" : "SPDXRef-Package-github-glog-0.4.0-vcs",
+    "copyrightText" : "NONE",
+    "downloadLocation" : "git+https://github.com/google/glog.git",
+    "externalRefs" : [ {
+      "referenceCategory" : "PACKAGE_MANAGER",
+      "referenceType" : "purl",
+      "referenceLocator" : "pkg:github/glog@0.4.0"
+    } ],
+    "filesAnalyzed" : false,
+    "homepage" : "NONE",
+    "licenseConcluded" : "NOASSERTION",
+    "licenseDeclared" : "NOASSERTION",
+    "name" : "glog",
+    "summary" : "C++ implementation of the Google logging module",
+    "versionInfo" : "0.4.0"
+  }, {
+    "SPDXID" : "SPDXRef-Package-github-graphengine-1.0.0",
+    "copyrightText" : "NONE",
+    "downloadLocation" : "NONE",
+    "externalRefs" : [ {
+      "referenceCategory" : "PACKAGE_MANAGER",
+      "referenceType" : "purl",
+      "referenceLocator" : "pkg:github/graphengine@1.0.0"
+    } ],
+    "filesAnalyzed" : false,
+    "homepage" : "NONE",
+    "licenseConcluded" : "NOASSERTION",
+    "licenseDeclared" : "Apache-2.0",
+    "name" : "graphengine",
+    "summary" : "A connecting link module between frontends and Ascend processors.",
+    "versionInfo" : "1.0.0"
+  }, {
+    "SPDXID" : "SPDXRef-Package-github-graphengine-1.0.0-vcs",
+    "copyrightText" : "NONE",
+    "downloadLocation" : "git+https://gitee.com/mindspore/graphengine.git",
+    "externalRefs" : [ {
+      "referenceCategory" : "PACKAGE_MANAGER",
+      "referenceType" : "purl",
+      "referenceLocator" : "pkg:github/graphengine@1.0.0"
+    } ],
+    "filesAnalyzed" : false,
+    "homepage" : "NONE",
+    "licenseConcluded" : "NOASSERTION",
+    "licenseDeclared" : "NOASSERTION",
+    "name" : "graphengine",
+    "summary" : "A connecting link module between frontends and Ascend processors.",
+    "versionInfo" : "1.0.0"
+  }, {
+    "SPDXID" : "SPDXRef-Package-github-grpc-1.36.1",
+    "copyrightText" : "NONE",
+    "downloadLocation" : "NONE",
+    "externalRefs" : [ {
+      "referenceCategory" : "PACKAGE_MANAGER",
+      "referenceType" : "purl",
+      "referenceLocator" : "pkg:github/grpc@1.36.1"
+    } ],
+    "filesAnalyzed" : false,
+    "homepage" : "https://grpc.io",
+    "licenseConcluded" : "NOASSERTION",
+    "licenseDeclared" : "Apache-2.0",
+    "name" : "grpc",
+    "summary" : "The C based gRPC (C++, Python, Ruby, Objective-C, PHP, C#)",
+    "versionInfo" : "1.36.1"
+  }, {
+    "SPDXID" : "SPDXRef-Package-github-grpc-1.36.1-vcs",
+    "copyrightText" : "NONE",
+    "downloadLocation" : "git+https://github.com/grpc/grpc.git",
+    "externalRefs" : [ {
+      "referenceCategory" : "PACKAGE_MANAGER",
+      "referenceType" : "purl",
+      "referenceLocator" : "pkg:github/grpc@1.36.1"
+    } ],
+    "filesAnalyzed" : false,
+    "homepage" : "https://grpc.io",
+    "licenseConcluded" : "NOASSERTION",
+    "licenseDeclared" : "NOASSERTION",
+    "name" : "grpc",
+    "summary" : "The C based gRPC (C++, Python, Ruby, Objective-C, PHP, C#)",
+    "versionInfo" : "1.36.1"
+  }, {
+    "SPDXID" : "SPDXRef-Package-github-icu-69-1",
+    "copyrightText" : "NONE",
+    "downloadLocation" : "NONE",
+    "externalRefs" : [ {
+      "referenceCategory" : "PACKAGE_MANAGER",
+      "referenceType" : "purl",
+      "referenceLocator" : "pkg:github/icu@69-1"
+    } ],
+    "filesAnalyzed" : false,
+    "homepage" : "http://site.icu-project.org/",
+    "licenseConcluded" : "NOASSERTION",
+    "licenseDeclared" : "NOASSERTION",
+    "name" : "icu",
+    "summary" : "The new home of the ICU project source code.",
+    "versionInfo" : "69-1"
+  }, {
+    "SPDXID" : "SPDXRef-Package-github-icu-69-1-vcs",
+    "copyrightText" : "NONE",
+    "downloadLocation" : "git+https://github.com/unicode-org/icu.git",
+    "externalRefs" : [ {
+      "referenceCategory" : "PACKAGE_MANAGER",
+      "referenceType" : "purl",
+      "referenceLocator" : "pkg:github/icu@69-1"
+    } ],
+    "filesAnalyzed" : false,
+    "homepage" : "http://site.icu-project.org/",
+    "licenseConcluded" : "NOASSERTION",
+    "licenseDeclared" : "NOASSERTION",
+    "name" : "icu",
+    "summary" : "The new home of the ICU project source code.",
+    "versionInfo" : "69-1"
+  }, {
+    "SPDXID" : "SPDXRef-Package-github-json-3.7.3",
+    "copyrightText" : "NONE",
+    "downloadLocation" : "NONE",
+    "externalRefs" : [ {
+      "referenceCategory" : "PACKAGE_MANAGER",
+      "referenceType" : "purl",
+      "referenceLocator" : "pkg:github/json@3.7.3"
+    } ],
+    "filesAnalyzed" : false,
+    "homepage" : "https://json.nlohmann.me",
+    "licenseConcluded" : "NOASSERTION",
+    "licenseDeclared" : "MIT",
+    "name" : "json",
+    "summary" : "JSON for Modern C++",
+    "versionInfo" : "3.7.3"
+  }, {
+    "SPDXID" : "SPDXRef-Package-github-json-3.7.3-vcs",
+    "copyrightText" : "NONE",
+    "downloadLocation" : "git+https://github.com/nlohmann/json.git",
+    "externalRefs" : [ {
+      "referenceCategory" : "PACKAGE_MANAGER",
+      "referenceType" : "purl",
+      "referenceLocator" : "pkg:github/json@3.7.3"
+    } ],
+    "filesAnalyzed" : false,
+    "homepage" : "https://json.nlohmann.me",
+    "licenseConcluded" : "NOASSERTION",
+    "licenseDeclared" : "NOASSERTION",
+    "name" : "json",
+    "summary" : "JSON for Modern C++",
+    "versionInfo" : "3.7.3"
+  }, {
+    "SPDXID" : "SPDXRef-Package-github-libevent-2.1.12-stable",
+    "copyrightText" : "NONE",
+    "downloadLocation" : "NONE",
+    "externalRefs" : [ {
+      "referenceCategory" : "PACKAGE_MANAGER",
+      "referenceType" : "purl",
+      "referenceLocator" : "pkg:github/libevent@2.1.12-stable"
+    } ],
+    "filesAnalyzed" : false,
+    "homepage" : "https://libevent.org",
+    "licenseConcluded" : "NOASSERTION",
+    "licenseDeclared" : "NOASSERTION",
+    "name" : "libevent",
+    "summary" : "Event notification library",
+    "versionInfo" : "2.1.12-stable"
+  }, {
+    "SPDXID" : "SPDXRef-Package-github-libevent-2.1.12-stable-vcs",
+    "copyrightText" : "NONE",
+    "downloadLocation" : "git+https://github.com/libevent/libevent.git",
+    "externalRefs" : [ {
+      "referenceCategory" : "PACKAGE_MANAGER",
+      "referenceType" : "purl",
+      "referenceLocator" : "pkg:github/libevent@2.1.12-stable"
+    } ],
+    "filesAnalyzed" : false,
+    "homepage" : "https://libevent.org",
+    "licenseConcluded" : "NOASSERTION",
+    "licenseDeclared" : "NOASSERTION",
+    "name" : "libevent",
+    "summary" : "Event notification library",
+    "versionInfo" : "2.1.12-stable"
+  }, {
+    "SPDXID" : "SPDXRef-Package-github-libjpeg-turbo-2.0.4",
+    "copyrightText" : "NONE",
+    "downloadLocation" : "NONE",
+    "externalRefs" : [ {
+      "referenceCategory" : "PACKAGE_MANAGER",
+      "referenceType" : "purl",
+      "referenceLocator" : "pkg:github/libjpeg-turbo@2.0.4"
+    } ],
+    "filesAnalyzed" : false,
+    "homepage" : "https://libjpeg-turbo.org",
+    "licenseConcluded" : "NOASSERTION",
+    "licenseDeclared" : "NOASSERTION",
+    "name" : "libjpeg-turbo",
+    "summary" : "Main libjpeg-turbo repository",
+    "versionInfo" : "2.0.4"
+  }, {
+    "SPDXID" : "SPDXRef-Package-github-libjpeg-turbo-2.0.4-vcs",
+    "copyrightText" : "NONE",
+    "downloadLocation" : "git+https://github.com/libjpeg-turbo/libjpeg-turbo.git",
+    "externalRefs" : [ {
+      "referenceCategory" : "PACKAGE_MANAGER",
+      "referenceType" : "purl",
+      "referenceLocator" : "pkg:github/libjpeg-turbo@2.0.4"
+    } ],
+    "filesAnalyzed" : false,
+    "homepage" : "https://libjpeg-turbo.org",
+    "licenseConcluded" : "NOASSERTION",
+    "licenseDeclared" : "NOASSERTION",
+    "name" : "libjpeg-turbo",
+    "summary" : "Main libjpeg-turbo repository",
+    "versionInfo" : "2.0.4"
+  }, {
+    "SPDXID" : "SPDXRef-Package-github-metadef-1.5.1",
+    "copyrightText" : "NONE",
+    "downloadLocation" : "NONE",
+    "externalRefs" : [ {
+      "referenceCategory" : "PACKAGE_MANAGER",
+      "referenceType" : "purl",
+      "referenceLocator" : "pkg:github/metadef@1.5.1"
+    } ],
+    "filesAnalyzed" : false,
+    "homepage" : "NONE",
+    "licenseConcluded" : "NOASSERTION",
+    "licenseDeclared" : "Apache-2.0",
+    "name" : "metadef",
+    "summary" : "Ascend Metadata Definition",
+    "versionInfo" : "1.5.1"
+  }, {
+    "SPDXID" : "SPDXRef-Package-github-metadef-1.5.1-vcs",
+    "copyrightText" : "NONE",
+    "downloadLocation" : "git+https://gitee.com/ascend/metadef.git",
+    "externalRefs" : [ {
+      "referenceCategory" : "PACKAGE_MANAGER",
+      "referenceType" : "purl",
+      "referenceLocator" : "pkg:github/metadef@1.5.1"
+    } ],
+    "filesAnalyzed" : false,
+    "homepage" : "NONE",
+    "licenseConcluded" : "NOASSERTION",
+    "licenseDeclared" : "NOASSERTION",
+    "name" : "metadef",
+    "summary" : "Ascend Metadata Definition",
+    "versionInfo" : "1.5.1"
+  }, {
+    "SPDXID" : "SPDXRef-Package-github-oneDNN-2.2",
+    "copyrightText" : "NONE",
+    "downloadLocation" : "NONE",
+    "externalRefs" : [ {
+      "referenceCategory" : "PACKAGE_MANAGER",
+      "referenceType" : "purl",
+      "referenceLocator" : "pkg:github/onednn@2.2"
+    } ],
+    "filesAnalyzed" : false,
+    "homepage" : "https://www.oneapi.io/open-source/",
+    "licenseConcluded" : "NOASSERTION",
+    "licenseDeclared" : "Apache-2.0",
+    "name" : "oneDNN",
+    "summary" : "oneAPI Deep Neural Network Library (oneDNN)",
+    "versionInfo" : "2.2"
+  }, {
+    "SPDXID" : "SPDXRef-Package-github-oneDNN-2.2-vcs",
+    "copyrightText" : "NONE",
+    "downloadLocation" : "git+https://github.com/oneapi-src/oneDNN.git",
+    "externalRefs" : [ {
+      "referenceCategory" : "PACKAGE_MANAGER",
+      "referenceType" : "purl",
+      "referenceLocator" : "pkg:github/onednn@2.2"
+    } ],
+    "filesAnalyzed" : false,
+    "homepage" : "https://www.oneapi.io/open-source/",
+    "licenseConcluded" : "NOASSERTION",
+    "licenseDeclared" : "NOASSERTION",
+    "name" : "oneDNN",
+    "summary" : "oneAPI Deep Neural Network Library (oneDNN)",
+    "versionInfo" : "2.2"
+  }, {
+    "SPDXID" : "SPDXRef-Package-github-opencv-4.5.2",
+    "copyrightText" : "NONE",
+    "downloadLocation" : "NONE",
+    "externalRefs" : [ {
+      "referenceCategory" : "PACKAGE_MANAGER",
+      "referenceType" : "purl",
+      "referenceLocator" : "pkg:github/opencv@4.5.2"
+    } ],
+    "filesAnalyzed" : false,
+    "homepage" : "https://opencv.org",
+    "licenseConcluded" : "NOASSERTION",
+    "licenseDeclared" : "Apache-2.0",
+    "name" : "opencv",
+    "summary" : "Open Source Computer Vision Library",
+    "versionInfo" : "4.5.2"
+  }, {
+    "SPDXID" : "SPDXRef-Package-github-opencv-4.5.2-vcs",
+    "copyrightText" : "NONE",
+    "downloadLocation" : "git+https://github.com/opencv/opencv.git",
+    "externalRefs" : [ {
+      "referenceCategory" : "PACKAGE_MANAGER",
+      "referenceType" : "purl",
+      "referenceLocator" : "pkg:github/opencv@4.5.2"
+    } ],
+    "filesAnalyzed" : false,
+    "homepage" : "https://opencv.org",
+    "licenseConcluded" : "NOASSERTION",
+    "licenseDeclared" : "NOASSERTION",
+    "name" : "opencv",
+    "summary" : "Open Source Computer Vision Library",
+    "versionInfo" : "4.5.2"
+  }, {
+    "SPDXID" : "SPDXRef-Package-github-openssl-1-1-1k",
+    "copyrightText" : "NONE",
+    "downloadLocation" : "NONE",
+    "externalRefs" : [ {
+      "referenceCategory" : "PACKAGE_MANAGER",
+      "referenceType" : "purl",
+      "referenceLocator" : "pkg:github/openssl@1_1_1k"
+    } ],
+    "filesAnalyzed" : false,
+    "homepage" : "https://www.openssl.org",
+    "licenseConcluded" : "NOASSERTION",
+    "licenseDeclared" : "Apache-2.0",
+    "name" : "openssl",
+    "summary" : "TLS/SSL and crypto library",
+    "versionInfo" : "1_1_1k"
+  }, {
+    "SPDXID" : "SPDXRef-Package-github-openssl-1-1-1k-vcs",
+    "copyrightText" : "NONE",
+    "downloadLocation" : "git+https://github.com/openssl/openssl.git",
+    "externalRefs" : [ {
+      "referenceCategory" : "PACKAGE_MANAGER",
+      "referenceType" : "purl",
+      "referenceLocator" : "pkg:github/openssl@1_1_1k"
+    } ],
+    "filesAnalyzed" : false,
+    "homepage" : "https://www.openssl.org",
+    "licenseConcluded" : "NOASSERTION",
+    "licenseDeclared" : "NOASSERTION",
+    "name" : "openssl",
+    "summary" : "TLS/SSL and crypto library",
+    "versionInfo" : "1_1_1k"
+  }, {
+    "SPDXID" : "SPDXRef-Package-github-protobuf-3.13.0",
+    "copyrightText" : "NONE",
+    "downloadLocation" : "NONE",
+    "externalRefs" : [ {
+      "referenceCategory" : "PACKAGE_MANAGER",
+      "referenceType" : "purl",
+      "referenceLocator" : "pkg:github/protobuf@3.13.0"
+    } ],
+    "filesAnalyzed" : false,
+    "homepage" : "https://developers.google.com/protocol-buffers/",
+    "licenseConcluded" : "NOASSERTION",
+    "licenseDeclared" : "NOASSERTION",
+    "name" : "protobuf",
+    "summary" : "Protocol Buffers - Google's data interchange format",
+    "versionInfo" : "3.13.0"
+  }, {
+    "SPDXID" : "SPDXRef-Package-github-protobuf-3.13.0-vcs",
+    "copyrightText" : "NONE",
+    "downloadLocation" : "git+https://github.com/protocolbuffers/protobuf.git",
+    "externalRefs" : [ {
+      "referenceCategory" : "PACKAGE_MANAGER",
+      "referenceType" : "purl",
+      "referenceLocator" : "pkg:github/protobuf@3.13.0"
+    } ],
+    "filesAnalyzed" : false,
+    "homepage" : "https://developers.google.com/protocol-buffers/",
+    "licenseConcluded" : "NOASSERTION",
+    "licenseDeclared" : "NOASSERTION",
+    "name" : "protobuf",
+    "summary" : "Protocol Buffers - Google's data interchange format",
+    "versionInfo" : "3.13.0"
+  }, {
+    "SPDXID" : "SPDXRef-Package-github-pybind11-2.4.3",
+    "copyrightText" : "NONE",
+    "downloadLocation" : "NONE",
+    "externalRefs" : [ {
+      "referenceCategory" : "PACKAGE_MANAGER",
+      "referenceType" : "purl",
+      "referenceLocator" : "pkg:github/pybind11@2.4.3"
+    } ],
+    "filesAnalyzed" : false,
+    "homepage" : "https://pybind11.readthedocs.io/",
+    "licenseConcluded" : "NOASSERTION",
+    "licenseDeclared" : "NOASSERTION",
+    "name" : "pybind11",
+    "summary" : "Seamless operability between C++11 and Python",
+    "versionInfo" : "2.4.3"
+  }, {
+    "SPDXID" : "SPDXRef-Package-github-pybind11-2.4.3-vcs",
+    "copyrightText" : "NONE",
+    "downloadLocation" : "git+https://github.com/pybind/pybind11.git",
+    "externalRefs" : [ {
+      "referenceCategory" : "PACKAGE_MANAGER",
+      "referenceType" : "purl",
+      "referenceLocator" : "pkg:github/pybind11@2.4.3"
+    } ],
+    "filesAnalyzed" : false,
+    "homepage" : "https://pybind11.readthedocs.io/",
+    "licenseConcluded" : "NOASSERTION",
+    "licenseDeclared" : "NOASSERTION",
+    "name" : "pybind11",
+    "summary" : "Seamless operability between C++11 and Python",
+    "versionInfo" : "2.4.3"
+  }, {
+    "SPDXID" : "SPDXRef-Package-github-re2-2019-12-01",
+    "copyrightText" : "NONE",
+    "downloadLocation" : "NONE",
+    "externalRefs" : [ {
+      "referenceCategory" : "PACKAGE_MANAGER",
+      "referenceType" : "purl",
+      "referenceLocator" : "pkg:github/re2@2019-12-01"
+    } ],
+    "filesAnalyzed" : false,
+    "homepage" : "NONE",
+    "licenseConcluded" : "NOASSERTION",
+    "licenseDeclared" : "BSD-3-Clause",
+    "name" : "re2",
+    "summary" : "RE2 is a fast, safe, thread-friendly alternative to backtracking regular expression engines like those used in PCRE, Perl, and Python. It is a C++ library.",
+    "versionInfo" : "2019-12-01"
+  }, {
+    "SPDXID" : "SPDXRef-Package-github-re2-2019-12-01-vcs",
+    "copyrightText" : "NONE",
+    "downloadLocation" : "git+https://github.com/google/re2.git",
+    "externalRefs" : [ {
+      "referenceCategory" : "PACKAGE_MANAGER",
+      "referenceType" : "purl",
+      "referenceLocator" : "pkg:github/re2@2019-12-01"
+    } ],
+    "filesAnalyzed" : false,
+    "homepage" : "NONE",
+    "licenseConcluded" : "NOASSERTION",
+    "licenseDeclared" : "NOASSERTION",
+    "name" : "re2",
+    "summary" : "RE2 is a fast, safe, thread-friendly alternative to backtracking regular expression engines like those used in PCRE, Perl, and Python. It is a C++ library.",
+    "versionInfo" : "2019-12-01"
+  }, {
+    "SPDXID" : "SPDXRef-Package-github-sentencepiece-0.1.92",
+    "copyrightText" : "NONE",
+    "downloadLocation" : "NONE",
+    "externalRefs" : [ {
+      "referenceCategory" : "PACKAGE_MANAGER",
+      "referenceType" : "purl",
+      "referenceLocator" : "pkg:github/sentencepiece@0.1.92"
+    } ],
+    "filesAnalyzed" : false,
+    "homepage" : "NONE",
+    "licenseConcluded" : "NOASSERTION",
+    "licenseDeclared" : "Apache-2.0",
+    "name" : "sentencepiece",
+    "summary" : "Unsupervised text tokenizer for Neural Network-based text generation.",
+    "versionInfo" : "0.1.92"
+  }, {
+    "SPDXID" : "SPDXRef-Package-github-sentencepiece-0.1.92-vcs",
+    "copyrightText" : "NONE",
+    "downloadLocation" : "git+https://github.com/google/sentencepiece.git",
+    "externalRefs" : [ {
+      "referenceCategory" : "PACKAGE_MANAGER",
+      "referenceType" : "purl",
+      "referenceLocator" : "pkg:github/sentencepiece@0.1.92"
+    } ],
+    "filesAnalyzed" : false,
+    "homepage" : "NONE",
+    "licenseConcluded" : "NOASSERTION",
+    "licenseDeclared" : "NOASSERTION",
+    "name" : "sentencepiece",
+    "summary" : "Unsupervised text tokenizer for Neural Network-based text generation.",
+    "versionInfo" : "0.1.92"
+  }, {
+    "SPDXID" : "SPDXRef-Package-github-sqlite-3.36.0",
+    "copyrightText" : "NONE",
+    "downloadLocation" : "NONE",
+    "externalRefs" : [ {
+      "referenceCategory" : "PACKAGE_MANAGER",
+      "referenceType" : "purl",
+      "referenceLocator" : "pkg:github/sqlite@3.36.0"
+    } ],
+    "filesAnalyzed" : false,
+    "homepage" : "NONE",
+    "licenseConcluded" : "NOASSERTION",
+    "licenseDeclared" : "NOASSERTION",
+    "name" : "sqlite",
+    "summary" : "Official Git mirror of the SQLite source tree",
+    "versionInfo" : "3.36.0"
+  }, {
+    "SPDXID" : "SPDXRef-Package-github-sqlite-3.36.0-vcs",
+    "copyrightText" : "NONE",
+    "downloadLocation" : "git+https://github.com/sqlite/sqlite.git",
+    "externalRefs" : [ {
+      "referenceCategory" : "PACKAGE_MANAGER",
+      "referenceType" : "purl",
+      "referenceLocator" : "pkg:github/sqlite@3.36.0"
+    } ],
+    "filesAnalyzed" : false,
+    "homepage" : "NONE",
+    "licenseConcluded" : "NOASSERTION",
+    "licenseDeclared" : "NOASSERTION",
+    "name" : "sqlite",
+    "summary" : "Official Git mirror of the SQLite source tree",
+    "versionInfo" : "3.36.0"
+  }, {
+    "SPDXID" : "SPDXRef-Package-github-tinyxml2-8.0.0",
+    "copyrightText" : "NONE",
+    "downloadLocation" : "NONE",
+    "externalRefs" : [ {
+      "referenceCategory" : "PACKAGE_MANAGER",
+      "referenceType" : "purl",
+      "referenceLocator" : "pkg:github/tinyxml2@8.0.0"
+    } ],
+    "filesAnalyzed" : false,
+    "homepage" : "NONE",
+    "licenseConcluded" : "NOASSERTION",
+    "licenseDeclared" : "Zlib",
+    "name" : "tinyxml2",
+    "summary" : "TinyXML2 is a simple, small, efficient, C++ XML parser that can be easily integrated into other programs.",
+    "versionInfo" : "8.0.0"
+  }, {
+    "SPDXID" : "SPDXRef-Package-github-tinyxml2-8.0.0-vcs",
+    "copyrightText" : "NONE",
+    "downloadLocation" : "git+https://github.com/leethomason/tinyxml2.git",
+    "externalRefs" : [ {
+      "referenceCategory" : "PACKAGE_MANAGER",
+      "referenceType" : "purl",
+      "referenceLocator" : "pkg:github/tinyxml2@8.0.0"
+    } ],
+    "filesAnalyzed" : false,
+    "homepage" : "NONE",
+    "licenseConcluded" : "NOASSERTION",
+    "licenseDeclared" : "NOASSERTION",
+    "name" : "tinyxml2",
+    "summary" : "TinyXML2 is a simple, small, efficient, C++ XML parser that can be easily integrated into other programs.",
+    "versionInfo" : "8.0.0"
+  }, {
+    "SPDXID" : "SPDXRef-Package-github-zlib-1.2.11",
+    "copyrightText" : "NONE",
+    "downloadLocation" : "NONE",
+    "externalRefs" : [ {
+      "referenceCategory" : "PACKAGE_MANAGER",
+      "referenceType" : "purl",
+      "referenceLocator" : "pkg:github/zlib@1.2.11"
+    } ],
+    "filesAnalyzed" : false,
+    "homepage" : "http://zlib.net/",
+    "licenseConcluded" : "NOASSERTION",
+    "licenseDeclared" : "NOASSERTION",
+    "name" : "zlib",
+    "summary" : "A massively spiffy yet delicately unobtrusive compression library.",
+    "versionInfo" : "1.2.11"
+  }, {
+    "SPDXID" : "SPDXRef-Package-github-zlib-1.2.11-vcs",
+    "copyrightText" : "NONE",
+    "downloadLocation" : "git+https://github.com/madler/zlib.git",
+    "externalRefs" : [ {
+      "referenceCategory" : "PACKAGE_MANAGER",
+      "referenceType" : "purl",
+      "referenceLocator" : "pkg:github/zlib@1.2.11"
+    } ],
+    "filesAnalyzed" : false,
+    "homepage" : "http://zlib.net/",
+    "licenseConcluded" : "NOASSERTION",
+    "licenseDeclared" : "NOASSERTION",
+    "name" : "zlib",
+    "summary" : "A massively spiffy yet delicately unobtrusive compression library.",
+    "versionInfo" : "1.2.11"
+  } ],
+  "relationships" : [ {
+    "spdxElementId" : "SPDXRef-Package-PyPI-asttokens-2.0.5",
+    "relationshipType" : "DEPENDS_ON",
+    "relatedSpdxElement" : "SPDXRef-Package-PyPI-six-1.16.0"
+  }, {
+    "spdxElementId" : "SPDXRef-Package-PyPI-asttokens-2.0.5",
+    "relationshipType" : "GENERATED_FROM",
+    "relatedSpdxElement" : "SPDXRef-Package-PyPI-asttokens-2.0.5-vcs"
+  }, {
+    "spdxElementId" : "SPDXRef-Package-PyPI-asttokens-2.0.5",
+    "relationshipType" : "GENERATED_FROM",
+    "relatedSpdxElement" : "SPDXRef-Package-PyPI-asttokens-2.0.5-source-artifact"
+  }, {
+    "spdxElementId" : "SPDXRef-Package-PyPI-astunparse-1.6.3",
+    "relationshipType" : "DEPENDS_ON",
+    "relatedSpdxElement" : "SPDXRef-Package-PyPI-six-1.16.0"
+  }, {
+    "spdxElementId" : "SPDXRef-Package-PyPI-astunparse-1.6.3",
+    "relationshipType" : "DEPENDS_ON",
+    "relatedSpdxElement" : "SPDXRef-Package-PyPI-wheel-0.37.1"
+  }, {
+    "spdxElementId" : "SPDXRef-Package-PyPI-astunparse-1.6.3",
+    "relationshipType" : "GENERATED_FROM",
+    "relatedSpdxElement" : "SPDXRef-Package-PyPI-astunparse-1.6.3-vcs"
+  }, {
+    "spdxElementId" : "SPDXRef-Package-PyPI-astunparse-1.6.3",
+    "relationshipType" : "GENERATED_FROM",
+    "relatedSpdxElement" : "SPDXRef-Package-PyPI-astunparse-1.6.3-source-artifact"
+  }, {
+    "spdxElementId" : "SPDXRef-Package-PyPI-numpy-1.21.6",
+    "relationshipType" : "GENERATED_FROM",
+    "relatedSpdxElement" : "SPDXRef-Package-PyPI-numpy-1.21.6-source-artifact"
+  }, {
+    "spdxElementId" : "SPDXRef-Package-PyPI-packaging-21.3",
+    "relationshipType" : "DEPENDS_ON",
+    "relatedSpdxElement" : "SPDXRef-Package-PyPI-pyparsing-3.0.9"
+  }, {
+    "spdxElementId" : "SPDXRef-Package-PyPI-packaging-21.3",
+    "relationshipType" : "GENERATED_FROM",
+    "relatedSpdxElement" : "SPDXRef-Package-PyPI-packaging-21.3-vcs"
+  }, {
+    "spdxElementId" : "SPDXRef-Package-PyPI-packaging-21.3",
+    "relationshipType" : "GENERATED_FROM",
+    "relatedSpdxElement" : "SPDXRef-Package-PyPI-packaging-21.3-source-artifact"
+  }, {
+    "spdxElementId" : "SPDXRef-Package-PyPI-pillow-9.1.1",
+    "relationshipType" : "GENERATED_FROM",
+    "relatedSpdxElement" : "SPDXRef-Package-PyPI-pillow-9.1.1-source-artifact"
+  }, {
+    "spdxElementId" : "SPDXRef-Package-PyPI-protobuf-4.21.2",
+    "relationshipType" : "GENERATED_FROM",
+    "relatedSpdxElement" : "SPDXRef-Package-PyPI-protobuf-4.21.2-source-artifact"
+  }, {
+    "spdxElementId" : "SPDXRef-Package-PyPI-psutil-5.9.1",
+    "relationshipType" : "GENERATED_FROM",
+    "relatedSpdxElement" : "SPDXRef-Package-PyPI-psutil-5.9.1-vcs"
+  }, {
+    "spdxElementId" : "SPDXRef-Package-PyPI-psutil-5.9.1",
+    "relationshipType" : "GENERATED_FROM",
+    "relatedSpdxElement" : "SPDXRef-Package-PyPI-psutil-5.9.1-source-artifact"
+  }, {
+    "spdxElementId" : "SPDXRef-Package-PyPI-pyparsing-3.0.9",
+    "relationshipType" : "GENERATED_FROM",
+    "relatedSpdxElement" : "SPDXRef-Package-PyPI-pyparsing-3.0.9-source-artifact"
+  }, {
+    "spdxElementId" : "SPDXRef-Package-PyPI-scipy-1.7.3",
+    "relationshipType" : "DEPENDS_ON",
+    "relatedSpdxElement" : "SPDXRef-Package-PyPI-numpy-1.21.6"
+  }, {
+    "spdxElementId" : "SPDXRef-Package-PyPI-scipy-1.7.3",
+    "relationshipType" : "GENERATED_FROM",
+    "relatedSpdxElement" : "SPDXRef-Package-PyPI-scipy-1.7.3-source-artifact"
+  }, {
+    "spdxElementId" : "SPDXRef-Package-PyPI-six-1.16.0",
+    "relationshipType" : "GENERATED_FROM",
+    "relatedSpdxElement" : "SPDXRef-Package-PyPI-six-1.16.0-vcs"
+  }, {
+    "spdxElementId" : "SPDXRef-Package-PyPI-six-1.16.0",
+    "relationshipType" : "GENERATED_FROM",
+    "relatedSpdxElement" : "SPDXRef-Package-PyPI-six-1.16.0-source-artifact"
+  }, {
+    "spdxElementId" : "SPDXRef-Package-PyPI-wheel-0.37.1",
+    "relationshipType" : "GENERATED_FROM",
+    "relatedSpdxElement" : "SPDXRef-Package-PyPI-wheel-0.37.1-vcs"
+  }, {
+    "spdxElementId" : "SPDXRef-Package-PyPI-wheel-0.37.1",
+    "relationshipType" : "GENERATED_FROM",
+    "relatedSpdxElement" : "SPDXRef-Package-PyPI-wheel-0.37.1-source-artifact"
+  }, {
+    "spdxElementId" : "SPDXRef-Package-github-abseil-cpp-20210324.2",
+    "relationshipType" : "GENERATED_FROM",
+    "relatedSpdxElement" : "SPDXRef-Package-github-abseil-cpp-20210324.2-vcs"
+  }, {
+    "spdxElementId" : "SPDXRef-Package-github-akg-1.7.0",
+    "relationshipType" : "GENERATED_FROM",
+    "relatedSpdxElement" : "SPDXRef-Package-github-akg-1.7.0-vcs"
+  }, {
+    "spdxElementId" : "SPDXRef-Package-github-c-ares-1-15-0",
+    "relationshipType" : "GENERATED_FROM",
+    "relatedSpdxElement" : "SPDXRef-Package-github-c-ares-1-15-0-vcs"
+  }, {
+    "spdxElementId" : "SPDXRef-Package-github-cppjieba-5.0.3",
+    "relationshipType" : "GENERATED_FROM",
+    "relatedSpdxElement" : "SPDXRef-Package-github-cppjieba-5.0.3-vcs"
+  }, {
+    "spdxElementId" : "SPDXRef-Package-github-eigen-3.3.9",
+    "relationshipType" : "GENERATED_FROM",
+    "relatedSpdxElement" : "SPDXRef-Package-github-eigen-3.3.9-vcs"
+  }, {
+    "spdxElementId" : "SPDXRef-Package-github-flatbuffers-2.0.0",
+    "relationshipType" : "GENERATED_FROM",
+    "relatedSpdxElement" : "SPDXRef-Package-github-flatbuffers-2.0.0-vcs"
+  }, {
+    "spdxElementId" : "SPDXRef-Package-github-glog-0.4.0",
+    "relationshipType" : "GENERATED_FROM",
+    "relatedSpdxElement" : "SPDXRef-Package-github-glog-0.4.0-vcs"
+  }, {
+    "spdxElementId" : "SPDXRef-Package-github-graphengine-1.0.0",
+    "relationshipType" : "GENERATED_FROM",
+    "relatedSpdxElement" : "SPDXRef-Package-github-graphengine-1.0.0-vcs"
+  }, {
+    "spdxElementId" : "SPDXRef-Package-github-grpc-1.36.1",
+    "relationshipType" : "GENERATED_FROM",
+    "relatedSpdxElement" : "SPDXRef-Package-github-grpc-1.36.1-vcs"
+  }, {
+    "spdxElementId" : "SPDXRef-Package-github-icu-69-1",
+    "relationshipType" : "GENERATED_FROM",
+    "relatedSpdxElement" : "SPDXRef-Package-github-icu-69-1-vcs"
+  }, {
+    "spdxElementId" : "SPDXRef-Package-github-json-3.7.3",
+    "relationshipType" : "GENERATED_FROM",
+    "relatedSpdxElement" : "SPDXRef-Package-github-json-3.7.3-vcs"
+  }, {
+    "spdxElementId" : "SPDXRef-Package-github-libevent-2.1.12-stable",
+    "relationshipType" : "GENERATED_FROM",
+    "relatedSpdxElement" : "SPDXRef-Package-github-libevent-2.1.12-stable-vcs"
+  }, {
+    "spdxElementId" : "SPDXRef-Package-github-libjpeg-turbo-2.0.4",
+    "relationshipType" : "GENERATED_FROM",
+    "relatedSpdxElement" : "SPDXRef-Package-github-libjpeg-turbo-2.0.4-vcs"
+  }, {
+    "spdxElementId" : "SPDXRef-Package-github-metadef-1.5.1",
+    "relationshipType" : "GENERATED_FROM",
+    "relatedSpdxElement" : "SPDXRef-Package-github-metadef-1.5.1-vcs"
+  }, {
+    "spdxElementId" : "SPDXRef-Package-github-oneDNN-2.2",
+    "relationshipType" : "GENERATED_FROM",
+    "relatedSpdxElement" : "SPDXRef-Package-github-oneDNN-2.2-vcs"
+  }, {
+    "spdxElementId" : "SPDXRef-Package-github-opencv-4.5.2",
+    "relationshipType" : "GENERATED_FROM",
+    "relatedSpdxElement" : "SPDXRef-Package-github-opencv-4.5.2-vcs"
+  }, {
+    "spdxElementId" : "SPDXRef-Package-github-openssl-1-1-1k",
+    "relationshipType" : "GENERATED_FROM",
+    "relatedSpdxElement" : "SPDXRef-Package-github-openssl-1-1-1k-vcs"
+  }, {
+    "spdxElementId" : "SPDXRef-Package-github-protobuf-3.13.0",
+    "relationshipType" : "GENERATED_FROM",
+    "relatedSpdxElement" : "SPDXRef-Package-github-protobuf-3.13.0-vcs"
+  }, {
+    "spdxElementId" : "SPDXRef-Package-github-pybind11-2.4.3",
+    "relationshipType" : "GENERATED_FROM",
+    "relatedSpdxElement" : "SPDXRef-Package-github-pybind11-2.4.3-vcs"
+  }, {
+    "spdxElementId" : "SPDXRef-Package-github-re2-2019-12-01",
+    "relationshipType" : "GENERATED_FROM",
+    "relatedSpdxElement" : "SPDXRef-Package-github-re2-2019-12-01-vcs"
+  }, {
+    "spdxElementId" : "SPDXRef-Package-github-sentencepiece-0.1.92",
+    "relationshipType" : "GENERATED_FROM",
+    "relatedSpdxElement" : "SPDXRef-Package-github-sentencepiece-0.1.92-vcs"
+  }, {
+    "spdxElementId" : "SPDXRef-Package-github-sqlite-3.36.0",
+    "relationshipType" : "GENERATED_FROM",
+    "relatedSpdxElement" : "SPDXRef-Package-github-sqlite-3.36.0-vcs"
+  }, {
+    "spdxElementId" : "SPDXRef-Package-github-tinyxml2-8.0.0",
+    "relationshipType" : "GENERATED_FROM",
+    "relatedSpdxElement" : "SPDXRef-Package-github-tinyxml2-8.0.0-vcs"
+  }, {
+    "spdxElementId" : "SPDXRef-Package-github-zlib-1.2.11",
+    "relationshipType" : "GENERATED_FROM",
+    "relatedSpdxElement" : "SPDXRef-Package-github-zlib-1.2.11-vcs"
+  }, {
+    "spdxElementId" : "SPDXRef-Project-PIP-requirements.txt",
+    "relationshipType" : "DEPENDS_ON",
+    "relatedSpdxElement" : "SPDXRef-Package-PyPI-asttokens-2.0.5"
+  }, {
+    "spdxElementId" : "SPDXRef-Project-PIP-requirements.txt",
+    "relationshipType" : "DEPENDS_ON",
+    "relatedSpdxElement" : "SPDXRef-Package-PyPI-astunparse-1.6.3"
+  }, {
+    "spdxElementId" : "SPDXRef-Project-PIP-requirements.txt",
+    "relationshipType" : "DEPENDS_ON",
+    "relatedSpdxElement" : "SPDXRef-Package-PyPI-packaging-21.3"
+  }, {
+    "spdxElementId" : "SPDXRef-Project-PIP-requirements.txt",
+    "relationshipType" : "DEPENDS_ON",
+    "relatedSpdxElement" : "SPDXRef-Package-PyPI-pillow-9.1.1"
+  }, {
+    "spdxElementId" : "SPDXRef-Project-PIP-requirements.txt",
+    "relationshipType" : "DEPENDS_ON",
+    "relatedSpdxElement" : "SPDXRef-Package-PyPI-protobuf-4.21.2"
+  }, {
+    "spdxElementId" : "SPDXRef-Project-PIP-requirements.txt",
+    "relationshipType" : "DEPENDS_ON",
+    "relatedSpdxElement" : "SPDXRef-Package-PyPI-psutil-5.9.1"
+  }, {
+    "spdxElementId" : "SPDXRef-Project-PIP-requirements.txt",
+    "relationshipType" : "DEPENDS_ON",
+    "relatedSpdxElement" : "SPDXRef-Package-PyPI-scipy-1.7.3"
+  }, {
+    "spdxElementId" : "SPDXRef-Project-Tracer-github",
+    "relationshipType" : "DEPENDS_ON",
+    "relatedSpdxElement" : "SPDXRef-Package-github-sentencepiece-0.1.92"
+  }, {
+    "spdxElementId" : "SPDXRef-Project-Tracer-github",
+    "relationshipType" : "DEPENDS_ON",
+    "relatedSpdxElement" : "SPDXRef-Package-github-libevent-2.1.12-stable"
+  }, {
+    "spdxElementId" : "SPDXRef-Project-Tracer-github",
+    "relationshipType" : "DEPENDS_ON",
+    "relatedSpdxElement" : "SPDXRef-Package-github-grpc-1.36.1"
+  }, {
+    "spdxElementId" : "SPDXRef-Project-Tracer-github",
+    "relationshipType" : "DEPENDS_ON",
+    "relatedSpdxElement" : "SPDXRef-Package-github-json-3.7.3"
+  }, {
+    "spdxElementId" : "SPDXRef-Project-Tracer-github",
+    "relationshipType" : "DEPENDS_ON",
+    "relatedSpdxElement" : "SPDXRef-Package-github-graphengine-1.0.0"
+  }, {
+    "spdxElementId" : "SPDXRef-Project-Tracer-github",
+    "relationshipType" : "DEPENDS_ON",
+    "relatedSpdxElement" : "SPDXRef-Package-github-oneDNN-2.2"
+  }, {
+    "spdxElementId" : "SPDXRef-Project-Tracer-github",
+    "relationshipType" : "DEPENDS_ON",
+    "relatedSpdxElement" : "SPDXRef-Package-github-pybind11-2.4.3"
+  }, {
+    "spdxElementId" : "SPDXRef-Project-Tracer-github",
+    "relationshipType" : "DEPENDS_ON",
+    "relatedSpdxElement" : "SPDXRef-Package-github-flatbuffers-2.0.0"
+  }, {
+    "spdxElementId" : "SPDXRef-Project-Tracer-github",
+    "relationshipType" : "DEPENDS_ON",
+    "relatedSpdxElement" : "SPDXRef-Package-github-metadef-1.5.1"
+  }, {
+    "spdxElementId" : "SPDXRef-Project-Tracer-github",
+    "relationshipType" : "DEPENDS_ON",
+    "relatedSpdxElement" : "SPDXRef-Package-github-icu-69-1"
+  }, {
+    "spdxElementId" : "SPDXRef-Project-Tracer-github",
+    "relationshipType" : "DEPENDS_ON",
+    "relatedSpdxElement" : "SPDXRef-Package-github-sqlite-3.36.0"
+  }, {
+    "spdxElementId" : "SPDXRef-Project-Tracer-github",
+    "relationshipType" : "DEPENDS_ON",
+    "relatedSpdxElement" : "SPDXRef-Package-github-zlib-1.2.11"
+  }, {
+    "spdxElementId" : "SPDXRef-Project-Tracer-github",
+    "relationshipType" : "DEPENDS_ON",
+    "relatedSpdxElement" : "SPDXRef-Package-github-cppjieba-5.0.3"
+  }, {
+    "spdxElementId" : "SPDXRef-Project-Tracer-github",
+    "relationshipType" : "DEPENDS_ON",
+    "relatedSpdxElement" : "SPDXRef-Package-github-glog-0.4.0"
+  }, {
+    "spdxElementId" : "SPDXRef-Project-Tracer-github",
+    "relationshipType" : "DEPENDS_ON",
+    "relatedSpdxElement" : "SPDXRef-Package-github-akg-1.7.0"
+  }, {
+    "spdxElementId" : "SPDXRef-Project-Tracer-github",
+    "relationshipType" : "DEPENDS_ON",
+    "relatedSpdxElement" : "SPDXRef-Package-github-protobuf-3.13.0"
+  }, {
+    "spdxElementId" : "SPDXRef-Project-Tracer-github",
+    "relationshipType" : "DEPENDS_ON",
+    "relatedSpdxElement" : "SPDXRef-Package-github-c-ares-1-15-0"
+  }, {
+    "spdxElementId" : "SPDXRef-Project-Tracer-github",
+    "relationshipType" : "DEPENDS_ON",
+    "relatedSpdxElement" : "SPDXRef-Package-github-abseil-cpp-20210324.2"
+  }, {
+    "spdxElementId" : "SPDXRef-Project-Tracer-github",
+    "relationshipType" : "DEPENDS_ON",
+    "relatedSpdxElement" : "SPDXRef-Package-github-libjpeg-turbo-2.0.4"
+  }, {
+    "spdxElementId" : "SPDXRef-Project-Tracer-github",
+    "relationshipType" : "DEPENDS_ON",
+    "relatedSpdxElement" : "SPDXRef-Package-github-opencv-4.5.2"
+  }, {
+    "spdxElementId" : "SPDXRef-Project-Tracer-github",
+    "relationshipType" : "DEPENDS_ON",
+    "relatedSpdxElement" : "SPDXRef-Package-github-re2-2019-12-01"
+  }, {
+    "spdxElementId" : "SPDXRef-Project-Tracer-github",
+    "relationshipType" : "DEPENDS_ON",
+    "relatedSpdxElement" : "SPDXRef-Package-github-openssl-1-1-1k"
+  }, {
+    "spdxElementId" : "SPDXRef-Project-Tracer-github",
+    "relationshipType" : "DEPENDS_ON",
+    "relatedSpdxElement" : "SPDXRef-Package-github-tinyxml2-8.0.0"
+  }, {
+    "spdxElementId" : "SPDXRef-Project-Tracer-github",
+    "relationshipType" : "DEPENDS_ON",
+    "relatedSpdxElement" : "SPDXRef-Package-github-eigen-3.3.9"
+  } ]
+}

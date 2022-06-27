@@ -11,14 +11,15 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.Index;
 import javax.persistence.JoinColumn;
+import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
+import java.util.List;
 import java.util.UUID;
 
 @Entity
 @Table(indexes = {
-        @Index(name = "sbom_id_uk", columnList = "sbom_id", unique = true),
-        @Index(name = "raw_sbom_id_uk", columnList = "raw_sbom_id", unique = true)
+        @Index(name = "name_version_uk", columnList = "name, version", unique = true)
 })
 public class Product {
     @Id
@@ -32,13 +33,11 @@ public class Product {
     @Column(columnDefinition = "TEXT", nullable = false)
     private String version;
 
-    @OneToOne(fetch = FetchType.LAZY, optional = false, cascade = CascadeType.ALL, orphanRemoval = true)
-    @JoinColumn(name = "sbom_id", foreignKey = @ForeignKey(name = "sbom_id_fk"))
-    private Sbom sbom;
+//    @OneToMany(mappedBy = "product", cascade = CascadeType.ALL, orphanRemoval = true)
+//    private List<Sbom> sboms;
 
-    @OneToOne(fetch = FetchType.LAZY, optional = false, cascade = CascadeType.ALL, orphanRemoval = true)
-    @JoinColumn(name = "raw_sbom_id", foreignKey = @ForeignKey(name = "raw_sbom_id_fk"))
-    private RawSbom rawSbom;
+//    @OneToMany(mappedBy = "product", cascade = CascadeType.ALL, orphanRemoval = true)
+//    private List<RawSbom> rawSboms;
 
     public UUID getId() {
         return id;
@@ -64,19 +63,19 @@ public class Product {
         this.version = version;
     }
 
-    public Sbom getSbom() {
-        return sbom;
-    }
+//    public List<Sbom> getSboms() {
+//        return sboms;
+//    }
+//
+//    public void setSboms(List<Sbom> sboms) {
+//        this.sboms = sboms;
+//    }
 
-    public void setSbom(Sbom sbom) {
-        this.sbom = sbom;
-    }
-
-    public RawSbom getRawSbom() {
-        return rawSbom;
-    }
-
-    public void setRawSbom(RawSbom rawSbom) {
-        this.rawSbom = rawSbom;
-    }
+//    public List<RawSbom> getRawSboms() {
+//        return rawSboms;
+//    }
+//
+//    public void setRawSboms(List<RawSbom> rawSboms) {
+//        this.rawSboms = rawSboms;
+//    }
 }
