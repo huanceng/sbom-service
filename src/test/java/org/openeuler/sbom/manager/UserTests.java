@@ -36,8 +36,8 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 public class UserTests {
 
-    private static final String SAMPLE_UPLOAD_FILE_NAME = "sample/sample-oss-package.json";
-    private static final String SAMPLE_UPLOAD_COPY_FILE_NAME = "sample/sample-oss-package-copy.json";
+    private static final String SAMPLE_UPLOAD_FILE_NAME = "sample/sample-spdx.json";
+    private static final String SAMPLE_UPLOAD_COPY_FILE_NAME = "sample/sample-spdx-copy.json";
 
     @Autowired
     private MockMvc mockMvc;
