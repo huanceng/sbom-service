@@ -1,5 +1,6 @@
 package org.openeuler.sbom.manager.service.impl;
 
+import org.apache.commons.lang3.StringUtils;
 import org.openeuler.sbom.manager.dao.RawSbomRepository;
 import org.openeuler.sbom.manager.model.RawSbom;
 import org.openeuler.sbom.manager.service.SbomService;
@@ -51,6 +52,9 @@ public class SbomServiceImpl implements SbomService {
     @Override
     // TODO 后续把productName换成productID
     public RawSbom writeSbomFile(String productName, String spec, String specVersion, String format) {
+        format = StringUtils.lowerCase(format);
+        spec = StringUtils.lowerCase(spec);
+
         if (!SbomFormat.EXT_TO_FORMAT.containsKey(format)) {
             throw new RuntimeException("sbom file format: %s is not support".formatted(format));
         }
@@ -60,7 +64,7 @@ public class SbomServiceImpl implements SbomService {
 
         RawSbom queryCondition = new RawSbom();
         queryCondition.setProductName(productName);
-        queryCondition.setSpec(spec.toLowerCase());
+        queryCondition.setSpec(spec);
         queryCondition.setSpecVersion(specVersion);
         queryCondition.setFormat(format);
 
