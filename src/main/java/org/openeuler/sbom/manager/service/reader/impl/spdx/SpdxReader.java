@@ -3,14 +3,20 @@ package org.openeuler.sbom.manager.service.reader.impl.spdx;
 import org.openeuler.sbom.manager.dao.SbomRepository;
 import org.openeuler.sbom.manager.model.Sbom;
 import org.openeuler.sbom.manager.service.reader.SbomReader;
+import org.openeuler.sbom.manager.utils.SbomFormat;
 import org.openeuler.sbom.manager.utils.SbomMapperUtil;
+import org.openeuler.sbom.manager.utils.SbomSpecification;
 import org.ossreviewtoolkit.utils.spdx.model.SpdxDocument;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
+
+import static org.openeuler.sbom.manager.utils.SbomMapperUtil.fileToExt;
+import static org.openeuler.sbom.manager.utils.SbomMapperUtil.fileToSpec;
 
 @Service
 @Transactional(rollbackFor = Exception.class)
@@ -21,7 +27,18 @@ public class SpdxReader implements SbomReader {
 
     @Override
     public void read(File file) throws IOException {
-        SpdxDocument document = SbomMapperUtil.read(file);
+        SbomFormat format = fileToExt(file.getName());
+        FileInputStream fileInputStream = new FileInputStream(file);
+        byte[] fileContent = fileInputStream.readAllBytes();
+        fileInputStream.close();
+
+        SbomSpecification specification = fileToSpec(format, fileContent);
+        read(format, specification, fileContent);
+    }
+
+    @Override
+    public void read(SbomFormat format, SbomSpecification specification, byte[] fileContent) throws IOException {
+        SpdxDocument document = SbomMapperUtil.readDocument(format, specification, fileContent);
         saveSbom(document);
     }
 
