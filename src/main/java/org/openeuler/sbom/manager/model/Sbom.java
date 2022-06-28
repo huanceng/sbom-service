@@ -1,6 +1,12 @@
 package org.openeuler.sbom.manager.model;
 
-import javax.persistence.*;
+import javax.persistence.CascadeType;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.Index;
+import javax.persistence.OneToMany;
+import javax.persistence.Table;
 import java.util.List;
 
 @Entity
@@ -131,12 +137,7 @@ public class Sbom {
     }
 
     public void setSbomCreators(List<SbomCreator> sbomCreators) {
-        if (this.sbomCreators == null) {
-            this.sbomCreators = sbomCreators;
-        } else {
-            this.sbomCreators.clear();
-            this.sbomCreators.addAll(sbomCreators);
-        }
+        this.sbomCreators = sbomCreators;
     }
 
     public List<SbomElementRelationship> getSbomElementRelationships() {

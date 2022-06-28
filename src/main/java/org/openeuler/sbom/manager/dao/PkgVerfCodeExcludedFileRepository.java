@@ -6,4 +6,5 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import java.util.UUID;
 
 public interface PkgVerfCodeExcludedFileRepository extends JpaRepository<PkgVerfCodeExcludedFile, UUID> {
+    PkgVerfCodeExcludedFile findByPkgVerfCodeIdAndFile(UUID pkgVerfCodeId, String file);
 }

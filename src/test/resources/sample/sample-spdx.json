@@ -60,6 +60,12 @@
     "licenseConcluded" : "NOASSERTION",
     "licenseDeclared" : "NOASSERTION",
     "name" : "asttokens",
+    "packageVerificationCode": {
+      "packageVerificationCodeValue" : "8aba92182455b539af15d0524fe5baffd3d9248b",
+      "packageVerificationCodeExcludedFiles": [
+        "test", "test1"
+      ]
+    },
     "summary" : "Annotate AST trees with source code positions",
     "versionInfo" : "2.0.5"
   }, {

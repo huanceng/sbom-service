@@ -20,7 +20,7 @@ import java.util.UUID;
  */
 @Entity
 @Table(indexes = {
-        @Index(name = "package_purl_uk", columnList = "package_id, purl_id", unique = true)
+        @Index(name = "package_purl_uk", columnList = "pkg_id, purl_id", unique = true)
 })
 public class ExternalPurlRef {
     @Id
@@ -52,7 +52,7 @@ public class ExternalPurlRef {
     private Purl purl;
 
     @ManyToOne(fetch = FetchType.LAZY, optional = false, cascade = CascadeType.ALL)
-    @JoinColumn(name = "package_id", foreignKey = @ForeignKey(name = "package_id_fk"))
+    @JoinColumn(name = "pkg_id", foreignKey = @ForeignKey(name = "pkg_id_fk"))
     private Package pkg;
 
     public UUID getId() {
