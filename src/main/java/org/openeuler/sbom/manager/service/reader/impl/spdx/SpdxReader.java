@@ -43,7 +43,7 @@ public class SpdxReader implements SbomReader {
     }
 
     private void saveSbom(SpdxDocument document) {
-        Sbom sbom = new Sbom();
+        Sbom sbom = sbomRepository.findById(document.getSpdxId()).orElse(new Sbom());
         sbom.setId(document.getSpdxId());
         sbom.setCreated(document.getCreationInfo().getCreated().toString());
         sbom.setDataLicense(document.getDataLicense());
