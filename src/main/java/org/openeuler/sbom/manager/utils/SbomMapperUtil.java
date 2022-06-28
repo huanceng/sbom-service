@@ -8,40 +8,36 @@ import org.openeuler.sbom.utils.Mapper;
 import java.io.File;
 import java.io.IOException;
 import java.util.HashMap;
-import java.util.Map;
 
 public class SbomMapperUtil {
 
-    private static final Map<String, SbomFormat> EXT_TO_FORMAT = Map.of(
-            "json", SbomFormat.JSON,
-            "yml", SbomFormat.YAML,
-            "yaml", SbomFormat.YAML,
-            "xml", SbomFormat.XML,
-            "rdf", SbomFormat.RDF,
-            "rdf.xml", SbomFormat.RDF
-    );
-
     @SuppressWarnings("unchecked")
-    public static <T> T read(File file) throws IOException {
-        SbomFormat format = fileToExt(file);
-        SbomSpecification specification = fileToSpec(file, format);
+    public static <T> T readDocument(SbomFormat format, SbomSpecification specification, byte[] fileContent) throws IOException {
         if (format == SbomFormat.JSON) {
-            return fromJson(file, (Class<T>) specification.getDocumentClass());
+            return fromJson(fileContent, (Class<T>) specification.getDocumentClass());
         }
         if (format == SbomFormat.XML) {
-            return fromXml(file, (Class<T>) specification.getDocumentClass());
+            return fromXml(fileContent, (Class<T>) specification.getDocumentClass());
         }
         if (format == SbomFormat.YAML) {
-            return fromYaml(file, (Class<T>) specification.getDocumentClass());
+            return fromYaml(fileContent, (Class<T>) specification.getDocumentClass());
         }
         if (format == SbomFormat.RDF) {
-            return fromRdf(file, (Class<T>) specification.getDocumentClass());
+            return fromRdf(fileContent, (Class<T>) specification.getDocumentClass());
         }
-        throw new RuntimeException("invalid sbom file %s".formatted(file.getName()));
+        throw new RuntimeException("invalid sbom file format %s".formatted(format.name()));
     }
 
-    private static SbomFormat fileToExt(File file) {
-        String fileName = file.getName();
+    public static SbomFormat fileToExt(String fileName) {
+        String fileExtStr = fileToExtStr(fileName);
+        if (!SbomFormat.EXT_TO_FORMAT.containsKey(fileExtStr)) {
+            throw new RuntimeException("invalid sbom file: %s".formatted(fileName));
+        }
+
+        return SbomFormat.EXT_TO_FORMAT.get(fileExtStr);
+    }
+
+    public static String fileToExtStr(String fileName) {
         if (!StringUtils.contains(fileName, ".")) {
             throw new RuntimeException("invalid sbom file without file extension: %s".formatted(fileName));
         }
@@ -50,27 +46,23 @@ public class SbomMapperUtil {
         if (fileName.endsWith("rdf.xml")) {
             fileExt = "rdf.xml";
         }
-
-        if (!EXT_TO_FORMAT.containsKey(fileExt)) {
-            throw new RuntimeException("invalid sbom file: %s".formatted(fileName));
-        }
-
-        return EXT_TO_FORMAT.get(fileExt);
+        return fileExt;
     }
 
-    private static SbomSpecification fileToSpec(File file, SbomFormat format) throws IOException {
-        TypeReference<HashMap<String, Object>> typeReference = new TypeReference<>() {};
+    public static SbomSpecification fileToSpec(SbomFormat format, byte[] fileContent) throws IOException {
+        TypeReference<HashMap<String, Object>> typeReference = new TypeReference<>() {
+        };
         HashMap<String, Object> map;
         if (format == SbomFormat.JSON) {
-            map = Mapper.jsonSbomMapper.readValue(file, typeReference);
+            map = Mapper.jsonSbomMapper.readValue(fileContent, typeReference);
         } else if (format == SbomFormat.XML) {
-            map = Mapper.xmlSbomMapper.readValue(file, typeReference);
+            map = Mapper.xmlSbomMapper.readValue(fileContent, typeReference);
         } else if (format == SbomFormat.YAML) {
-            map = Mapper.yamlSbomMapper.readValue(file, typeReference);
+            map = Mapper.yamlSbomMapper.readValue(fileContent, typeReference);
         } else if (format == SbomFormat.RDF) {
             throw new RuntimeException("not implemented for RDF");
         } else {
-            throw new RuntimeException("invalid sbom file %s".formatted(file.getName()));
+            throw new RuntimeException("invalid sbom file format type %s".formatted(format.name()));
         }
 
         if (StringUtils.equals((String) map.get("spdxVersion"), "SPDX-2.2")) {
@@ -81,22 +73,22 @@ public class SbomMapperUtil {
                 return SbomSpecification.CYCLONEDX_1_4;
             }
         }
-        throw new RuntimeException("failed to get sbom specification for sbom file %s".formatted(file.getName()));
+        throw new RuntimeException("failed to get sbom specification for sbom file %s");
     }
 
-    private static <T> T fromJson(File file, Class<T> clazz) throws IOException {
-        return Mapper.jsonSbomMapper.readValue(file, clazz);
+    private static <T> T fromJson(byte[] fileContent, Class<T> clazz) throws IOException {
+        return Mapper.jsonSbomMapper.readValue(fileContent, clazz);
     }
 
-    private static <T> T fromXml(File file, Class<T> clazz) throws IOException {
-        return Mapper.xmlSbomMapper.readValue(file, clazz);
+    private static <T> T fromXml(byte[] fileContent, Class<T> clazz) throws IOException {
+        return Mapper.xmlSbomMapper.readValue(fileContent, clazz);
     }
 
-    private static <T> T fromYaml(File file, Class<T> clazz) throws IOException {
-        return Mapper.yamlSbomMapper.readValue(file, clazz);
+    private static <T> T fromYaml(byte[] fileContent, Class<T> clazz) throws IOException {
+        return Mapper.yamlSbomMapper.readValue(fileContent, clazz);
     }
 
-    private static <T> T fromRdf(File file, Class<T> clazz) throws IOException {
+    private static <T> T fromRdf(byte[] fileContent, Class<T> clazz) throws IOException {
         throw new RuntimeException("not implemented for RDF");
     }
 

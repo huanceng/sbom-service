@@ -1,22 +1,15 @@
 package org.openeuler.sbom.manager.controller;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
-import org.apache.commons.io.IOUtils;
-import org.openeuler.sbom.manager.SbomManagerApplication;
-import org.openeuler.sbom.manager.dao.UserRepository;
-import org.openeuler.sbom.manager.model.PageVo;
-import org.openeuler.sbom.manager.model.UserEntity;
-import org.openeuler.sbom.manager.service.UserService;
+import org.openeuler.sbom.manager.model.RawSbom;
+import org.openeuler.sbom.manager.service.SbomService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -28,121 +21,87 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.BufferedOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
-import java.io.StringWriter;
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
-import java.util.List;
-import java.util.Objects;
 
 @Controller
 @RequestMapping(path = "/sbom")
 public class SbomController {
 
-    private static final Logger logger = LoggerFactory.getLogger(SbomManagerApplication.class);
+    private static final Logger logger = LoggerFactory.getLogger(SbomController.class);
 
     @Autowired
-    private UserRepository userRepository;
-
-    @Autowired
-    private UserService userService;
-
-    @PostMapping(path = "/addUser")
-    public @ResponseBody String addNewUser(@RequestParam String name, @RequestParam String email) {
-        userService.addNewUserByNameAndEmail(name, email);
-        return "Saved";
-    }
-
-    @PostMapping(path = "/addUserRecord")
-    public @ResponseBody ResponseEntity addNewUserEntity(@RequestBody UserEntity user) {
-        userService.addNewUserByEntity(user);
-        return ResponseEntity.status(HttpStatus.CREATED).body("Saved");
-    }
-
-    @GetMapping(path = "/allUser")
-    public @ResponseBody Iterable<UserEntity> getAllUsers() {
-        return userRepository.findAll();
-    }
+    private SbomService sbomService;
 
     @PostMapping("/uploadSbomFile")
-    public @ResponseBody ResponseEntity uploadSingleFile(HttpServletRequest request, @RequestParam String artifactName) throws IOException {//HttpServletRequest request
-        MultipartFile file = ((MultipartHttpServletRequest) request).getFile("upFileName");
+    public @ResponseBody ResponseEntity uploadSbomFile(HttpServletRequest request, @RequestParam String productName) throws IOException {//HttpServletRequest request
+        MultipartFile file = ((MultipartHttpServletRequest) request).getFile("uploadFileName");
         if (file == null || file.isEmpty()) {
             return ResponseEntity.status(HttpStatus.NOT_ACCEPTABLE).body("upload file is empty");
         }
         String fileName = file.getOriginalFilename();
+        logger.info("upload {}`s sbom file name: {}, file length: {}", productName, fileName, file.getBytes().length);
 
-        StringWriter writer = new StringWriter();
-        IOUtils.copy(file.getInputStream(), writer, StandardCharsets.UTF_8);
-        String fileContent = writer.toString();
+        try {
+            sbomService.readSbomFile(productName, fileName, file.getBytes());
+        } catch (Exception e) {
+            logger.error("uploadSbomFile failed", e);
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(e.getMessage());
+        }
 
-        logger.info("upload {}`s sbom file name: {}, file content: {}", artifactName, fileName, fileContent);
         return ResponseEntity.status(HttpStatus.ACCEPTED).body("Success");
     }
 
-    @PostMapping("/uploadSbomFiles")
-    public @ResponseBody ResponseEntity uploadMoreFile(@RequestParam("upFileNames") List<MultipartFile> files, @RequestParam String artifactName) throws IOException {//HttpServletRequest request
-        if (Objects.isNull(files) || files.size() < 1) {
-            return ResponseEntity.status(HttpStatus.NOT_ACCEPTABLE).body("upload files is empty");
+    // TODO 后续再新增exportSbom接口：exportSbomFile导出原始上传的文件；exportSbom导出元数据转换得到的SBOM文件
+    @RequestMapping("/exportSbomFile")
+    public void exportSbomFile(HttpServletResponse response, @RequestParam String productName, @RequestParam String spec,
+                               @RequestParam String specVersion, @RequestParam String format) throws IOException {
+        logger.info("download sbom productName:{}, use spec:{}, specVersion:{}, format:{}",
+                productName,
+                spec,
+                specVersion,
+                format);
+        RawSbom rawSbom = null;
+        String errorMsg = null;
+
+        try {
+            rawSbom = sbomService.writeSbomFile(productName, spec, specVersion, format);
+        } catch (Exception e) {
+            logger.error("exportSbomFile failed", e);
+            errorMsg = e.getMessage();
         }
 
-        for (MultipartFile file : files) {
-            String fileName = file.getOriginalFilename();
+        response.reset();
 
-            StringWriter writer = new StringWriter();
-            IOUtils.copy(file.getInputStream(), writer, StandardCharsets.UTF_8);
-            String fileContent = writer.toString();
-            logger.info("upload {}`s sbom file name: {}, file content: {}", artifactName, fileName, fileContent);
+        if (rawSbom == null) {
+            String returnContent =
+                    StringUtils.hasText(errorMsg) ? errorMsg :
+                            "can not find %s`s sbom, use spec:%s, specVersion:%s, format:%s".formatted(
+                                    productName,
+                                    spec,
+                                    specVersion,
+                                    format);
+            response.setCharacterEncoding(StandardCharsets.UTF_8.name());
+            response.setStatus(HttpStatus.INTERNAL_SERVER_ERROR.value());
+            response.setContentType("text/plain");
+            response.addHeader("Content-Length", "" + returnContent.getBytes(StandardCharsets.UTF_8).length);
+
+            OutputStream outputStream = new BufferedOutputStream(response.getOutputStream());
+            outputStream.write(returnContent.getBytes(StandardCharsets.UTF_8));
+            outputStream.flush();
+        } else {
+            byte[] exportContent = rawSbom.getValue();
+            String fileName = "%s-%s-sbom.%s".formatted(productName, spec, format);
+            response.setCharacterEncoding(StandardCharsets.UTF_8.name());
+            response.setContentType("application/octet-stream");
+            response.setHeader("Content-Disposition", "attachment;filename=" +
+                    URLEncoder.encode(fileName, StandardCharsets.UTF_8));
+            response.addHeader("Content-Length", "" + exportContent.length);
+
+            OutputStream outputStream = new BufferedOutputStream(response.getOutputStream());
+            outputStream.write(exportContent);
+            outputStream.flush();
         }
-        return ResponseEntity.status(HttpStatus.ACCEPTED).body("Success");
-    }
-
-
-    @RequestMapping("/exportSbom")
-    public void exportSbom(HttpServletResponse response, @RequestParam String artifactName) throws IOException {
-        PageVo<UserEntity> pageResult = userService.findAllPageable("Third", 2, 2);
-        ObjectMapper objectMapper = new ObjectMapper();
-        String json = objectMapper.writeValueAsString(pageResult);
-        logger.info("download sbom artifactName:{}", artifactName);
-
-        byte[] exportContent = json.getBytes(StandardCharsets.UTF_8);
-
-        String fileSuffix = artifactName.contains(".") ?
-                artifactName.substring(0, artifactName.lastIndexOf(".")).toLowerCase() : artifactName;
-        String fileName = fileSuffix + "-sbom.json";
-
-        response.reset();
-        response.setCharacterEncoding(StandardCharsets.UTF_8.name());
-        response.setContentType("application/octet-stream");
-        response.setHeader("Content-Disposition", "attachment;filename=" + URLEncoder.encode(fileName, StandardCharsets.UTF_8));
-        response.addHeader("Content-Length", "" + exportContent.length);
-
-        OutputStream outputStream = new BufferedOutputStream(response.getOutputStream());
-        outputStream.write(exportContent);
-        outputStream.flush();
-    }
-
-    @GetMapping("/downloadSbom/{artifactName}")
-    public void downloadSbom(HttpServletResponse response, @PathVariable("artifactName") String artifactName, @RequestParam(required = false) String version) throws IOException {
-        PageVo<UserEntity> pageResult = userService.findAllPageable("Third", 2, 2);
-        ObjectMapper objectMapper = new ObjectMapper();
-        String json = objectMapper.writeValueAsString(pageResult);
-        logger.info("download sbom artifactName:{}, version:{}", artifactName, version);
-
-        byte[] exportContent = json.getBytes(StandardCharsets.UTF_8);
-
-        String fileSuffix = artifactName.contains(".") ?
-                artifactName.substring(0, artifactName.lastIndexOf(".")).toLowerCase() : artifactName;
-        String fileName = fileSuffix + "-sbom.json";
-
-        response.reset();
-        response.setCharacterEncoding(StandardCharsets.UTF_8.name());
-        response.setContentType("application/octet-stream");
-        response.setHeader("Content-Disposition", "attachment;filename=" + URLEncoder.encode(fileName, StandardCharsets.UTF_8));
-        response.addHeader("Content-Length", "" + exportContent.length);
-
-        OutputStream outputStream = new BufferedOutputStream(response.getOutputStream());
-        outputStream.write(exportContent);
-        outputStream.flush();
     }
 
 }
