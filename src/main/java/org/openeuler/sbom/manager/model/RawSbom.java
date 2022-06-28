@@ -1,23 +1,18 @@
 package org.openeuler.sbom.manager.model;
 
+import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.Type;
+import org.hibernate.annotations.UpdateTimestamp;
 
-import javax.persistence.CascadeType;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.Index;
-import javax.persistence.Lob;
-import javax.persistence.OneToOne;
-import javax.persistence.Table;
+import javax.persistence.*;
+import java.sql.Timestamp;
 import java.util.UUID;
 
 @Entity
 @Table(indexes = {
-        @Index(name = "raw_sbom_uk", columnList = "spec, spec_version, format, value", unique = true)
+        // TODO 后续product功能完成后去除productName
+        @Index(name = "raw_sbom_uk", columnList = "spec, spec_version, format, productName", unique = true)
 })
 public class RawSbom {
     @Id
@@ -34,13 +29,23 @@ public class RawSbom {
     @Column(columnDefinition = "TEXT", nullable = false)
     private String format;
 
-    @Column(columnDefinition = "TEXT", nullable = false)
+    @Column(columnDefinition = "BYTEA", nullable = false)
     @Lob
     @Type(type = "org.hibernate.type.BinaryType")
     private byte[] value;
 
-    @OneToOne(mappedBy = "rawSbom", fetch = FetchType.LAZY, optional = false, cascade = CascadeType.ALL, orphanRemoval = true)
-    private Product product;
+    // @OneToOne(mappedBy = "rawSbom", fetch = FetchType.LAZY, optional = false, cascade = CascadeType.ALL, orphanRemoval = true)
+    // private Product product;
+    // TODO 待后续product功能完成后，productName切换成product对象
+    private String productName;
+
+    @Column(name = "create_time")
+    @CreationTimestamp
+    private Timestamp createTime;
+
+    @Column(name = "update_time")
+    @UpdateTimestamp
+    private Timestamp updateTime;
 
     public UUID getId() {
         return id;
@@ -82,11 +87,36 @@ public class RawSbom {
         this.value = value;
     }
 
-    public Product getProduct() {
-        return product;
+//    public Product getProduct() {
+//        return product;
+//    }
+
+//    public void setProduct(Product product) {
+//        this.product = product;
+//    }
+
+    public String getProductName() {
+        return productName;
     }
 
-    public void setProduct(Product product) {
-        this.product = product;
+    public void setProductName(String productName) {
+        this.productName = productName;
     }
+
+    public Timestamp getCreateTime() {
+        return createTime;
+    }
+
+    public void setCreateTime(Timestamp createTime) {
+        this.createTime = createTime;
+    }
+
+    public Timestamp getUpdateTime() {
+        return updateTime;
+    }
+
+    public void setUpdateTime(Timestamp updateTime) {
+        this.updateTime = updateTime;
+    }
+
 }
