@@ -1,5 +1,6 @@
 package org.openeuler.sbom.manager.utils;
 
+import org.apache.commons.lang3.StringUtils;
 import org.ossreviewtoolkit.utils.spdx.model.SpdxDocument;
 
 public enum SbomSpecification {
@@ -25,6 +26,15 @@ public enum SbomSpecification {
 
     public String getVersion() {
         return version;
+    }
+
+    public static SbomSpecification findSpecification(String specification, String version) {
+        for (SbomSpecification spec : SbomSpecification.values()) {
+            if (StringUtils.equalsIgnoreCase(specification, spec.getSpecification()) && StringUtils.equalsIgnoreCase(version, spec.getVersion())) {
+                return spec;
+            }
+        }
+        return null;
     }
 
     public Class<?> getDocumentClass() {
