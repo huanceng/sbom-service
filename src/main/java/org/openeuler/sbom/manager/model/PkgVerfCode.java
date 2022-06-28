@@ -19,7 +19,7 @@ import java.util.UUID;
 
 @Entity
 @Table(indexes = {
-        @Index(name = "pkg_verf_code_uk", columnList = "package_id, value", unique = true)
+        @Index(name = "pkg_id_uk", columnList = "pkg_id", unique = true)
 })
 public class PkgVerfCode {
     @Id
@@ -31,7 +31,7 @@ public class PkgVerfCode {
     private String value;
 
     @OneToOne(fetch = FetchType.LAZY, optional = false, cascade = CascadeType.ALL, orphanRemoval = true)
-    @JoinColumn(name = "package_id", foreignKey = @ForeignKey(name = "package_id_fk"))
+    @JoinColumn(name = "pkg_id", foreignKey = @ForeignKey(name = "pkg_id_fk"))
     private Package pkg;
 
     @OneToMany(mappedBy = "pkgVerfCode", cascade = CascadeType.ALL, orphanRemoval = true)

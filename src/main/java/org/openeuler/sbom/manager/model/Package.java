@@ -1,6 +1,8 @@
 package org.openeuler.sbom.manager.model;
 
 import org.hibernate.annotations.GenericGenerator;
+import org.hibernate.annotations.NotFound;
+import org.hibernate.annotations.NotFoundAction;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -23,7 +25,7 @@ import java.util.UUID;
 
 @Entity
 @Table(indexes = {
-        @Index(name = "purl_uk", columnList = "name, namespace, type, version, subpath, qualifier", unique = true)
+        @Index(name = "package_uk", columnList = "sbom_id, spdx_id, name, version", unique = true)
 })
 public class Package {
     @Id
@@ -35,19 +37,7 @@ public class Package {
     private String name;
 
     @Column(columnDefinition = "TEXT")
-    private String namespace;
-
-    @Column(columnDefinition = "TEXT", nullable = false)
-    private String type;
-
-    @Column(columnDefinition = "TEXT")
     private String version;
-
-    @Column(columnDefinition = "TEXT", name = "subpath")
-    private String subPath;
-
-    @Column(columnDefinition = "TEXT")
-    private String qualifier;
 
     @Column(columnDefinition = "TEXT")
     private String supplier;
@@ -84,7 +74,7 @@ public class Package {
 
     @ManyToMany(cascade = CascadeType.ALL)
     @JoinTable(name = "pkg_license_relp",
-            joinColumns = {@JoinColumn(name = "package_id", foreignKey = @ForeignKey(name = "package_id_fk"))},
+            joinColumns = {@JoinColumn(name = "pkg_id", foreignKey = @ForeignKey(name = "pkg_id_fk"))},
             inverseJoinColumns = {@JoinColumn(name = "license_id", foreignKey = @ForeignKey(name = "license_id_fk"))})
     private Set<License> licenses;
 
@@ -101,7 +91,8 @@ public class Package {
     @JoinColumn(name = "sbom_id", foreignKey = @ForeignKey(name = "sbom_id_fk"))
     private Sbom sbom;
 
-    @OneToOne(mappedBy = "pkg", fetch = FetchType.LAZY, optional = false, cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToOne(mappedBy = "pkg", fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
+    @NotFound(action = NotFoundAction.IGNORE)
     private PkgVerfCode pkgVerfCode;
 
     public UUID getId() {
@@ -120,44 +111,12 @@ public class Package {
         this.name = name;
     }
 
-    public String getNamespace() {
-        return namespace;
-    }
-
-    public void setNamespace(String namespace) {
-        this.namespace = namespace;
-    }
-
-    public String getType() {
-        return type;
-    }
-
-    public void setType(String type) {
-        this.type = type;
-    }
-
     public String getVersion() {
         return version;
     }
 
     public void setVersion(String version) {
         this.version = version;
-    }
-
-    public String getSubPath() {
-        return subPath;
-    }
-
-    public void setSubPath(String subPath) {
-        this.subPath = subPath;
-    }
-
-    public String getQualifier() {
-        return qualifier;
-    }
-
-    public void setQualifier(String qualifier) {
-        this.qualifier = qualifier;
     }
 
     public String getSupplier() {

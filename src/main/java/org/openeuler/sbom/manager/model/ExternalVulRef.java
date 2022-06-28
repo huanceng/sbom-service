@@ -20,7 +20,7 @@ import java.util.UUID;
  */
 @Entity
 @Table(indexes = {
-        @Index(name = "package_vul_uk", columnList = "package_id, vul_id", unique = true)
+        @Index(name = "package_vul_uk", columnList = "pkg_id, vul_id", unique = true)
 })
 public class ExternalVulRef {
     @Id
@@ -54,7 +54,7 @@ public class ExternalVulRef {
     private Vulnerability vulnerability;
 
     @ManyToOne(fetch = FetchType.LAZY, optional = false, cascade = CascadeType.ALL)
-    @JoinColumn(name = "package_id", foreignKey = @ForeignKey(name = "package_id_fk"))
+    @JoinColumn(name = "pkg_id", foreignKey = @ForeignKey(name = "pkg_id_fk"))
     private Package pkg;
 
     public UUID getId() {

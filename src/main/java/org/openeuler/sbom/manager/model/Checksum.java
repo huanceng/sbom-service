@@ -20,8 +20,8 @@ import java.util.UUID;
  */
 @Entity
 @Table(indexes = {
-        @Index(name = "checksum_uk", columnList = "package_id, algorithm, value", unique = true),
-        @Index(name = "package_id_idx", columnList = "package_id")
+        @Index(name = "checksum_uk", columnList = "pkg_id, algorithm, value", unique = true),
+        @Index(name = "pkg_id_idx", columnList = "pkg_id")
 })
 public class Checksum {
     @Id
@@ -42,7 +42,7 @@ public class Checksum {
     private String value;
 
     @ManyToOne(fetch = FetchType.LAZY, optional = false, cascade = CascadeType.ALL)
-    @JoinColumn(name = "package_id", foreignKey = @ForeignKey(name = "package_id_fk"))
+    @JoinColumn(name = "pkg_id", foreignKey = @ForeignKey(name = "pkg_id_fk"))
     private Package pkg;
 
     public UUID getId() {
