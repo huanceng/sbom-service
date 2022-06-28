@@ -1,17 +1,6 @@
 package org.openeuler.sbom.manager.model;
 
-import javax.persistence.CascadeType;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.ForeignKey;
-import javax.persistence.Id;
-import javax.persistence.Index;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
-import javax.persistence.OneToOne;
-import javax.persistence.Table;
+import javax.persistence.*;
 import java.util.List;
 
 @Entity
@@ -142,7 +131,12 @@ public class Sbom {
     }
 
     public void setSbomCreators(List<SbomCreator> sbomCreators) {
-        this.sbomCreators = sbomCreators;
+        if (this.sbomCreators == null) {
+            this.sbomCreators = sbomCreators;
+        } else {
+            this.sbomCreators.clear();
+            this.sbomCreators.addAll(sbomCreators);
+        }
     }
 
     public List<SbomElementRelationship> getSbomElementRelationships() {
