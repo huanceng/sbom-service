@@ -1,5 +1,6 @@
 package org.openeuler.sbom.manager.service.reader.impl.spdx;
 
+import org.openeuler.sbom.manager.constant.SbomConstants;
 import org.openeuler.sbom.manager.dao.ChecksumRepository;
 import org.openeuler.sbom.manager.dao.PackageRepository;
 import org.openeuler.sbom.manager.dao.PkgVerfCodeExcludedFileRepository;
@@ -33,7 +34,7 @@ import java.util.Optional;
 import static org.openeuler.sbom.manager.utils.SbomMapperUtil.fileToExt;
 import static org.openeuler.sbom.manager.utils.SbomMapperUtil.fileToSpec;
 
-@Service
+@Service(value = SbomConstants.SPDX_NAME + SbomConstants.READER_NAME)
 @Transactional(rollbackFor = Exception.class)
 public class SpdxReader implements SbomReader {
 
@@ -62,13 +63,12 @@ public class SpdxReader implements SbomReader {
         byte[] fileContent = fileInputStream.readAllBytes();
         fileInputStream.close();
 
-        SbomSpecification specification = fileToSpec(format, fileContent);
-        read(format, specification, fileContent);
+        read(format, fileContent);
     }
 
     @Override
-    public void read(SbomFormat format, SbomSpecification specification, byte[] fileContent) throws IOException {
-        SpdxDocument document = SbomMapperUtil.readDocument(format, specification, fileContent);
+    public void read(SbomFormat format, byte[] fileContent) throws IOException {
+        SpdxDocument document = SbomMapperUtil.readDocument(format, SbomSpecification.SPDX_2_2.getDocumentClass(), fileContent);
         Sbom sbom = persistSbom(document);
         persistSbomCreators(document, sbom);
         persistPackages(document, sbom);
@@ -82,7 +82,7 @@ public class SpdxReader implements SbomReader {
         sbom.setLicenseListVersion(document.creationInfo().licenseListVersion());
         sbom.setName(document.name());
         sbom.setNamespace(document.documentNamespace());
-        sbom.setSpec("SPDX");
+        sbom.setSpec(SbomConstants.SPDX_NAME);
         sbom.setSpecVersion(document.spdxVersion().substring(document.spdxVersion().lastIndexOf("-") + 1));
         return sbomRepository.save(sbom);
     }

@@ -1,6 +1,7 @@
 package org.openeuler.sbom.manager.service.impl;
 
 import org.apache.commons.lang3.StringUtils;
+import org.openeuler.sbom.manager.SbomApplicationContextHolder;
 import org.openeuler.sbom.manager.dao.RawSbomRepository;
 import org.openeuler.sbom.manager.model.RawSbom;
 import org.openeuler.sbom.manager.service.SbomService;
@@ -23,9 +24,6 @@ public class SbomServiceImpl implements SbomService {
     @Autowired
     private RawSbomRepository sbomFileRepository;
 
-    @Autowired
-    private SbomReader sbomReader;
-
     @Override
     // TODO 后续把productName换成productID
     public void readSbomFile(String productName, String fileName, byte[] fileContent) throws IOException {
@@ -46,7 +44,8 @@ public class SbomServiceImpl implements SbomService {
         }
         sbomFileRepository.save(rawSbom);
 
-        sbomReader.read(format, specification, fileContent);
+        SbomReader sbomReader = SbomApplicationContextHolder.getSbomReader(specification.getSpecification());
+        sbomReader.read(format, fileContent);
     }
 
     @Override
