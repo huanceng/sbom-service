@@ -32,7 +32,7 @@ public class PurlQualifier {
     @Column(columnDefinition = "TEXT", nullable = false)
     private String value;
 
-    @ManyToOne(fetch = FetchType.LAZY, optional = false, cascade = CascadeType.ALL)
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "purl_id", foreignKey = @ForeignKey(name = "purl_id_fk"))
     private Purl purl;
 

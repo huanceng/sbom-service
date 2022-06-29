@@ -4,11 +4,13 @@ import org.junit.jupiter.api.MethodOrderer;
 import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestMethodOrder;
+import org.openeuler.sbom.manager.dao.ChecksumRepository;
 import org.openeuler.sbom.manager.dao.PackageRepository;
 import org.openeuler.sbom.manager.dao.PkgVerfCodeExcludedFileRepository;
 import org.openeuler.sbom.manager.dao.PkgVerfCodeRepository;
 import org.openeuler.sbom.manager.dao.SbomCreatorRepository;
 import org.openeuler.sbom.manager.dao.SbomRepository;
+import org.openeuler.sbom.manager.model.Checksum;
 import org.openeuler.sbom.manager.model.Package;
 import org.openeuler.sbom.manager.model.PkgVerfCode;
 import org.openeuler.sbom.manager.model.PkgVerfCodeExcludedFile;
@@ -47,6 +49,9 @@ class SpdxReaderTest {
     @Autowired
     private PkgVerfCodeExcludedFileRepository pkgVerfCodeExcludedFileRepository;
 
+    @Autowired
+    private ChecksumRepository checksumRepository;
+
 //    @Test
 //    @Order(1)
 //    public void setup() {
@@ -65,12 +70,25 @@ class SpdxReaderTest {
         functionBody();
     }
 
+    @Test
+    @Order(4)
+    public void deleteSbom() {
+        sbomRepository.deleteAll();
+        assertThat(sbomRepository.findAll().size()).isEqualTo(0);
+        assertThat(sbomCreatorRepository.findAll().size()).isEqualTo(0);
+        assertThat(packageRepository.findAll().size()).isEqualTo(0);
+        assertThat(pkgVerfCodeRepository.findAll().size()).isEqualTo(0);
+        assertThat(pkgVerfCodeExcludedFileRepository.findAll().size()).isEqualTo(0);
+        assertThat(checksumRepository.findAll().size()).isEqualTo(0);
+    }
+
     private void cleanDb() {
         sbomRepository.deleteAll();
         sbomCreatorRepository.deleteAll();
         packageRepository.deleteAll();
         pkgVerfCodeRepository.deleteAll();
         pkgVerfCodeExcludedFileRepository.deleteAll();
+        checksumRepository.deleteAll();
     }
 
     private void functionBody() throws IOException {
@@ -99,5 +117,10 @@ class SpdxReaderTest {
 
         List<PkgVerfCodeExcludedFile> pkgVerfCodeExcludedFiles = pkgVerfCodeExcludedFileRepository.findAll();
         assertThat(pkgVerfCodeExcludedFiles.size()).isEqualTo(2);
+
+        List<Checksum> checksums = checksumRepository.findAll();
+        assertThat(checksums.size()).isEqualTo(1);
+        assertThat(checksums.get(0).getAlgorithm()).isEqualTo("SHA256");
+        assertThat(checksums.get(0).getValue()).isEqualTo("b5dcc8da8a08e73dc2acdf1b1c4b06ca0bab0db5d9da9417c2841c1d6872c126");
     }
 }

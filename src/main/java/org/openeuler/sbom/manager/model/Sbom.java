@@ -39,7 +39,7 @@ public class Sbom {
     @Column(columnDefinition = "TEXT", name = "license_list_version")
     private String licenseListVersion;
 
-//    @ManyToOne(fetch = FetchType.LAZY, optional = false, cascade = CascadeType.ALL)
+//    @ManyToOne(fetch = FetchType.LAZY, optional = false)
 //    @JoinColumn(name = "product_id", foreignKey = @ForeignKey(name = "product_id_fk"))
 //    private Product product;
 

@@ -28,7 +28,7 @@ public class PkgVerfCodeExcludedFile {
     @Column(columnDefinition = "TEXT", nullable = false)
     private String file;
 
-    @ManyToOne(fetch = FetchType.LAZY, optional = false, cascade = CascadeType.ALL)
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "pkg_verf_code_id", foreignKey = @ForeignKey(name = "pkg_verf_code_id_fk"))
     private PkgVerfCode pkgVerfCode;
 

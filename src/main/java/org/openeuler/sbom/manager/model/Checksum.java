@@ -41,7 +41,7 @@ public class Checksum {
     @Column(columnDefinition = "TEXT", nullable = false)
     private String value;
 
-    @ManyToOne(fetch = FetchType.LAZY, optional = false, cascade = CascadeType.ALL)
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "pkg_id", foreignKey = @ForeignKey(name = "pkg_id_fk"))
     private Package pkg;
 

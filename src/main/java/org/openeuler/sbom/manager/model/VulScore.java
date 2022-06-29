@@ -34,7 +34,7 @@ public class VulScore {
     @Column(columnDefinition = "TEXT", nullable = false)
     private String vector;
 
-    @ManyToOne(fetch = FetchType.LAZY, optional = false, cascade = CascadeType.ALL)
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "vul_id", foreignKey = @ForeignKey(name = "vul_id_fk"))
     private Vulnerability vulnerability;
 

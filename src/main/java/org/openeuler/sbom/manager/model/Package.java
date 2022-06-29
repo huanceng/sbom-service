@@ -72,7 +72,7 @@ public class Package {
     @Column(columnDefinition = "TEXT", name = "source_info")
     private String sourceInfo;
 
-    @ManyToMany(cascade = CascadeType.ALL)
+    @ManyToMany
     @JoinTable(name = "pkg_license_relp",
             joinColumns = {@JoinColumn(name = "pkg_id", foreignKey = @ForeignKey(name = "pkg_id_fk"))},
             inverseJoinColumns = {@JoinColumn(name = "license_id", foreignKey = @ForeignKey(name = "license_id_fk"))})
@@ -87,7 +87,7 @@ public class Package {
     @OneToMany(mappedBy = "pkg", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<ExternalPurlRef> externalPurlRefs;
 
-    @ManyToOne(fetch = FetchType.LAZY, optional = false, cascade = CascadeType.ALL)
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "sbom_id", foreignKey = @ForeignKey(name = "sbom_id_fk"))
     private Sbom sbom;
 

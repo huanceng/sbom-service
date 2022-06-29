@@ -44,7 +44,7 @@ public class Purl {
     @OneToMany(mappedBy = "purl", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<PurlQualifier> purlQualifiers;
 
-    @OneToMany(mappedBy = "purl", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "purl", orphanRemoval = true)
     private List<ExternalPurlRef> externalPurlRefs;
 
     public UUID getId() {

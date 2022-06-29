@@ -28,7 +28,7 @@ public class SbomCreator {
     @Column(columnDefinition = "TEXT", nullable = false)
     private String name;
 
-    @ManyToOne(fetch = FetchType.LAZY, optional = false, cascade = CascadeType.ALL)
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "sbom_id", foreignKey = @ForeignKey(name = "sbom_id_fk"))
     private Sbom sbom;
 

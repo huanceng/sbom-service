@@ -30,7 +30,7 @@ public class PkgVerfCode {
     @Column(columnDefinition = "TEXT", nullable = false)
     private String value;
 
-    @OneToOne(fetch = FetchType.LAZY, optional = false, cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "pkg_id", foreignKey = @ForeignKey(name = "pkg_id_fk"))
     private Package pkg;
 
