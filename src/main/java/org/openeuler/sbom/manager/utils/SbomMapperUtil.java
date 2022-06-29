@@ -12,18 +12,18 @@ import java.util.HashMap;
 public class SbomMapperUtil {
 
     @SuppressWarnings("unchecked")
-    public static <T> T readDocument(SbomFormat format, SbomSpecification specification, byte[] fileContent) throws IOException {
+    public static <T> T readDocument(SbomFormat format, Class<?> documentClass, byte[] fileContent) throws IOException {
         if (format == SbomFormat.JSON) {
-            return fromJson(fileContent, (Class<T>) specification.getDocumentClass());
+            return fromJson(fileContent, (Class<T>) documentClass);
         }
         if (format == SbomFormat.XML) {
-            return fromXml(fileContent, (Class<T>) specification.getDocumentClass());
+            return fromXml(fileContent, (Class<T>) documentClass);
         }
         if (format == SbomFormat.YAML) {
-            return fromYaml(fileContent, (Class<T>) specification.getDocumentClass());
+            return fromYaml(fileContent, (Class<T>) documentClass);
         }
         if (format == SbomFormat.RDF) {
-            return fromRdf(fileContent, (Class<T>) specification.getDocumentClass());
+            return fromRdf(fileContent, (Class<T>) documentClass);
         }
         throw new RuntimeException("invalid sbom file format %s".formatted(format.name()));
     }
