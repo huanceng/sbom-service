@@ -1,9 +1,11 @@
 package org.openeuler.sbom.manager.service.reader.impl.spdx;
 
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.MethodOrderer;
 import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestMethodOrder;
+import org.openeuler.sbom.manager.constant.SbomConstants;
 import org.openeuler.sbom.manager.dao.ChecksumRepository;
 import org.openeuler.sbom.manager.dao.PackageRepository;
 import org.openeuler.sbom.manager.dao.PkgVerfCodeExcludedFileRepository;
@@ -17,6 +19,7 @@ import org.openeuler.sbom.manager.model.PkgVerfCodeExcludedFile;
 import org.openeuler.sbom.manager.model.Sbom;
 import org.openeuler.sbom.manager.model.SbomCreator;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.core.io.ClassPathResource;
 
@@ -32,6 +35,7 @@ class SpdxReaderTest {
     private static final String SAMPLE_UPLOAD_FILE_NAME = "sample/sample-spdx.json";
 
     @Autowired
+    @Qualifier(SbomConstants.SPDX_NAME + SbomConstants.READER_NAME)
     private SpdxReader spdxReader;
 
     @Autowired
@@ -52,11 +56,12 @@ class SpdxReaderTest {
     @Autowired
     private ChecksumRepository checksumRepository;
 
-//    @Test
-//    @Order(1)
-//    public void setup() {
-//        cleanDb();
-//    }
+    @Test
+    @Disabled
+    @Order(1)
+    public void setup() {
+        cleanDb();
+    }
 
     @Test
     @Order(2)
