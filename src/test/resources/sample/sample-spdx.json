@@ -35,7 +35,7 @@
     "copyrightText" : "NONE",
     "downloadLocation" : "https://files.pythonhosted.org/packages/16/d5/b0ad240c22bba2f4591693b0ca43aae94fbd77fb1e2b107d54fff1462b6f/asttokens-2.0.5-py2.py3-none-any.whl",
     "externalRefs" : [ {
-      "referenceCategory" : "PACKAGE_MANAGER",
+      "referenceCategory" : "PROVIDE_MANAGER",
       "referenceType" : "purl",
       "referenceLocator" : "pkg:pypi/asttokens@2.0.5"
     } ],
@@ -48,6 +48,12 @@
     "versionInfo" : "2.0.5"
   }, {
     "SPDXID" : "SPDXRef-Package-PyPI-asttokens-2.0.5-vcs",
+    "checksums": [
+      {
+        "algorithm": "SHA256",
+        "checksumValue": "b5dcc8da8a08e73dc2acdf1b1c4b06ca0bab0db5d9da9417c2841c1d6872c126"
+      }
+    ],
     "copyrightText" : "NONE",
     "downloadLocation" : "git+https://github.com/gristlabs/asttokens.git",
     "externalRefs" : [ {

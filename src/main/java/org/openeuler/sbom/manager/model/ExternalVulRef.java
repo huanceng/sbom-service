@@ -49,11 +49,11 @@ public class ExternalVulRef {
     /**
      * Foreign key that refers to a vulnerability id.
      */
-    @ManyToOne(fetch = FetchType.LAZY, optional = false, cascade = CascadeType.ALL)
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "vul_id", foreignKey = @ForeignKey(name = "vul_id_fk"))
     private Vulnerability vulnerability;
 
-    @ManyToOne(fetch = FetchType.LAZY, optional = false, cascade = CascadeType.ALL)
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "pkg_id", foreignKey = @ForeignKey(name = "pkg_id_fk"))
     private Package pkg;
 

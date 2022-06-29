@@ -47,11 +47,11 @@ public class ExternalPurlRef {
     /**
      * Foreign key that refers to a purl id.
      */
-    @ManyToOne(fetch = FetchType.LAZY, optional = false, cascade = CascadeType.ALL)
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "purl_id", foreignKey = @ForeignKey(name = "purl_id_fk"))
     private Purl purl;
 
-    @ManyToOne(fetch = FetchType.LAZY, optional = false, cascade = CascadeType.ALL)
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "pkg_id", foreignKey = @ForeignKey(name = "pkg_id_fk"))
     private Package pkg;
 

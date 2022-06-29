@@ -1,7 +1,7 @@
 package org.openeuler.sbom.manager.utils;
 
 import org.apache.commons.lang3.StringUtils;
-import org.ossreviewtoolkit.utils.spdx.model.SpdxDocument;
+import org.openeuler.sbom.manager.model.spdx.SpdxDocument;
 
 public enum SbomSpecification {
     SPDX_2_2("SPDX", "2.2", SpdxDocument.class),
