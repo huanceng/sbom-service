@@ -5,6 +5,7 @@ import com.github.packageurl.PackageURL;
 import org.openeuler.sbom.manager.constant.SbomConstants;
 import org.openeuler.sbom.manager.dao.ChecksumRepository;
 import org.openeuler.sbom.manager.dao.ExternalPurlRefRepository;
+import org.openeuler.sbom.manager.dao.ExternalVulRefRepository;
 import org.openeuler.sbom.manager.dao.PackageRepository;
 import org.openeuler.sbom.manager.dao.PkgVerfCodeExcludedFileRepository;
 import org.openeuler.sbom.manager.dao.PkgVerfCodeRepository;
@@ -12,8 +13,10 @@ import org.openeuler.sbom.manager.dao.PurlQualifierRepository;
 import org.openeuler.sbom.manager.dao.PurlRepository;
 import org.openeuler.sbom.manager.dao.SbomCreatorRepository;
 import org.openeuler.sbom.manager.dao.SbomRepository;
+import org.openeuler.sbom.manager.dao.VulnerabilityRepository;
 import org.openeuler.sbom.manager.model.Checksum;
 import org.openeuler.sbom.manager.model.ExternalPurlRef;
+import org.openeuler.sbom.manager.model.ExternalVulRef;
 import org.openeuler.sbom.manager.model.Package;
 import org.openeuler.sbom.manager.model.PkgVerfCode;
 import org.openeuler.sbom.manager.model.PkgVerfCodeExcludedFile;
@@ -21,6 +24,8 @@ import org.openeuler.sbom.manager.model.Purl;
 import org.openeuler.sbom.manager.model.PurlQualifier;
 import org.openeuler.sbom.manager.model.Sbom;
 import org.openeuler.sbom.manager.model.SbomCreator;
+import org.openeuler.sbom.manager.model.VulStatus;
+import org.openeuler.sbom.manager.model.Vulnerability;
 import org.openeuler.sbom.manager.model.spdx.ReferenceType;
 import org.openeuler.sbom.manager.model.spdx.SpdxDocument;
 import org.openeuler.sbom.manager.model.spdx.SpdxPackage;
@@ -78,6 +83,12 @@ public class SpdxReader implements SbomReader {
     @Autowired
     private PurlQualifierRepository purlQualifierRepository;
 
+    @Autowired
+    private VulnerabilityRepository vulnerabilityRepository;
+
+    @Autowired
+    private ExternalVulRefRepository externalVulRefRepository;
+
     @Override
     public void read(File file) throws IOException {
         SbomFormat format = fileToExt(file.getName());
@@ -104,8 +115,6 @@ public class SpdxReader implements SbomReader {
         sbom.setLicenseListVersion(document.creationInfo().licenseListVersion());
         sbom.setName(document.name());
         sbom.setNamespace(document.documentNamespace());
-        sbom.setSpec(SbomConstants.SPDX_NAME);
-        sbom.setSpecVersion(document.spdxVersion().substring(document.spdxVersion().lastIndexOf("-") + 1));
         return sbomRepository.save(sbom);
     }
 
@@ -213,6 +222,7 @@ public class SpdxReader implements SbomReader {
         }
 
         List<ExternalPurlRef> externalPurlRefs = new ArrayList<>();
+        List<ExternalVulRef> externalVulRefs = new ArrayList<>();
         spdxPackage.externalRefs().forEach(it -> {
             if (it.referenceType() == ReferenceType.PURL) {
                 Purl purl = persistPurl(it.referenceLocator());
@@ -225,9 +235,24 @@ public class SpdxReader implements SbomReader {
                 externalPurlRef.setPurl(purl);
                 externalPurlRef.setPkg(pkg);
                 externalPurlRefs.add(externalPurlRef);
+            } else if (it.referenceType() == ReferenceType.CVE) {
+                Vulnerability vulnerability = vulnerabilityRepository.findById(it.referenceLocator()).orElse(null);
+                if (Objects.nonNull(vulnerability)) {
+                    ExternalVulRef externalVulRef = Optional
+                            .ofNullable(externalVulRefRepository.findByPkgIdAndVulId(pkg.getId(), vulnerability.getVulId()))
+                            .orElse(new ExternalVulRef());
+                    externalVulRef.setCategory(it.referenceCategory().name());
+                    externalVulRef.setType(it.referenceType().getType());
+                    externalVulRef.setComment(it.comment());
+                    externalVulRef.setStatus(VulStatus.AFFECTED.name());
+                    externalVulRef.setVulnerability(vulnerability);
+                    externalVulRef.setPkg(pkg);
+                    externalVulRefs.add(externalVulRef);
+                }
             }
         });
         externalPurlRefRepository.saveAll(externalPurlRefs);
+        externalVulRefRepository.saveAll(externalVulRefs);
     }
 
     private Purl persistPurl(String purlStr) {

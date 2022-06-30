@@ -91,6 +91,7 @@ class SpdxReaderTest {
     }
 
     @Test
+    @Disabled
     @Order(4)
     public void deleteSbom() {
         sbomRepository.deleteAll();
