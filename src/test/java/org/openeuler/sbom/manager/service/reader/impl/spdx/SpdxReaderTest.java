@@ -7,15 +7,21 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestMethodOrder;
 import org.openeuler.sbom.manager.constant.SbomConstants;
 import org.openeuler.sbom.manager.dao.ChecksumRepository;
+import org.openeuler.sbom.manager.dao.ExternalPurlRefRepository;
 import org.openeuler.sbom.manager.dao.PackageRepository;
 import org.openeuler.sbom.manager.dao.PkgVerfCodeExcludedFileRepository;
 import org.openeuler.sbom.manager.dao.PkgVerfCodeRepository;
+import org.openeuler.sbom.manager.dao.PurlQualifierRepository;
+import org.openeuler.sbom.manager.dao.PurlRepository;
 import org.openeuler.sbom.manager.dao.SbomCreatorRepository;
 import org.openeuler.sbom.manager.dao.SbomRepository;
 import org.openeuler.sbom.manager.model.Checksum;
+import org.openeuler.sbom.manager.model.ExternalPurlRef;
 import org.openeuler.sbom.manager.model.Package;
 import org.openeuler.sbom.manager.model.PkgVerfCode;
 import org.openeuler.sbom.manager.model.PkgVerfCodeExcludedFile;
+import org.openeuler.sbom.manager.model.Purl;
+import org.openeuler.sbom.manager.model.PurlQualifier;
 import org.openeuler.sbom.manager.model.Sbom;
 import org.openeuler.sbom.manager.model.SbomCreator;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -56,8 +62,17 @@ class SpdxReaderTest {
     @Autowired
     private ChecksumRepository checksumRepository;
 
+    @Autowired
+    private ExternalPurlRefRepository externalPurlRefRepository;
+
+    @Autowired
+    private PurlRepository purlRepository;
+
+    @Autowired
+    private PurlQualifierRepository purlQualifierRepository;
+
     @Test
-    @Disabled
+//    @Disabled
     @Order(1)
     public void setup() {
         cleanDb();
@@ -85,6 +100,9 @@ class SpdxReaderTest {
         assertThat(pkgVerfCodeRepository.findAll().size()).isEqualTo(0);
         assertThat(pkgVerfCodeExcludedFileRepository.findAll().size()).isEqualTo(0);
         assertThat(checksumRepository.findAll().size()).isEqualTo(0);
+        assertThat(externalPurlRefRepository.findAll().size()).isEqualTo(0);
+        assertThat(purlRepository.findAll().size()).isEqualTo(36);
+        assertThat(purlQualifierRepository.findAll().size()).isEqualTo(2);
     }
 
     private void cleanDb() {
@@ -94,6 +112,9 @@ class SpdxReaderTest {
         pkgVerfCodeRepository.deleteAll();
         pkgVerfCodeExcludedFileRepository.deleteAll();
         checksumRepository.deleteAll();
+        externalPurlRefRepository.deleteAll();
+        purlRepository.deleteAll();
+        purlQualifierRepository.deleteAll();
     }
 
     private void functionBody() throws IOException {
@@ -127,5 +148,14 @@ class SpdxReaderTest {
         assertThat(checksums.size()).isEqualTo(1);
         assertThat(checksums.get(0).getAlgorithm()).isEqualTo("SHA256");
         assertThat(checksums.get(0).getValue()).isEqualTo("b5dcc8da8a08e73dc2acdf1b1c4b06ca0bab0db5d9da9417c2841c1d6872c126");
+
+        List<ExternalPurlRef> externalPurlRefs = externalPurlRefRepository.findAll();
+        assertThat(externalPurlRefs.size()).isEqualTo(76);
+
+        List<Purl> purls = purlRepository.findAll();
+        assertThat(purls.size()).isEqualTo(36);
+
+        List<PurlQualifier> purlQualifiers = purlQualifierRepository.findAll();
+        assertThat(purlQualifiers.size()).isEqualTo(2);
     }
 }

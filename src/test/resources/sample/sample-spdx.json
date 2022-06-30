@@ -529,7 +529,7 @@
     "externalRefs" : [ {
       "referenceCategory" : "PACKAGE_MANAGER",
       "referenceType" : "purl",
-      "referenceLocator" : "pkg:github/akg@1.7.0"
+      "referenceLocator" : "pkg:gitee/mindspore/akg@1.7.0?x=y&a=b#subpath"
     } ],
     "filesAnalyzed" : false,
     "homepage" : "NONE",

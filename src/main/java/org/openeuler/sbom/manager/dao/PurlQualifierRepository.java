@@ -6,4 +6,5 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import java.util.UUID;
 
 public interface PurlQualifierRepository extends JpaRepository<PurlQualifier, UUID> {
+    PurlQualifier findByPurlIdAndKeyAndValue(UUID purlId, String key, String value);
 }

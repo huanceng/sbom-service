@@ -9,6 +9,7 @@ version = "1.0-SNAPSHOT"
 
 val commonsIoVersion: String by project
 val commonsLang3Version: String by project
+val packageUrlJavaVersion: String by project
 
 dependencies {
     implementation(project(":analyzer"))
@@ -22,6 +23,7 @@ dependencies {
     implementation("com.fasterxml.jackson.core:jackson-databind")
     implementation("org.apache.commons:commons-lang3:$commonsLang3Version")
     implementation("commons-io:commons-io:$commonsIoVersion")
+    implementation("com.github.package-url:packageurl-java:$packageUrlJavaVersion")
     runtimeOnly("org.postgresql:postgresql")
 
     testImplementation("org.springframework.boot:spring-boot-starter-test")

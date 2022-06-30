@@ -7,6 +7,8 @@ public enum ReferenceType {
 
     CPE_23_TYPE("cpe23Type"),
 
+    CVE("cve"),
+
     BOWER("bower"),
 
     MAVEN_CENTRAL("maven-central"),
@@ -19,14 +21,14 @@ public enum ReferenceType {
 
     SOFTWARE_HERITAGE("swh");
 
-    private final String name;
+    private final String type;
 
-    ReferenceType(String name) {
-        this.name = name;
+    ReferenceType(String type) {
+        this.type = type;
     }
 
     @JsonValue
-    public String getName() {
-        return name;
+    public String getType() {
+        return type;
     }
 }
