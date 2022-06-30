@@ -7,6 +7,7 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.Index;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import java.util.List;
@@ -16,8 +17,18 @@ import java.util.UUID;
  * Describes a sbom document.
  */
 @Entity
-@Table
+@Table(indexes = {
+        @Index(name = "product_id_uk", columnList = "product_id", unique = true)
+})
 public class Sbom {
+
+    public Sbom() {
+    }
+
+    public Sbom(String productId) {
+        this.productId = productId;
+    }
+
     @Id
     @GeneratedValue(generator = "UUID")
     @GenericGenerator(name = "UUID", strategy = "org.hibernate.id.UUIDGenerator")
@@ -55,9 +66,11 @@ public class Sbom {
     @Column(columnDefinition = "TEXT", name = "license_list_version")
     private String licenseListVersion;
 
-//    @OneToOne(fetch = FetchType.LAZY, optional = false)
-//    @JoinColumn(name = "product_id", foreignKey = @ForeignKey(name = "product_id_fk"))
-//    private Product product;
+    // @OneToOne(fetch = FetchType.LAZY, optional = false)
+    // @JoinColumn(name = "product_id", foreignKey = @ForeignKey(name = "product_id_fk"))
+    // private Product product;
+    @Column(columnDefinition = "TEXT", name = "product_id")
+    private String productId;
 
     /**
      * Packages referred in a sbom document.
@@ -132,6 +145,14 @@ public class Sbom {
 //    public void setProduct(Product product) {
 //        this.product = product;
 //    }
+
+    public String getProductId() {
+        return productId;
+    }
+
+    public void setProductId(String productId) {
+        this.productId = productId;
+    }
 
     public List<Package> getPackages() {
         return packages;

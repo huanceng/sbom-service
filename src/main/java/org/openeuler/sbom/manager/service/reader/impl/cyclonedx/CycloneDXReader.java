@@ -14,12 +14,12 @@ import java.io.IOException;
 @Transactional(rollbackFor = Exception.class)
 public class CycloneDXReader implements SbomReader {
     @Override
-    public void read(File file) throws IOException {
+    public void read(String productId, File file) throws IOException {
 
     }
 
     @Override
-    public void read(SbomFormat format, byte[] fileContent) throws IOException {
+    public void read(String productId, SbomFormat format, byte[] fileContent) throws IOException {
 
     }
 }

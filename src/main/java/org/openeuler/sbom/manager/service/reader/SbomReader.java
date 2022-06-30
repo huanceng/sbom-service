@@ -7,7 +7,7 @@ import java.io.IOException;
 
 public interface SbomReader {
 
-    void read(File file) throws IOException;
+    void read(String productId, File file) throws IOException;
 
-    void read(SbomFormat format, byte[] fileContent) throws IOException;
+    void read(String productId, SbomFormat format, byte[] fileContent) throws IOException;
 }
