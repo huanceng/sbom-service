@@ -12,6 +12,7 @@ import org.openeuler.sbom.manager.dao.PkgVerfCodeRepository;
 import org.openeuler.sbom.manager.dao.PurlQualifierRepository;
 import org.openeuler.sbom.manager.dao.PurlRepository;
 import org.openeuler.sbom.manager.dao.SbomCreatorRepository;
+import org.openeuler.sbom.manager.dao.SbomElementRelationshipRepository;
 import org.openeuler.sbom.manager.dao.SbomRepository;
 import org.openeuler.sbom.manager.dao.VulnerabilityRepository;
 import org.openeuler.sbom.manager.model.Checksum;
@@ -24,11 +25,13 @@ import org.openeuler.sbom.manager.model.Purl;
 import org.openeuler.sbom.manager.model.PurlQualifier;
 import org.openeuler.sbom.manager.model.Sbom;
 import org.openeuler.sbom.manager.model.SbomCreator;
+import org.openeuler.sbom.manager.model.SbomElementRelationship;
 import org.openeuler.sbom.manager.model.VulStatus;
 import org.openeuler.sbom.manager.model.Vulnerability;
 import org.openeuler.sbom.manager.model.spdx.ReferenceType;
 import org.openeuler.sbom.manager.model.spdx.SpdxDocument;
 import org.openeuler.sbom.manager.model.spdx.SpdxPackage;
+import org.openeuler.sbom.manager.model.spdx.SpdxRelationship;
 import org.openeuler.sbom.manager.service.reader.SbomReader;
 import org.openeuler.sbom.manager.utils.SbomFormat;
 import org.openeuler.sbom.manager.utils.SbomMapperUtil;
@@ -61,6 +64,9 @@ public class SpdxReader implements SbomReader {
 
     @Autowired
     private SbomCreatorRepository sbomCreatorRepository;
+
+    @Autowired
+    private SbomElementRelationshipRepository sbomElementRelationshipRepository;
 
     @Autowired
     private PackageRepository packageRepository;
@@ -104,6 +110,7 @@ public class SpdxReader implements SbomReader {
         SpdxDocument document = SbomMapperUtil.readDocument(format, SbomSpecification.SPDX_2_2.getDocumentClass(), fileContent);
         Sbom sbom = persistSbom(document);
         persistSbomCreators(document, sbom);
+        persistSbomElementRelationship(document, sbom);
         persistPackages(document, sbom);
     }
 
@@ -133,6 +140,27 @@ public class SpdxReader implements SbomReader {
             sbomCreators.add(sbomCreator);
         });
         sbomCreatorRepository.saveAll(sbomCreators);
+    }
+
+    private void persistSbomElementRelationship(SpdxDocument document, Sbom sbom) {
+        if (Objects.isNull(document.relationships())) {
+            return;
+        }
+
+        List<SbomElementRelationship> sbomElementRelationships = new ArrayList<>();
+        document.relationships().forEach(it -> {
+            SbomElementRelationship sbomElementRelationship = Optional
+                    .ofNullable(sbomElementRelationshipRepository.findUniqueItem(
+                            sbom.getId(), it.spdxElementId(), it.relatedSpdxElement(), it.relationshipType().name()))
+                    .orElse(new SbomElementRelationship());
+            sbomElementRelationship.setElementId(it.spdxElementId());
+            sbomElementRelationship.setRelatedElementId(it.relatedSpdxElement());
+            sbomElementRelationship.setRelationshipType(it.relationshipType().name());
+            sbomElementRelationship.setComment(it.comment());
+            sbomElementRelationship.setSbom(sbom);
+            sbomElementRelationships.add(sbomElementRelationship);
+        });
+        sbomElementRelationshipRepository.saveAll(sbomElementRelationships);
     }
 
     private void persistPackages(SpdxDocument document, Sbom sbom) {
@@ -244,7 +272,7 @@ public class SpdxReader implements SbomReader {
                     externalVulRef.setCategory(it.referenceCategory().name());
                     externalVulRef.setType(it.referenceType().getType());
                     externalVulRef.setComment(it.comment());
-                    externalVulRef.setStatus(VulStatus.AFFECTED.name());
+                    externalVulRef.setStatus(Optional.ofNullable(externalVulRef.getStatus()).orElse(VulStatus.AFFECTED.name()));
                     externalVulRef.setVulnerability(vulnerability);
                     externalVulRef.setPkg(pkg);
                     externalVulRefs.add(externalVulRef);

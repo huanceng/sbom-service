@@ -1,6 +1,5 @@
 package org.openeuler.sbom.manager.service.reader.impl.spdx;
 
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.MethodOrderer;
 import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
@@ -8,15 +7,19 @@ import org.junit.jupiter.api.TestMethodOrder;
 import org.openeuler.sbom.manager.constant.SbomConstants;
 import org.openeuler.sbom.manager.dao.ChecksumRepository;
 import org.openeuler.sbom.manager.dao.ExternalPurlRefRepository;
+import org.openeuler.sbom.manager.dao.ExternalVulRefRepository;
 import org.openeuler.sbom.manager.dao.PackageRepository;
 import org.openeuler.sbom.manager.dao.PkgVerfCodeExcludedFileRepository;
 import org.openeuler.sbom.manager.dao.PkgVerfCodeRepository;
 import org.openeuler.sbom.manager.dao.PurlQualifierRepository;
 import org.openeuler.sbom.manager.dao.PurlRepository;
 import org.openeuler.sbom.manager.dao.SbomCreatorRepository;
+import org.openeuler.sbom.manager.dao.SbomElementRelationshipRepository;
 import org.openeuler.sbom.manager.dao.SbomRepository;
+import org.openeuler.sbom.manager.dao.VulnerabilityRepository;
 import org.openeuler.sbom.manager.model.Checksum;
 import org.openeuler.sbom.manager.model.ExternalPurlRef;
+import org.openeuler.sbom.manager.model.ExternalVulRef;
 import org.openeuler.sbom.manager.model.Package;
 import org.openeuler.sbom.manager.model.PkgVerfCode;
 import org.openeuler.sbom.manager.model.PkgVerfCodeExcludedFile;
@@ -24,6 +27,8 @@ import org.openeuler.sbom.manager.model.Purl;
 import org.openeuler.sbom.manager.model.PurlQualifier;
 import org.openeuler.sbom.manager.model.Sbom;
 import org.openeuler.sbom.manager.model.SbomCreator;
+import org.openeuler.sbom.manager.model.SbomElementRelationship;
+import org.openeuler.sbom.manager.model.Vulnerability;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -51,6 +56,9 @@ class SpdxReaderTest {
     private SbomCreatorRepository sbomCreatorRepository;
 
     @Autowired
+    private SbomElementRelationshipRepository sbomElementRelationshipRepository;
+
+    @Autowired
     private PackageRepository packageRepository;
 
     @Autowired
@@ -71,8 +79,13 @@ class SpdxReaderTest {
     @Autowired
     private PurlQualifierRepository purlQualifierRepository;
 
+    @Autowired
+    private VulnerabilityRepository vulnerabilityRepository;
+
+    @Autowired
+    private ExternalVulRefRepository externalVulRefRepository;
+
     @Test
-//    @Disabled
     @Order(1)
     public void setup() {
         cleanDb();
@@ -91,12 +104,12 @@ class SpdxReaderTest {
     }
 
     @Test
-    @Disabled
     @Order(4)
     public void deleteSbom() {
         sbomRepository.deleteAll();
         assertThat(sbomRepository.findAll().size()).isEqualTo(0);
         assertThat(sbomCreatorRepository.findAll().size()).isEqualTo(0);
+        assertThat(sbomElementRelationshipRepository.findAll().size()).isEqualTo(0);
         assertThat(packageRepository.findAll().size()).isEqualTo(0);
         assertThat(pkgVerfCodeRepository.findAll().size()).isEqualTo(0);
         assertThat(pkgVerfCodeExcludedFileRepository.findAll().size()).isEqualTo(0);
@@ -104,11 +117,14 @@ class SpdxReaderTest {
         assertThat(externalPurlRefRepository.findAll().size()).isEqualTo(0);
         assertThat(purlRepository.findAll().size()).isEqualTo(36);
         assertThat(purlQualifierRepository.findAll().size()).isEqualTo(2);
+        assertThat(vulnerabilityRepository.findAll().size()).isEqualTo(1);
+        assertThat(externalVulRefRepository.findAll().size()).isEqualTo(0);
     }
 
     private void cleanDb() {
         sbomRepository.deleteAll();
         sbomCreatorRepository.deleteAll();
+        sbomElementRelationshipRepository.deleteAll();
         packageRepository.deleteAll();
         pkgVerfCodeRepository.deleteAll();
         pkgVerfCodeExcludedFileRepository.deleteAll();
@@ -116,9 +132,16 @@ class SpdxReaderTest {
         externalPurlRefRepository.deleteAll();
         purlRepository.deleteAll();
         purlQualifierRepository.deleteAll();
+        vulnerabilityRepository.deleteAll();
+        externalVulRefRepository.deleteAll();
     }
 
     private void functionBody() throws IOException {
+        Vulnerability vulnerability = vulnerabilityRepository.findById("cve-2022-00000").orElse(new Vulnerability());
+        vulnerability.setVulId("cve-2022-00000");
+        vulnerability.setType("cve");
+        vulnerabilityRepository.save(vulnerability);
+
         spdxReader.read(new ClassPathResource(SAMPLE_UPLOAD_FILE_NAME).getFile());
 
         List<Sbom> sboms = sbomRepository.findAll();
@@ -129,6 +152,9 @@ class SpdxReaderTest {
         assertThat(sbomCreators.size()).isEqualTo(1);
         assertThat(sbomCreators.get(0).getSbom().getId()).isEqualTo("SPDXRef-DOCUMENT");
         assertThat(sbomCreators.get(0).getName()).isEqualTo("Tool: OSS Review Toolkit - e5b343ff71-dirty");
+
+        List<SbomElementRelationship> sbomElementRelationships = sbomElementRelationshipRepository.findAll();
+        assertThat(sbomElementRelationships.size()).isEqualTo(77);
 
         List<Package> packages = packageRepository.findAll();
         assertThat(packages.size()).isEqualTo(78);
@@ -158,5 +184,8 @@ class SpdxReaderTest {
 
         List<PurlQualifier> purlQualifiers = purlQualifierRepository.findAll();
         assertThat(purlQualifiers.size()).isEqualTo(2);
+
+        List<ExternalVulRef> externalVulRefs = externalVulRefRepository.findAll();
+        assertThat(externalVulRefs.size()).isEqualTo(1);
     }
 }

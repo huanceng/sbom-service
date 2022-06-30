@@ -60,6 +60,10 @@
       "referenceCategory" : "PACKAGE_MANAGER",
       "referenceType" : "purl",
       "referenceLocator" : "pkg:pypi/asttokens@2.0.5"
+    }, {
+      "referenceCategory" : "SECURITY",
+      "referenceType" : "cve",
+      "referenceLocator" : "cve-2022-00000"
     } ],
     "filesAnalyzed" : false,
     "homepage" : "https://github.com/gristlabs/asttokens",
