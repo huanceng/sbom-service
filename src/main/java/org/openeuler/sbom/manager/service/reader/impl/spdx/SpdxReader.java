@@ -1,18 +1,27 @@
 package org.openeuler.sbom.manager.service.reader.impl.spdx;
 
+import com.github.packageurl.MalformedPackageURLException;
+import com.github.packageurl.PackageURL;
 import org.openeuler.sbom.manager.constant.SbomConstants;
 import org.openeuler.sbom.manager.dao.ChecksumRepository;
+import org.openeuler.sbom.manager.dao.ExternalPurlRefRepository;
 import org.openeuler.sbom.manager.dao.PackageRepository;
 import org.openeuler.sbom.manager.dao.PkgVerfCodeExcludedFileRepository;
 import org.openeuler.sbom.manager.dao.PkgVerfCodeRepository;
+import org.openeuler.sbom.manager.dao.PurlQualifierRepository;
+import org.openeuler.sbom.manager.dao.PurlRepository;
 import org.openeuler.sbom.manager.dao.SbomCreatorRepository;
 import org.openeuler.sbom.manager.dao.SbomRepository;
 import org.openeuler.sbom.manager.model.Checksum;
+import org.openeuler.sbom.manager.model.ExternalPurlRef;
 import org.openeuler.sbom.manager.model.Package;
 import org.openeuler.sbom.manager.model.PkgVerfCode;
 import org.openeuler.sbom.manager.model.PkgVerfCodeExcludedFile;
+import org.openeuler.sbom.manager.model.Purl;
+import org.openeuler.sbom.manager.model.PurlQualifier;
 import org.openeuler.sbom.manager.model.Sbom;
 import org.openeuler.sbom.manager.model.SbomCreator;
+import org.openeuler.sbom.manager.model.spdx.ReferenceType;
 import org.openeuler.sbom.manager.model.spdx.SpdxDocument;
 import org.openeuler.sbom.manager.model.spdx.SpdxPackage;
 import org.openeuler.sbom.manager.service.reader.SbomReader;
@@ -20,19 +29,23 @@ import org.openeuler.sbom.manager.utils.SbomFormat;
 import org.openeuler.sbom.manager.utils.SbomMapperUtil;
 import org.openeuler.sbom.manager.utils.SbomSpecification;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Example;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.Objects;
 import java.util.Optional;
 
 import static org.openeuler.sbom.manager.utils.SbomMapperUtil.fileToExt;
-import static org.openeuler.sbom.manager.utils.SbomMapperUtil.fileToSpec;
 
 @Service(value = SbomConstants.SPDX_NAME + SbomConstants.READER_NAME)
 @Transactional(rollbackFor = Exception.class)
@@ -55,6 +68,15 @@ public class SpdxReader implements SbomReader {
 
     @Autowired
     private ChecksumRepository checksumRepository;
+
+    @Autowired
+    private ExternalPurlRefRepository externalPurlRefRepository;
+
+    @Autowired
+    private PurlRepository purlRepository;
+
+    @Autowired
+    private PurlQualifierRepository purlQualifierRepository;
 
     @Override
     public void read(File file) throws IOException {
@@ -188,6 +210,87 @@ public class SpdxReader implements SbomReader {
     private void persistExternalRefs(SpdxPackage spdxPackage, Package pkg) {
         if (Objects.isNull(spdxPackage.externalRefs())) {
             return;
+        }
+
+        List<ExternalPurlRef> externalPurlRefs = new ArrayList<>();
+        spdxPackage.externalRefs().forEach(it -> {
+            if (it.referenceType() == ReferenceType.PURL) {
+                Purl purl = persistPurl(it.referenceLocator());
+                ExternalPurlRef externalPurlRef = Optional
+                        .ofNullable(externalPurlRefRepository.findByPkgIdAndPurlId(pkg.getId(), purl.getId()))
+                        .orElse(new ExternalPurlRef());
+                externalPurlRef.setCategory(it.referenceCategory().name());
+                externalPurlRef.setType(it.referenceType().getType());
+                externalPurlRef.setComment(it.comment());
+                externalPurlRef.setPurl(purl);
+                externalPurlRef.setPkg(pkg);
+                externalPurlRefs.add(externalPurlRef);
+            }
+        });
+        externalPurlRefRepository.saveAll(externalPurlRefs);
+    }
+
+    private Purl persistPurl(String purlStr) {
+        PackageURL packageURL;
+        try {
+            packageURL = new PackageURL(purlStr);
+        } catch (MalformedPackageURLException e) {
+            throw new RuntimeException(e);
+        }
+
+        Purl temp = new Purl();
+        temp.setType(packageURL.getType());
+        temp.setName(packageURL.getName());
+        temp.setNamespace(packageURL.getNamespace());
+        temp.setVersion(packageURL.getVersion());
+        temp.setSubPath(packageURL.getSubpath());
+        temp.setQualifier(generatePurlQualifier(packageURL.getQualifiers()));
+
+        Purl purl = purlRepository.findOne(Example.of(temp)).orElseGet(() -> purlRepository.save(temp));
+        persistPurlQualifiers(purl, packageURL.getQualifiers());
+        return purl;
+    }
+
+    private String generatePurlQualifier(Map<String, String> qualifiers) {
+        final StringBuilder qualifier = new StringBuilder();
+        if (qualifiers != null && qualifiers.size() > 0) {
+            qualifiers.entrySet().stream().forEachOrdered((entry) -> {
+                qualifier.append(entry.getKey());
+                qualifier.append("=");
+                qualifier.append(percentEncode(entry.getValue()));
+                qualifier.append("&");
+            });
+            qualifier.setLength(qualifier.length() - 1);
+        }
+        return qualifier.toString();
+    }
+
+    private String percentEncode(final String input) {
+        try {
+            return URLEncoder.encode(input, StandardCharsets.UTF_8.name())
+                    .replace("+", "%20")
+                    // "*" is a reserved character in RFC 3986.
+                    .replace("*", "%2A")
+                    // "~" is an unreserved character in RFC 3986.
+                    .replace("%7E", "~");
+        } catch (UnsupportedEncodingException e) {
+            return input; // this should never occur
+        }
+    }
+
+    private void persistPurlQualifiers(Purl purl, Map<String, String> qualifiers) {
+        if (qualifiers != null && qualifiers.size() > 0) {
+            List<PurlQualifier> purlQualifiers = new ArrayList<>();
+            qualifiers.entrySet().stream().forEachOrdered((entry) -> {
+                PurlQualifier purlQualifier = Optional
+                        .ofNullable(purlQualifierRepository.findByPurlIdAndKeyAndValue(purl.getId(), entry.getKey(), entry.getValue()))
+                        .orElse(new PurlQualifier());
+                purlQualifier.setKey(entry.getKey());
+                purlQualifier.setValue(entry.getValue());
+                purlQualifier.setPurl(purl);
+                purlQualifiers.add(purlQualifier);
+            });
+            purlQualifierRepository.saveAll(purlQualifiers);
         }
     }
 }
