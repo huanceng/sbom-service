@@ -33,8 +33,8 @@ public class Product {
     @Column(columnDefinition = "TEXT", nullable = false)
     private String version;
 
-//    @OneToMany(mappedBy = "product", cascade = CascadeType.ALL, orphanRemoval = true)
-//    private List<Sbom> sboms;
+//    @OneToOne(mappedBy = "product", fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
+//    private Sbom sbom;
 
 //    @OneToMany(mappedBy = "product", cascade = CascadeType.ALL, orphanRemoval = true)
 //    private List<RawSbom> rawSboms;

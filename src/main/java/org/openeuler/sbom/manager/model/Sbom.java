@@ -4,15 +4,12 @@ import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
-import javax.persistence.Index;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import java.util.List;
 
 @Entity
-@Table(indexes = {
-        @Index(name = "spec_name_uk", columnList = "spec, spec_version, name", unique = true)
-})
+@Table
 public class Sbom {
     @Id
     @Column(columnDefinition = "TEXT")
@@ -20,12 +17,6 @@ public class Sbom {
 
     @Column(columnDefinition = "TEXT", nullable = false)
     private String name;
-
-    @Column(columnDefinition = "TEXT", nullable = false)
-    private String spec;
-
-    @Column(columnDefinition = "TEXT", name = "spec_version", nullable = false)
-    private String specVersion;
 
     @Column(columnDefinition = "TEXT", name = "data_license")
     private String dataLicense;
@@ -39,7 +30,7 @@ public class Sbom {
     @Column(columnDefinition = "TEXT", name = "license_list_version")
     private String licenseListVersion;
 
-//    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+//    @OneToOne(fetch = FetchType.LAZY, optional = false)
 //    @JoinColumn(name = "product_id", foreignKey = @ForeignKey(name = "product_id_fk"))
 //    private Product product;
 
@@ -66,22 +57,6 @@ public class Sbom {
 
     public void setName(String name) {
         this.name = name;
-    }
-
-    public String getSpec() {
-        return spec;
-    }
-
-    public void setSpec(String spec) {
-        this.spec = spec;
-    }
-
-    public String getSpecVersion() {
-        return specVersion;
-    }
-
-    public void setSpecVersion(String specVersion) {
-        this.specVersion = specVersion;
     }
 
     public String getDataLicense() {
