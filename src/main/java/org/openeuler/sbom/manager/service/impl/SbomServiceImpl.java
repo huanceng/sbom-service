@@ -45,12 +45,32 @@ public class SbomServiceImpl implements SbomService {
         sbomFileRepository.save(rawSbom);
 
         SbomReader sbomReader = SbomApplicationContextHolder.getSbomReader(specification.getSpecification());
-        sbomReader.read(format, fileContent);
+        sbomReader.read(productName, format, fileContent);
     }
 
     @Override
     // TODO 后续把productName换成productID
     public RawSbom writeSbomFile(String productName, String spec, String specVersion, String format) {
+        format = StringUtils.lowerCase(format);
+        spec = StringUtils.lowerCase(spec);
+
+        if (!SbomFormat.EXT_TO_FORMAT.containsKey(format)) {
+            throw new RuntimeException("sbom file format: %s is not support".formatted(format));
+        }
+        if (SbomSpecification.findSpecification(spec, specVersion) == null) {
+            throw new RuntimeException("sbom file specification: %s - %s is not support".formatted(spec, specVersion));
+        }
+
+        RawSbom queryCondition = new RawSbom();
+        queryCondition.setProductName(productName);
+        queryCondition.setSpec(spec);
+        queryCondition.setSpecVersion(specVersion);
+        queryCondition.setFormat(format);
+
+        return sbomFileRepository.queryRawSbom(queryCondition);
+    }
+
+    public RawSbom writeSbom(String productName, String spec, String specVersion, String format) {
         format = StringUtils.lowerCase(format);
         spec = StringUtils.lowerCase(spec);
 

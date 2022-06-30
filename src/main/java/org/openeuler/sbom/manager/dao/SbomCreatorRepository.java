@@ -6,5 +6,5 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import java.util.UUID;
 
 public interface SbomCreatorRepository extends JpaRepository<SbomCreator, UUID> {
-    SbomCreator findBySbomIdAndName(String sbomId, String name);
+    SbomCreator findBySbomIdAndName(UUID sbomId, String name);
 }

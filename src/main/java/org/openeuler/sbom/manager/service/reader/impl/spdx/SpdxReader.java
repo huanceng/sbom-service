@@ -96,27 +96,26 @@ public class SpdxReader implements SbomReader {
     private ExternalVulRefRepository externalVulRefRepository;
 
     @Override
-    public void read(File file) throws IOException {
+    public void read(String productId, File file) throws IOException {
         SbomFormat format = fileToExt(file.getName());
         FileInputStream fileInputStream = new FileInputStream(file);
         byte[] fileContent = fileInputStream.readAllBytes();
         fileInputStream.close();
 
-        read(format, fileContent);
+        read(productId, format, fileContent);
     }
 
     @Override
-    public void read(SbomFormat format, byte[] fileContent) throws IOException {
+    public void read(String productId, SbomFormat format, byte[] fileContent) throws IOException {
         SpdxDocument document = SbomMapperUtil.readDocument(format, SbomSpecification.SPDX_2_2.getDocumentClass(), fileContent);
-        Sbom sbom = persistSbom(document);
+        Sbom sbom = persistSbom(productId, document);
         persistSbomCreators(document, sbom);
         persistSbomElementRelationship(document, sbom);
         persistPackages(document, sbom);
     }
 
-    private Sbom persistSbom(SpdxDocument document) {
-        Sbom sbom = sbomRepository.findById(document.spdxId()).orElse(new Sbom());
-        sbom.setId(document.spdxId());
+    private Sbom persistSbom(String productId, SpdxDocument document) {
+        Sbom sbom = sbomRepository.findByProductId(productId).orElse(new Sbom(productId));
         sbom.setCreated(document.creationInfo().created().toString());
         sbom.setDataLicense(document.dataLicense());
         sbom.setLicenseListVersion(document.creationInfo().licenseListVersion());

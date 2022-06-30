@@ -1,22 +1,38 @@
 package org.openeuler.sbom.manager.model;
 
+import org.hibernate.annotations.GenericGenerator;
+
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.Index;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import java.util.List;
+import java.util.UUID;
 
 /**
  * Describes a sbom document.
  */
 @Entity
-@Table
+@Table(indexes = {
+        @Index(name = "product_id_uk", columnList = "product_id", unique = true)
+})
 public class Sbom {
+
+    public Sbom() {
+    }
+
+    public Sbom(String productId) {
+        this.productId = productId;
+    }
+
     @Id
-    @Column(columnDefinition = "TEXT")
-    private String id;
+    @GeneratedValue(generator = "UUID")
+    @GenericGenerator(name = "UUID", strategy = "org.hibernate.id.UUIDGenerator")
+    private UUID id;
 
     /**
      * Name of a sbom document.
@@ -50,9 +66,11 @@ public class Sbom {
     @Column(columnDefinition = "TEXT", name = "license_list_version")
     private String licenseListVersion;
 
-//    @OneToOne(fetch = FetchType.LAZY, optional = false)
-//    @JoinColumn(name = "product_id", foreignKey = @ForeignKey(name = "product_id_fk"))
-//    private Product product;
+    // @OneToOne(fetch = FetchType.LAZY, optional = false)
+    // @JoinColumn(name = "product_id", foreignKey = @ForeignKey(name = "product_id_fk"))
+    // private Product product;
+    @Column(columnDefinition = "TEXT", name = "product_id")
+    private String productId;
 
     /**
      * Packages referred in a sbom document.
@@ -72,11 +90,11 @@ public class Sbom {
     @OneToMany(mappedBy = "sbom", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<SbomElementRelationship> sbomElementRelationships;
 
-    public String getId() {
+    public UUID getId() {
         return id;
     }
 
-    public void setId(String id) {
+    public void setId(UUID id) {
         this.id = id;
     }
 
@@ -127,6 +145,14 @@ public class Sbom {
 //    public void setProduct(Product product) {
 //        this.product = product;
 //    }
+
+    public String getProductId() {
+        return productId;
+    }
+
+    public void setProductId(String productId) {
+        this.productId = productId;
+    }
 
     public List<Package> getPackages() {
         return packages;

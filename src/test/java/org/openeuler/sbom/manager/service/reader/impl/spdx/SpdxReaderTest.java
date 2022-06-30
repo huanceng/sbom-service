@@ -1,5 +1,6 @@
 package org.openeuler.sbom.manager.service.reader.impl.spdx;
 
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.MethodOrderer;
 import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
@@ -44,6 +45,8 @@ import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 class SpdxReaderTest {
 
     private static final String SAMPLE_UPLOAD_FILE_NAME = "sample/sample-spdx.json";
+
+    private static final String PRODUCT_ID = "SpdxReaderTest";
 
     @Autowired
     @Qualifier(SbomConstants.SPDX_NAME + SbomConstants.READER_NAME)
@@ -104,6 +107,7 @@ class SpdxReaderTest {
     }
 
     @Test
+    @Disabled
     @Order(4)
     public void deleteSbom() {
         sbomRepository.deleteAll();
@@ -142,15 +146,15 @@ class SpdxReaderTest {
         vulnerability.setType("cve");
         vulnerabilityRepository.save(vulnerability);
 
-        spdxReader.read(new ClassPathResource(SAMPLE_UPLOAD_FILE_NAME).getFile());
+        spdxReader.read(PRODUCT_ID, new ClassPathResource(SAMPLE_UPLOAD_FILE_NAME).getFile());
 
-        List<Sbom> sboms = sbomRepository.findAll();
-        assertThat(sboms.size()).isEqualTo(1);
-        assertThat(sboms.get(0).getId()).isEqualTo("SPDXRef-DOCUMENT");
+        Sbom sbom = sbomRepository.findByProductId(PRODUCT_ID).orElse(null);
+        assertThat(sbom).isNotNull();
+        assertThat(sbom.getProductId()).isEqualTo(PRODUCT_ID);
 
         List<SbomCreator> sbomCreators = sbomCreatorRepository.findAll();
         assertThat(sbomCreators.size()).isEqualTo(1);
-        assertThat(sbomCreators.get(0).getSbom().getId()).isEqualTo("SPDXRef-DOCUMENT");
+        assertThat(sbomCreators.get(0).getSbom().getProductId()).isEqualTo(PRODUCT_ID);
         assertThat(sbomCreators.get(0).getName()).isEqualTo("Tool: OSS Review Toolkit - e5b343ff71-dirty");
 
         List<SbomElementRelationship> sbomElementRelationships = sbomElementRelationshipRepository.findAll();
@@ -158,7 +162,7 @@ class SpdxReaderTest {
 
         List<Package> packages = packageRepository.findAll();
         assertThat(packages.size()).isEqualTo(78);
-        packages.forEach(p -> assertThat(p.getSbom().getId()).isEqualTo(sboms.get(0).getId()));
+        packages.forEach(p -> assertThat(p.getSbom().getId()).isEqualTo(sbom.getId()));
 
         List<Package> specificPackages = packageRepository.findBySpdxId("SPDXRef-Package-PyPI-asttokens-2.0.5-vcs");
         assertThat(specificPackages.size()).isEqualTo(1);
