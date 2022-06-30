@@ -1,12 +1,16 @@
 package org.openeuler.sbom.manager.model;
 
+import org.hibernate.annotations.GenericGenerator;
+
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import java.util.List;
+import java.util.UUID;
 
 /**
  * Describes a sbom document.
@@ -15,8 +19,9 @@ import java.util.List;
 @Table
 public class Sbom {
     @Id
-    @Column(columnDefinition = "TEXT")
-    private String id;
+    @GeneratedValue(generator = "UUID")
+    @GenericGenerator(name = "UUID", strategy = "org.hibernate.id.UUIDGenerator")
+    private UUID id;
 
     /**
      * Name of a sbom document.
@@ -72,11 +77,11 @@ public class Sbom {
     @OneToMany(mappedBy = "sbom", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<SbomElementRelationship> sbomElementRelationships;
 
-    public String getId() {
+    public UUID getId() {
         return id;
     }
 
-    public void setId(String id) {
+    public void setId(UUID id) {
         this.id = id;
     }
 
