@@ -17,6 +17,9 @@ import javax.persistence.Table;
 import java.util.List;
 import java.util.UUID;
 
+/**
+ * Describes a product.
+ */
 @Entity
 @Table(indexes = {
         @Index(name = "name_version_uk", columnList = "name, version", unique = true)
@@ -27,9 +30,15 @@ public class Product {
     @GenericGenerator(name = "UUID", strategy = "org.hibernate.id.UUIDGenerator")
     private UUID id;
 
+    /**
+     * Name of a product.
+     */
     @Column(columnDefinition = "TEXT", nullable = false)
     private String name;
 
+    /**
+     * Version of a product.
+     */
     @Column(columnDefinition = "TEXT", nullable = false)
     private String version;
 

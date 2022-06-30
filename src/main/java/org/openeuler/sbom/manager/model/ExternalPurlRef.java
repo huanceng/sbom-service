@@ -40,16 +40,22 @@ public class ExternalPurlRef {
     @Column(columnDefinition = "TEXT", nullable = false)
     private String type;
 
+    /**
+     * Human-readable information about the purpose and target of the reference.
+     */
     @Column(columnDefinition = "TEXT")
     private String comment;
 
     /**
-     * Foreign key that refers to a purl id.
+     * Purl of the reference.
      */
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "purl_id", foreignKey = @ForeignKey(name = "purl_id_fk"))
     private Purl purl;
 
+    /**
+     * Package of the reference.
+     */
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "pkg_id", foreignKey = @ForeignKey(name = "pkg_id_fk"))
     private Package pkg;

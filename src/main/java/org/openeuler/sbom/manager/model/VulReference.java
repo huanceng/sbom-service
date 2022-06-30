@@ -15,6 +15,9 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import java.util.UUID;
 
+/**
+ * Describes a vulnerability reference.
+ */
 @Entity
 @Table(indexes = {
         @Index(name = "vul_id_idx", columnList = "vul_id")
@@ -25,12 +28,21 @@ public class VulReference {
     @GenericGenerator(name = "UUID", strategy = "org.hibernate.id.UUIDGenerator")
     private UUID id;
 
+    /**
+     * Reference source, e.g., NVD, snyk, github
+     */
     @Column(columnDefinition = "TEXT")
     private String source;
 
+    /**
+     * The URI pointing to detail of this vulnerability. This can also be used to derive the source of this information.
+     */
     @Column(columnDefinition = "TEXT")
     private String url;
 
+    /**
+     * Vulnerability described by the reference.
+     */
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "vul_id", foreignKey = @ForeignKey(name = "vul_id_fk"))
     private Vulnerability vulnerability;

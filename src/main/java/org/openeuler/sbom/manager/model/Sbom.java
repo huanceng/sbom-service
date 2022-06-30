@@ -8,6 +8,9 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import java.util.List;
 
+/**
+ * Describes a sbom document.
+ */
 @Entity
 @Table
 public class Sbom {
@@ -15,18 +18,35 @@ public class Sbom {
     @Column(columnDefinition = "TEXT")
     private String id;
 
+    /**
+     * Name of a sbom document.
+     */
     @Column(columnDefinition = "TEXT", nullable = false)
     private String name;
 
+    /**
+     * The data license of a sbom document.
+     */
     @Column(columnDefinition = "TEXT", name = "data_license")
     private String dataLicense;
 
+    /**
+     * A URI provides an unambiguous mechanism for other sbom documents to reference sbom elements within this sbom document.
+     */
     @Column(columnDefinition = "TEXT")
     private String namespace;
 
+    /**
+     * Identify when the sbom file was originally created.
+     * Format: YYYY-MM-DDThh:mm:ssZ
+     */
     @Column(columnDefinition = "TEXT")
     private String created;
 
+    /**
+     * The version of SPDX license list (<a href="https://spdx.dev/licenses/">...</a>) used in the related sbom document.
+     * Data Format: "M.N"
+     */
     @Column(columnDefinition = "TEXT", name = "license_list_version")
     private String licenseListVersion;
 
@@ -34,12 +54,21 @@ public class Sbom {
 //    @JoinColumn(name = "product_id", foreignKey = @ForeignKey(name = "product_id_fk"))
 //    private Product product;
 
+    /**
+     * Packages referred in a sbom document.
+     */
     @OneToMany(mappedBy = "sbom", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Package> packages;
 
+    /**
+     * The list of subjects who created the related sbom document. At least one must be provided.
+     */
     @OneToMany(mappedBy = "sbom", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<SbomCreator> sbomCreators;
 
+    /**
+     * Element relationships in a sbom document.
+     */
     @OneToMany(mappedBy = "sbom", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<SbomElementRelationship> sbomElementRelationships;
 

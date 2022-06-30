@@ -17,6 +17,9 @@ import javax.persistence.Table;
 import java.util.List;
 import java.util.UUID;
 
+/**
+ * Describes a package verification code.
+ */
 @Entity
 @Table(indexes = {
         @Index(name = "pkg_id_uk", columnList = "pkg_id", unique = true)
@@ -27,13 +30,22 @@ public class PkgVerfCode {
     @GenericGenerator(name = "UUID", strategy = "org.hibernate.id.UUIDGenerator")
     private UUID id;
 
+    /**
+     * Package verification code value in lower case hexadecimal representation.
+     */
     @Column(columnDefinition = "TEXT", nullable = false)
     private String value;
 
+    /**
+     * Package that the verification code belongs to.
+     */
     @OneToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "pkg_id", foreignKey = @ForeignKey(name = "pkg_id_fk"))
     private Package pkg;
 
+    /**
+     * The list of file excluded from the package verification code calculation.
+     */
     @OneToMany(mappedBy = "pkgVerfCode", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<PkgVerfCodeExcludedFile> pkgVerfCodeExcludedFiles;
 
