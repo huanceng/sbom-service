@@ -2,7 +2,6 @@ package org.openeuler.sbom.manager.model;
 
 import org.hibernate.annotations.GenericGenerator;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -41,6 +40,9 @@ public class Checksum {
     @Column(columnDefinition = "TEXT", nullable = false)
     private String value;
 
+    /**
+     * Package that the checksum belongs to.
+     */
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "pkg_id", foreignKey = @ForeignKey(name = "pkg_id_fk"))
     private Package pkg;

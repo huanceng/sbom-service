@@ -15,6 +15,9 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import java.util.UUID;
 
+/**
+ * Describes a sbom creator.
+ */
 @Entity
 @Table(indexes = {
         @Index(name = "sbom_id_name_uk", columnList = "sbom_id, name", unique = true)
@@ -25,9 +28,15 @@ public class SbomCreator {
     @GenericGenerator(name = "UUID", strategy = "org.hibernate.id.UUIDGenerator")
     private UUID id;
 
+    /**
+     * Name of a sbom creator.
+     */
     @Column(columnDefinition = "TEXT", nullable = false)
     private String name;
 
+    /**
+     * Sbom document that the creator created.
+     */
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "sbom_id", foreignKey = @ForeignKey(name = "sbom_id_fk"))
     private Sbom sbom;

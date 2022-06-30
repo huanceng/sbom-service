@@ -15,6 +15,9 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import java.util.UUID;
 
+/**
+ * Files excluded from the calculation of a package verification code.
+ */
 @Entity
 @Table(indexes = {
         @Index(name = "pkg_verf_code_file_uk", columnList = "pkg_verf_code_id, file", unique = true)
@@ -25,9 +28,15 @@ public class PkgVerfCodeExcludedFile {
     @GenericGenerator(name = "UUID", strategy = "org.hibernate.id.UUIDGenerator")
     private UUID id;
 
+    /**
+     * File excluded from the package verification code calculation.
+     */
     @Column(columnDefinition = "TEXT", nullable = false)
     private String file;
 
+    /**
+     * Package verification code that the excluded files belong to.
+     */
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "pkg_verf_code_id", foreignKey = @ForeignKey(name = "pkg_verf_code_id_fk"))
     private PkgVerfCode pkgVerfCode;

@@ -40,19 +40,28 @@ public class ExternalVulRef {
     @Column(columnDefinition = "TEXT", nullable = false)
     private String type;
 
+    /**
+     * Status of a vulnerability in a package.
+     */
     @Column(columnDefinition = "TEXT")
     private String status;
 
+    /**
+     * Human-readable information about the purpose and target of the reference.
+     */
     @Column(columnDefinition = "TEXT")
     private String comment;
 
     /**
-     * Foreign key that refers to a vulnerability id.
+     * Vulnerability of the reference.
      */
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "vul_id", foreignKey = @ForeignKey(name = "vul_id_fk"))
     private Vulnerability vulnerability;
 
+    /**
+     * Package of the reference.
+     */
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "pkg_id", foreignKey = @ForeignKey(name = "pkg_id_fk"))
     private Package pkg;

@@ -15,6 +15,9 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import java.util.UUID;
 
+/**
+ * Describes a package url qualifier.
+ */
 @Entity
 @Table(indexes = {
         @Index(name = "purl_qualifier_uk", columnList = "purl_id, key, value", unique = true),
@@ -26,12 +29,21 @@ public class PurlQualifier {
     @GenericGenerator(name = "UUID", strategy = "org.hibernate.id.UUIDGenerator")
     private UUID id;
 
+    /**
+     * Key of a qualifier.
+     */
     @Column(columnDefinition = "TEXT", nullable = false)
     private String key;
 
+    /**
+     * Value of a qualifier.
+     */
     @Column(columnDefinition = "TEXT", nullable = false)
     private String value;
 
+    /**
+     * Purl that a qualifier belongs to.
+     */
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "purl_id", foreignKey = @ForeignKey(name = "purl_id_fk"))
     private Purl purl;

@@ -15,6 +15,9 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import java.util.UUID;
 
+/**
+ * A relationship between two sbom elements.
+ */
 @Entity
 @Table(indexes = {
         @Index(name = "sbom_element_uk", columnList = "sbom_id, element_id, related_element_id, relationship_type", unique = true)
@@ -25,18 +28,30 @@ public class SbomElementRelationship {
     @GenericGenerator(name = "UUID", strategy = "org.hibernate.id.UUIDGenerator")
     private UUID id;
 
+    /**
+     * The source element of this directed relationship.
+     */
     @Column(columnDefinition = "TEXT", nullable = false, name = "element_id")
     private String elementId;
 
+    /**
+     * The target element of this directed relationship.
+     */
     @Column(columnDefinition = "TEXT", nullable = false, name = "related_element_id")
     private String RelatedElementId;
 
+    /**
+     * The type of this relationship.
+     */
     @Column(columnDefinition = "TEXT", nullable = false, name = "relationship_type")
     private String RelationshipType;
 
     @Column(columnDefinition = "TEXT")
     private String comment;
 
+    /**
+     * Sbom document that holds the relationship.
+     */
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "sbom_id", foreignKey = @ForeignKey(name = "sbom_id_fk"))
     private Sbom sbom;

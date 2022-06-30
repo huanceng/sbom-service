@@ -13,6 +13,9 @@ import javax.persistence.Table;
 import java.util.List;
 import java.util.UUID;
 
+/**
+ * Describes a package url.
+ */
 @Entity
 @Table(indexes = {
         @Index(name = "purl_uk", columnList = "name, namespace, type, version, subpath, qualifier", unique = true)
@@ -23,27 +26,51 @@ public class Purl {
     @GenericGenerator(name = "UUID", strategy = "org.hibernate.id.UUIDGenerator")
     private UUID id;
 
+    /**
+     * Name of a package.
+     */
     @Column(columnDefinition = "TEXT", nullable = false)
     private String name;
 
+    /**
+     * Namespace of a package, e.g., a Maven groupid, a Docker image owner, a Github user or organization.
+     */
     @Column(columnDefinition = "TEXT")
     private String namespace;
 
+    /**
+     * Package type or protocol, e.g., maven, npm, pypi, github
+     */
     @Column(columnDefinition = "TEXT", nullable = false)
     private String type;
 
+    /**
+     * Version of a package.
+     */
     @Column(columnDefinition = "TEXT")
     private String version;
 
+    /**
+     * Extra subpath within a package.
+     */
     @Column(columnDefinition = "TEXT", name = "subpath")
     private String subPath;
 
+    /**
+     * Extra qualifying data for a package, e.g., an OS architecture, a distro.
+     */
     @Column(columnDefinition = "TEXT")
     private String qualifier;
 
+    /**
+     * Individual qualifier key-value pairs for a package.
+     */
     @OneToMany(mappedBy = "purl", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<PurlQualifier> purlQualifiers;
 
+    /**
+     * External purl references that refer to this purl.
+     */
     @OneToMany(mappedBy = "purl", orphanRemoval = true)
     private List<ExternalPurlRef> externalPurlRefs;
 

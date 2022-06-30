@@ -15,6 +15,9 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import java.util.UUID;
 
+/**
+ * Score of a vulnerability.
+ */
 @Entity
 @Table(indexes = {
         @Index(name = "vul_score_uk", columnList = "scoring_system, score, vector", unique = true)
@@ -25,15 +28,27 @@ public class VulScore {
     @GenericGenerator(name = "UUID", strategy = "org.hibernate.id.UUIDGenerator")
     private UUID id;
 
+    /**
+     * The name of the scoring system to express the severity of this vulnerability.
+     */
     @Column(columnDefinition = "TEXT", name = "scoring_system", nullable = false)
     private String scoringSystem;
 
+    /**
+     * Score of a vulnerability calculated by the scoring system.
+     */
     @Column(nullable = false)
     private Double score;
 
+    /**
+     * Vector of a vulnerability calculated by the scoring system.
+     */
     @Column(columnDefinition = "TEXT", nullable = false)
     private String vector;
 
+    /**
+     * Vulnerability that a score belongs to.
+     */
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "vul_id", foreignKey = @ForeignKey(name = "vul_id_fk"))
     private Vulnerability vulnerability;
