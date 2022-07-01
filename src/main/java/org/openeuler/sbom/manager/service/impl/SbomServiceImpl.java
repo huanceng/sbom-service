@@ -6,6 +6,7 @@ import org.openeuler.sbom.manager.dao.RawSbomRepository;
 import org.openeuler.sbom.manager.model.RawSbom;
 import org.openeuler.sbom.manager.service.SbomService;
 import org.openeuler.sbom.manager.service.reader.SbomReader;
+import org.openeuler.sbom.manager.service.writer.SbomWriter;
 import org.openeuler.sbom.manager.utils.SbomFormat;
 import org.openeuler.sbom.manager.utils.SbomSpecification;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,8 +26,8 @@ public class SbomServiceImpl implements SbomService {
     private RawSbomRepository sbomFileRepository;
 
     @Override
-    // TODO 后续把productName换成productID
-    public void readSbomFile(String productName, String fileName, byte[] fileContent) throws IOException {
+    // TODO 后续productID作为外键支持
+    public void readSbomFile(String productId, String fileName, byte[] fileContent) throws IOException {
         SbomFormat format = fileToExt(fileName);
         SbomSpecification specification = fileToSpec(format, fileContent);
 
@@ -34,7 +35,7 @@ public class SbomServiceImpl implements SbomService {
         rawSbom.setSpec(specification.getSpecification().toLowerCase());
         rawSbom.setSpecVersion(specification.getVersion());
         rawSbom.setFormat(format.getFileExtName());
-        rawSbom.setProductName(productName);
+        rawSbom.setProductId(productId);
         rawSbom.setValue(fileContent);
 
         RawSbom oldRawSbom = sbomFileRepository.queryRawSbom(rawSbom);
@@ -45,12 +46,12 @@ public class SbomServiceImpl implements SbomService {
         sbomFileRepository.save(rawSbom);
 
         SbomReader sbomReader = SbomApplicationContextHolder.getSbomReader(specification.getSpecification());
-        sbomReader.read(productName, format, fileContent);
+        sbomReader.read(productId, format, fileContent);
     }
 
     @Override
-    // TODO 后续把productName换成productID
-    public RawSbom writeSbomFile(String productName, String spec, String specVersion, String format) {
+    // TODO 后续productID作为外键支持
+    public RawSbom writeSbomFile(String productId, String spec, String specVersion, String format) {
         format = StringUtils.lowerCase(format);
         spec = StringUtils.lowerCase(spec);
 
@@ -62,7 +63,7 @@ public class SbomServiceImpl implements SbomService {
         }
 
         RawSbom queryCondition = new RawSbom();
-        queryCondition.setProductName(productName);
+        queryCondition.setProductId(productId);
         queryCondition.setSpec(spec);
         queryCondition.setSpecVersion(specVersion);
         queryCondition.setFormat(format);
@@ -70,23 +71,20 @@ public class SbomServiceImpl implements SbomService {
         return sbomFileRepository.queryRawSbom(queryCondition);
     }
 
-    public RawSbom writeSbom(String productName, String spec, String specVersion, String format) {
+    public byte[] writeSbom(String productId, String spec, String specVersion, String format) throws IOException {
         format = StringUtils.lowerCase(format);
         spec = StringUtils.lowerCase(spec);
 
         if (!SbomFormat.EXT_TO_FORMAT.containsKey(format)) {
             throw new RuntimeException("sbom file format: %s is not support".formatted(format));
         }
-        if (SbomSpecification.findSpecification(spec, specVersion) == null) {
+
+        SbomSpecification sbomSpec = SbomSpecification.findSpecification(spec, specVersion);
+        if (sbomSpec == null) {
             throw new RuntimeException("sbom file specification: %s - %s is not support".formatted(spec, specVersion));
         }
 
-        RawSbom queryCondition = new RawSbom();
-        queryCondition.setProductName(productName);
-        queryCondition.setSpec(spec);
-        queryCondition.setSpecVersion(specVersion);
-        queryCondition.setFormat(format);
-
-        return sbomFileRepository.queryRawSbom(queryCondition);
+        SbomWriter sbomWriter = SbomApplicationContextHolder.getSbomWriter(sbomSpec.getSpecification());
+        return sbomWriter.write(productId, SbomFormat.EXT_TO_FORMAT.get(format));
     }
 }

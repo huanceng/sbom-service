@@ -1,5 +1,6 @@
 package org.openeuler.sbom.manager.controller;
 
+import org.apache.commons.lang3.ArrayUtils;
 import org.openeuler.sbom.manager.model.RawSbom;
 import org.openeuler.sbom.manager.service.SbomService;
 import org.slf4j.Logger;
@@ -34,16 +35,16 @@ public class SbomController {
     private SbomService sbomService;
 
     @PostMapping("/uploadSbomFile")
-    public @ResponseBody ResponseEntity uploadSbomFile(HttpServletRequest request, @RequestParam String productName) throws IOException {//HttpServletRequest request
+    public @ResponseBody ResponseEntity uploadSbomFile(HttpServletRequest request, @RequestParam String productId) throws IOException {//HttpServletRequest request
         MultipartFile file = ((MultipartHttpServletRequest) request).getFile("uploadFileName");
         if (file == null || file.isEmpty()) {
             return ResponseEntity.status(HttpStatus.NOT_ACCEPTABLE).body("upload file is empty");
         }
         String fileName = file.getOriginalFilename();
-        logger.info("upload {}`s sbom file name: {}, file length: {}", productName, fileName, file.getBytes().length);
+        logger.info("upload {}`s sbom file name: {}, file length: {}", productId, fileName, file.getBytes().length);
 
         try {
-            sbomService.readSbomFile(productName, fileName, file.getBytes());
+            sbomService.readSbomFile(productId, fileName, file.getBytes());
         } catch (Exception e) {
             logger.error("uploadSbomFile failed", e);
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(e.getMessage());
@@ -52,12 +53,11 @@ public class SbomController {
         return ResponseEntity.status(HttpStatus.ACCEPTED).body("Success");
     }
 
-    // TODO 后续再新增exportSbom接口：exportSbomFile导出原始上传的文件；exportSbom导出元数据转换得到的SBOM文件
     @RequestMapping("/exportSbomFile")
-    public void exportSbomFile(HttpServletResponse response, @RequestParam String productName, @RequestParam String spec,
+    public void exportSbomFile(HttpServletResponse response, @RequestParam String productId, @RequestParam String spec,
                                @RequestParam String specVersion, @RequestParam String format) throws IOException {
-        logger.info("download sbom productName:{}, use spec:{}, specVersion:{}, format:{}",
-                productName,
+        logger.info("download original sbom file productId:{}, use spec:{}, specVersion:{}, format:{}",
+                productId,
                 spec,
                 specVersion,
                 format);
@@ -65,7 +65,7 @@ public class SbomController {
         String errorMsg = null;
 
         try {
-            rawSbom = sbomService.writeSbomFile(productName, spec, specVersion, format);
+            rawSbom = sbomService.writeSbomFile(productId, spec, specVersion, format);
         } catch (Exception e) {
             logger.error("exportSbomFile failed", e);
             errorMsg = e.getMessage();
@@ -77,7 +77,7 @@ public class SbomController {
             String returnContent =
                     StringUtils.hasText(errorMsg) ? errorMsg :
                             "can not find %s`s sbom, use spec:%s, specVersion:%s, format:%s".formatted(
-                                    productName,
+                                    productId,
                                     spec,
                                     specVersion,
                                     format);
@@ -91,7 +91,7 @@ public class SbomController {
             outputStream.flush();
         } else {
             byte[] exportContent = rawSbom.getValue();
-            String fileName = "%s-%s-sbom.%s".formatted(productName, spec, format);
+            String fileName = "%s-%s-sbom.%s".formatted(productId, spec, format);
             response.setCharacterEncoding(StandardCharsets.UTF_8.name());
             response.setContentType("application/octet-stream");
             response.setHeader("Content-Disposition", "attachment;filename=" +
@@ -100,6 +100,55 @@ public class SbomController {
 
             OutputStream outputStream = new BufferedOutputStream(response.getOutputStream());
             outputStream.write(exportContent);
+            outputStream.flush();
+        }
+    }
+
+    @RequestMapping("/exportSbom")
+    public void exportSbom(HttpServletResponse response, @RequestParam String productId, @RequestParam String spec,
+                           @RequestParam String specVersion, @RequestParam String format) throws IOException {
+        logger.info("download sbom metadata productId:{}, use spec:{}, specVersion:{}, format:{}",
+                productId,
+                spec,
+                specVersion,
+                format);
+        byte[] sbom = null;
+        String errorMsg = null;
+
+        try {
+            sbom = sbomService.writeSbom(productId, spec, specVersion, format);
+        } catch (Exception e) {
+            logger.error("export sbom metadata failed", e);
+            errorMsg = e.getMessage();
+        }
+
+        response.reset();
+        if (ArrayUtils.isEmpty(sbom)) {
+            String returnContent =
+                    StringUtils.hasText(errorMsg) ? errorMsg :
+                            "can not find %s`s sbom metadata, use spec:%s, specVersion:%s, format:%s".formatted(
+                                    productId,
+                                    spec,
+                                    specVersion,
+                                    format);
+            response.setCharacterEncoding(StandardCharsets.UTF_8.name());
+            response.setStatus(HttpStatus.INTERNAL_SERVER_ERROR.value());
+            response.setContentType("text/plain");
+            response.addHeader("Content-Length", "" + returnContent.getBytes(StandardCharsets.UTF_8).length);
+
+            OutputStream outputStream = new BufferedOutputStream(response.getOutputStream());
+            outputStream.write(returnContent.getBytes(StandardCharsets.UTF_8));
+            outputStream.flush();
+        } else {
+            String fileName = "%s-%s-sbom.%s".formatted(productId, spec, format);
+            response.setCharacterEncoding(StandardCharsets.UTF_8.name());
+            response.setContentType("application/octet-stream");
+            response.setHeader("Content-Disposition", "attachment;filename=" +
+                    URLEncoder.encode(fileName, StandardCharsets.UTF_8));
+            response.addHeader("Content-Length", "" + sbom.length);
+
+            OutputStream outputStream = new BufferedOutputStream(response.getOutputStream());
+            outputStream.write(sbom);
             outputStream.flush();
         }
     }
