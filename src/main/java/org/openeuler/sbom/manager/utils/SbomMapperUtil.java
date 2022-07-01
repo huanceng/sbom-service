@@ -120,6 +120,20 @@ public class SbomMapperUtil {
         }
     }
 
+    public static <T> byte[] writeAsBytes(T sbomDocument, SbomFormat format) throws IOException {
+        if (format == SbomFormat.JSON) {
+            return toJsonBytes(sbomDocument);
+        } else if (format == SbomFormat.XML) {
+            return toXmlBytes(sbomDocument);
+        } else if (format == SbomFormat.YAML) {
+            return toYamlBytes(sbomDocument);
+        } else if (format == SbomFormat.RDF) {
+            return toRdfBytes(sbomDocument);
+        } else {
+            throw new RuntimeException("invalid format: %s".formatted(format));
+        }
+    }
+
     private static <T> void toJson(T sbomDocument, File file) throws IOException {
         Mapper.jsonSbomMapper.writerWithDefaultPrettyPrinter().writeValue(file, sbomDocument);
     }
@@ -149,6 +163,22 @@ public class SbomMapperUtil {
     }
 
     private static <T> String toRdfString(T sbomDocument) {
+        throw new RuntimeException("not implemented for RDF");
+    }
+
+    private static <T> byte[] toJsonBytes(T sbomDocument) throws IOException {
+        return Mapper.jsonSbomMapper.writerWithDefaultPrettyPrinter().writeValueAsBytes(sbomDocument);
+    }
+
+    private static <T> byte[] toXmlBytes(T sbomDocument) throws IOException {
+        return Mapper.xmlSbomMapper.writerWithDefaultPrettyPrinter().writeValueAsBytes(sbomDocument);
+    }
+
+    private static <T> byte[] toYamlBytes(T sbomDocument) throws IOException {
+        return Mapper.yamlSbomMapper.writerWithDefaultPrettyPrinter().writeValueAsBytes(sbomDocument);
+    }
+
+    private static <T> byte[] toRdfBytes(T sbomDocument) throws IOException {
         throw new RuntimeException("not implemented for RDF");
     }
 }
