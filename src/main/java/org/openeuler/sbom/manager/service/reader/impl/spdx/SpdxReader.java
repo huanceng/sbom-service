@@ -31,7 +31,6 @@ import org.openeuler.sbom.manager.model.Vulnerability;
 import org.openeuler.sbom.manager.model.spdx.ReferenceType;
 import org.openeuler.sbom.manager.model.spdx.SpdxDocument;
 import org.openeuler.sbom.manager.model.spdx.SpdxPackage;
-import org.openeuler.sbom.manager.model.spdx.SpdxRelationship;
 import org.openeuler.sbom.manager.service.reader.SbomReader;
 import org.openeuler.sbom.manager.utils.SbomFormat;
 import org.openeuler.sbom.manager.utils.SbomMapperUtil;
@@ -116,21 +115,21 @@ public class SpdxReader implements SbomReader {
 
     private Sbom persistSbom(String productId, SpdxDocument document) {
         Sbom sbom = sbomRepository.findByProductId(productId).orElse(new Sbom(productId));
-        sbom.setCreated(document.creationInfo().created().toString());
-        sbom.setDataLicense(document.dataLicense());
-        sbom.setLicenseListVersion(document.creationInfo().licenseListVersion());
-        sbom.setName(document.name());
-        sbom.setNamespace(document.documentNamespace());
+        sbom.setCreated(document.getCreationInfo().created().toString());
+        sbom.setDataLicense(document.getDataLicense());
+        sbom.setLicenseListVersion(document.getCreationInfo().licenseListVersion());
+        sbom.setName(document.getName());
+        sbom.setNamespace(document.getDocumentNamespace());
         return sbomRepository.save(sbom);
     }
 
     private void persistSbomCreators(SpdxDocument document, Sbom sbom) {
-        if (Objects.isNull(document.creationInfo().creators())) {
+        if (Objects.isNull(document.getCreationInfo().creators())) {
             return;
         }
 
         List<SbomCreator> sbomCreators = new ArrayList<>();
-        document.creationInfo().creators().forEach(it -> {
+        document.getCreationInfo().creators().forEach(it -> {
             SbomCreator sbomCreator = Optional
                     .ofNullable(sbomCreatorRepository.findBySbomIdAndName(sbom.getId(), it))
                     .orElse(new SbomCreator());
@@ -142,12 +141,12 @@ public class SpdxReader implements SbomReader {
     }
 
     private void persistSbomElementRelationship(SpdxDocument document, Sbom sbom) {
-        if (Objects.isNull(document.relationships())) {
+        if (Objects.isNull(document.getRelationships())) {
             return;
         }
 
         List<SbomElementRelationship> sbomElementRelationships = new ArrayList<>();
-        document.relationships().forEach(it -> {
+        document.getRelationships().forEach(it -> {
             SbomElementRelationship sbomElementRelationship = Optional
                     .ofNullable(sbomElementRelationshipRepository.findUniqueItem(
                             sbom.getId(), it.spdxElementId(), it.relatedSpdxElement(), it.relationshipType().name()))
@@ -163,11 +162,11 @@ public class SpdxReader implements SbomReader {
     }
 
     private void persistPackages(SpdxDocument document, Sbom sbom) {
-        if (Objects.isNull(document.packages())) {
+        if (Objects.isNull(document.getPackages())) {
             return;
         }
 
-        document.packages().forEach(it -> {
+        document.getPackages().forEach(it -> {
             Package pkg = Optional
                     .ofNullable(packageRepository.findBySbomIdAndSpdxIdAndNameAndVersion(
                             sbom.getId(), it.spdxId(), it.name(), it.versionInfo()))

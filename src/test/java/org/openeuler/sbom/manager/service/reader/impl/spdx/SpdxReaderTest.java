@@ -1,6 +1,5 @@
 package org.openeuler.sbom.manager.service.reader.impl.spdx;
 
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.MethodOrderer;
 import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
@@ -107,7 +106,6 @@ class SpdxReaderTest {
     }
 
     @Test
-    @Disabled
     @Order(4)
     public void deleteSbom() {
         sbomRepository.deleteAll();

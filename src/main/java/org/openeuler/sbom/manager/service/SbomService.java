@@ -6,9 +6,9 @@ import java.io.IOException;
 
 public interface SbomService {
 
-    // TODO 后续把productName换成productID
-    void readSbomFile(String productName, String fileName, byte[] fileContent) throws IOException;
+    void readSbomFile(String productId, String fileName, byte[] fileContent) throws IOException;
 
-    // TODO 后续把productName换成productID
-    RawSbom writeSbomFile(String productName, String spec, String specVersion, String format);
+    RawSbom writeSbomFile(String productId, String spec, String specVersion, String format);
+
+    byte[] writeSbom(String productId, String spec, String specVersion, String format) throws IOException;
 }
