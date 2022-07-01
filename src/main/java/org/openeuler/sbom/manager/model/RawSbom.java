@@ -11,8 +11,8 @@ import java.util.UUID;
 
 @Entity
 @Table(indexes = {
-        // TODO 后续product功能完成后去除productName
-        @Index(name = "raw_sbom_uk", columnList = "spec, spec_version, format, productName", unique = true)
+        // TODO 后续product功能完成后去除productId
+        @Index(name = "raw_sbom_uk", columnList = "spec, spec_version, format, productId", unique = true)
 })
 public class RawSbom {
     @Id
@@ -36,8 +36,8 @@ public class RawSbom {
 
     // @OneToOne(mappedBy = "rawSbom", fetch = FetchType.LAZY, optional = false, cascade = CascadeType.ALL, orphanRemoval = true)
     // private Product product;
-    // TODO 待后续product功能完成后，productName切换成product对象
-    private String productName;
+    // TODO 待后续product功能完成后，productId切换成product对象
+    private String productId;
 
     @Column(name = "create_time")
     @CreationTimestamp
@@ -95,12 +95,12 @@ public class RawSbom {
 //        this.product = product;
 //    }
 
-    public String getProductName() {
-        return productName;
+    public String getProductId() {
+        return productId;
     }
 
-    public void setProductName(String productName) {
-        this.productName = productName;
+    public void setProductId(String productId) {
+        this.productId = productId;
     }
 
     public Timestamp getCreateTime() {
