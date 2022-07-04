@@ -1,7 +1,5 @@
 package org.openeuler.sbom.manager.service.reader.impl.spdx;
 
-import com.github.packageurl.MalformedPackageURLException;
-import com.github.packageurl.PackageURL;
 import org.apache.commons.lang3.tuple.Pair;
 import org.apache.commons.lang3.tuple.Triple;
 import org.openeuler.sbom.manager.constant.SbomConstants;
@@ -13,8 +11,6 @@ import org.openeuler.sbom.manager.model.ExternalVulRef;
 import org.openeuler.sbom.manager.model.Package;
 import org.openeuler.sbom.manager.model.PkgVerfCode;
 import org.openeuler.sbom.manager.model.PkgVerfCodeExcludedFile;
-import org.openeuler.sbom.manager.model.Purl;
-import org.openeuler.sbom.manager.model.PurlQualifier;
 import org.openeuler.sbom.manager.model.Sbom;
 import org.openeuler.sbom.manager.model.SbomCreator;
 import org.openeuler.sbom.manager.model.SbomElementRelationship;
@@ -24,6 +20,7 @@ import org.openeuler.sbom.manager.model.spdx.ReferenceType;
 import org.openeuler.sbom.manager.model.spdx.SpdxDocument;
 import org.openeuler.sbom.manager.model.spdx.SpdxPackage;
 import org.openeuler.sbom.manager.service.reader.SbomReader;
+import org.openeuler.sbom.manager.utils.PurlUtil;
 import org.openeuler.sbom.manager.utils.SbomFormat;
 import org.openeuler.sbom.manager.utils.SbomMapperUtil;
 import org.openeuler.sbom.manager.utils.SbomSpecification;
@@ -140,12 +137,12 @@ public class SpdxReader implements SbomReader {
         }
 
         List<Package> packages = new ArrayList<>();
-        Map<Pair<String, String>, Package> existPackages = Optional.ofNullable(sbom.getPackages())
+        Map<Triple<String, String, String>, Package> existPackages = Optional.ofNullable(sbom.getPackages())
                 .orElse(new ArrayList<>())
                 .stream()
-                .collect(Collectors.toMap(it -> Pair.of(it.getSpdxId(), it.getName()), Function.identity()));
+                .collect(Collectors.toMap(it -> Triple.of(it.getSpdxId(), it.getName(), it.getVersion()), Function.identity()));
         document.getPackages().forEach(it -> {
-            Package pkg = existPackages.getOrDefault(Pair.of(it.getSpdxId(), it.getName()), new Package());
+            Package pkg = existPackages.getOrDefault(Triple.of(it.getSpdxId(), it.getName(), it.getVersionInfo()), new Package());
             pkg.setSpdxId(it.getSpdxId());
             pkg.setName(it.getName());
             pkg.setVersion(it.getVersionInfo());
@@ -238,11 +235,11 @@ public class SpdxReader implements SbomReader {
 
         List<ExternalPurlRef> externalPurlRefs = new ArrayList<>();
         List<ExternalVulRef> externalVulRefs = new ArrayList<>();
-        Map<PackageURL, ExternalPurlRef> existExternalPurlRefs = Optional
+        Map<Triple<String, String, String>, ExternalPurlRef> existExternalPurlRefs = Optional
                 .ofNullable(pkg.getExternalPurlRefs())
                 .orElse(new ArrayList<>())
                 .stream()
-                .collect(Collectors.toMap(it -> strToPackageURL(it.getPurl().getPurl()), Function.identity()));
+                .collect(Collectors.toMap(it -> Triple.of(it.getCategory(), it.getType(), PurlUtil.canonicalizePurl(it.getPurl())), Function.identity()));
         Map<String, ExternalVulRef> existExternalVulRefs = Optional
                 .ofNullable(pkg.getExternalVulRefs())
                 .orElse(new ArrayList<>())
@@ -250,12 +247,13 @@ public class SpdxReader implements SbomReader {
                 .collect(Collectors.toMap(it -> it.getVulnerability().getVulId(), Function.identity()));
         spdxPackage.getExternalRefs().forEach(it -> {
             if (it.referenceType() == ReferenceType.PURL) {
-                ExternalPurlRef externalPurlRef = existExternalPurlRefs.getOrDefault(strToPackageURL(it.referenceLocator()), new ExternalPurlRef());
-                Purl purl = persistPurl(externalPurlRef, it.referenceLocator());
+                ExternalPurlRef externalPurlRef = existExternalPurlRefs.getOrDefault(
+                        Triple.of(it.referenceCategory().name(), it.referenceType().getType(),
+                                PurlUtil.canonicalizePurl(it.referenceLocator())), new ExternalPurlRef());
                 externalPurlRef.setCategory(it.referenceCategory().name());
                 externalPurlRef.setType(it.referenceType().getType());
                 externalPurlRef.setComment(it.comment());
-                externalPurlRef.setPurl(purl);
+                externalPurlRef.setPurl(it.referenceLocator());
                 externalPurlRef.setPkg(pkg);
                 externalPurlRefs.add(externalPurlRef);
             } else if (it.referenceType() == ReferenceType.CVE) {
@@ -273,65 +271,5 @@ public class SpdxReader implements SbomReader {
             }
         });
         return Map.of(ReferenceType.PURL, externalPurlRefs, ReferenceType.CVE, externalVulRefs);
-    }
-
-    private Purl persistPurl(ExternalPurlRef externalPurlRef, String referenceLocator) {
-        PackageURL packageURL = strToPackageURL(referenceLocator);
-        Purl purl = Optional.ofNullable(externalPurlRef.getPurl()).orElse(new Purl());
-        purl.setType(packageURL.getType());
-        purl.setName(packageURL.getName());
-        purl.setNamespace(packageURL.getNamespace());
-        purl.setVersion(packageURL.getVersion());
-        purl.setSubPath(packageURL.getSubpath());
-        purl.setQualifier(canonicalizePurlQualifier(packageURL.getQualifiers()));
-        purl.setPurl(packageURL.canonicalize());
-        purl.setExternalPurlRef(externalPurlRef);
-
-        List<PurlQualifier> purlQualifiers = persistPurlQualifiers(purl, packageURL.getQualifiers());
-        purl.setPurlQualifiers(purlQualifiers);
-        return purl;
-    }
-
-    private PackageURL strToPackageURL(String purlStr) {
-        try {
-            return new PackageURL(purlStr);
-        } catch (MalformedPackageURLException e) {
-            throw new RuntimeException(e);
-        }
-    }
-
-    private String canonicalizePurlQualifier(Map<String, String> qualifiers) {
-        final StringBuilder qualifier = new StringBuilder();
-        if (qualifiers != null && qualifiers.size() > 0) {
-            qualifiers.entrySet().stream().forEachOrdered((entry) -> {
-                qualifier.append(entry.getKey());
-                qualifier.append("=");
-                qualifier.append(entry.getValue());
-                qualifier.append("&");
-            });
-            qualifier.setLength(qualifier.length() - 1);
-        }
-        return qualifier.toString();
-    }
-
-    private List<PurlQualifier> persistPurlQualifiers(Purl purl, Map<String, String> qualifiers) {
-        if (qualifiers == null || qualifiers.size() == 0) {
-            return new ArrayList<>();
-        }
-
-        List<PurlQualifier> purlQualifiers = new ArrayList<>();
-        Map<Pair<String, String>, PurlQualifier> existPurlQualifiers = Optional
-                .ofNullable(purl.getPurlQualifiers())
-                .orElse(new ArrayList<>())
-                .stream()
-                .collect(Collectors.toMap(it -> Pair.of(it.getKey(), it.getValue()), Function.identity()));
-        qualifiers.entrySet().stream().forEachOrdered((entry) -> {
-            PurlQualifier purlQualifier = existPurlQualifiers.getOrDefault(Pair.of(entry.getKey(), entry.getValue()), new PurlQualifier());
-            purlQualifier.setKey(entry.getKey());
-            purlQualifier.setValue(entry.getValue());
-            purlQualifier.setPurl(purl);
-            purlQualifiers.add(purlQualifier);
-        });
-        return purlQualifiers;
     }
 }

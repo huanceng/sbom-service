@@ -11,8 +11,6 @@ import org.openeuler.sbom.manager.dao.ExternalVulRefRepository;
 import org.openeuler.sbom.manager.dao.PackageRepository;
 import org.openeuler.sbom.manager.dao.PkgVerfCodeExcludedFileRepository;
 import org.openeuler.sbom.manager.dao.PkgVerfCodeRepository;
-import org.openeuler.sbom.manager.dao.PurlQualifierRepository;
-import org.openeuler.sbom.manager.dao.PurlRepository;
 import org.openeuler.sbom.manager.dao.SbomCreatorRepository;
 import org.openeuler.sbom.manager.dao.SbomElementRelationshipRepository;
 import org.openeuler.sbom.manager.dao.SbomRepository;
@@ -23,8 +21,6 @@ import org.openeuler.sbom.manager.model.ExternalVulRef;
 import org.openeuler.sbom.manager.model.Package;
 import org.openeuler.sbom.manager.model.PkgVerfCode;
 import org.openeuler.sbom.manager.model.PkgVerfCodeExcludedFile;
-import org.openeuler.sbom.manager.model.Purl;
-import org.openeuler.sbom.manager.model.PurlQualifier;
 import org.openeuler.sbom.manager.model.Sbom;
 import org.openeuler.sbom.manager.model.SbomCreator;
 import org.openeuler.sbom.manager.model.SbomElementRelationship;
@@ -76,12 +72,6 @@ class SpdxReaderTest {
     private ExternalPurlRefRepository externalPurlRefRepository;
 
     @Autowired
-    private PurlRepository purlRepository;
-
-    @Autowired
-    private PurlQualifierRepository purlQualifierRepository;
-
-    @Autowired
     private VulnerabilityRepository vulnerabilityRepository;
 
     @Autowired
@@ -117,8 +107,6 @@ class SpdxReaderTest {
         assertThat(pkgVerfCodeExcludedFileRepository.findAll().size()).isEqualTo(0);
         assertThat(checksumRepository.findAll().size()).isEqualTo(0);
         assertThat(externalPurlRefRepository.findAll().size()).isEqualTo(0);
-        assertThat(purlRepository.findAll().size()).isEqualTo(0);
-        assertThat(purlQualifierRepository.findAll().size()).isEqualTo(0);
         assertThat(vulnerabilityRepository.findAll().size()).isEqualTo(1);
         assertThat(externalVulRefRepository.findAll().size()).isEqualTo(0);
     }
@@ -132,8 +120,6 @@ class SpdxReaderTest {
         pkgVerfCodeExcludedFileRepository.deleteAll();
         checksumRepository.deleteAll();
         externalPurlRefRepository.deleteAll();
-        purlRepository.deleteAll();
-        purlQualifierRepository.deleteAll();
         vulnerabilityRepository.deleteAll();
         externalVulRefRepository.deleteAll();
     }
@@ -180,12 +166,6 @@ class SpdxReaderTest {
 
         List<ExternalPurlRef> externalPurlRefs = externalPurlRefRepository.findAll();
         assertThat(externalPurlRefs.size()).isEqualTo(76);
-
-        List<Purl> purls = purlRepository.findAll();
-        assertThat(purls.size()).isEqualTo(76);
-
-        List<PurlQualifier> purlQualifiers = purlQualifierRepository.findAll();
-        assertThat(purlQualifiers.size()).isEqualTo(2);
 
         List<ExternalVulRef> externalVulRefs = externalVulRefRepository.findAll();
         assertThat(externalVulRefs.size()).isEqualTo(1);

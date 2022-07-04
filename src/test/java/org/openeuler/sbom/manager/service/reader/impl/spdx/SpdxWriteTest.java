@@ -12,8 +12,6 @@ import org.openeuler.sbom.manager.dao.ExternalVulRefRepository;
 import org.openeuler.sbom.manager.dao.PackageRepository;
 import org.openeuler.sbom.manager.dao.PkgVerfCodeExcludedFileRepository;
 import org.openeuler.sbom.manager.dao.PkgVerfCodeRepository;
-import org.openeuler.sbom.manager.dao.PurlQualifierRepository;
-import org.openeuler.sbom.manager.dao.PurlRepository;
 import org.openeuler.sbom.manager.dao.SbomCreatorRepository;
 import org.openeuler.sbom.manager.dao.SbomElementRelationshipRepository;
 import org.openeuler.sbom.manager.dao.SbomRepository;
@@ -72,17 +70,10 @@ class SpdxWriteTest {
     private ExternalPurlRefRepository externalPurlRefRepository;
 
     @Autowired
-    private PurlRepository purlRepository;
-
-    @Autowired
-    private PurlQualifierRepository purlQualifierRepository;
-
-    @Autowired
     private VulnerabilityRepository vulnerabilityRepository;
 
     @Autowired
     private ExternalVulRefRepository externalVulRefRepository;
-
 
     @Test
     @Order(1)
