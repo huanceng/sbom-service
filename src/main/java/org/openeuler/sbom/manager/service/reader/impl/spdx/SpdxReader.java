@@ -145,20 +145,20 @@ public class SpdxReader implements SbomReader {
                 .stream()
                 .collect(Collectors.toMap(it -> Pair.of(it.getSpdxId(), it.getName()), Function.identity()));
         document.getPackages().forEach(it -> {
-            Package pkg = existPackages.getOrDefault(Pair.of(it.spdxId(), it.name()), new Package());
-            pkg.setSpdxId(it.spdxId());
-            pkg.setName(it.name());
-            pkg.setVersion(it.versionInfo());
-            pkg.setCopyright(it.copyrightText());
-            pkg.setDescription(it.description());
-            pkg.setDownloadLocation(it.downloadLocation());
-            pkg.setFilesAnalyzed(it.filesAnalyzed());
-            pkg.setHomepage(it.homepage());
-            pkg.setLicenseConcluded(it.licenseConcluded());
-            pkg.setLicenseDeclared(it.licenseDeclared());
-            pkg.setSourceInfo(it.sourceInfo());
-            pkg.setSummary(it.summary());
-            pkg.setSupplier(it.supplier());
+            Package pkg = existPackages.getOrDefault(Pair.of(it.getSpdxId(), it.getName()), new Package());
+            pkg.setSpdxId(it.getSpdxId());
+            pkg.setName(it.getName());
+            pkg.setVersion(it.getVersionInfo());
+            pkg.setCopyright(it.getCopyrightText());
+            pkg.setDescription(it.getDescription());
+            pkg.setDownloadLocation(it.getDownloadLocation());
+            pkg.setFilesAnalyzed(it.getFilesAnalyzed());
+            pkg.setHomepage(it.getHomepage());
+            pkg.setLicenseConcluded(it.getLicenseConcluded());
+            pkg.setLicenseDeclared(it.getLicenseDeclared());
+            pkg.setSourceInfo(it.getSourceInfo());
+            pkg.setSummary(it.getSummary());
+            pkg.setSupplier(it.getSupplier());
             pkg.setSbom(sbom);
 
             PkgVerfCode pkgVerfCode = persistPkgVerfCode(it, pkg);
@@ -175,13 +175,13 @@ public class SpdxReader implements SbomReader {
     }
 
     private PkgVerfCode persistPkgVerfCode(SpdxPackage spdxPackage, Package pkg) {
-        if (Objects.isNull(spdxPackage.packageVerificationCode())) {
+        if (Objects.isNull(spdxPackage.getPackageVerificationCode())) {
             return null;
         }
 
         PkgVerfCode pkgVerfCode = Optional.ofNullable(pkg.getPkgVerfCode()).orElse(new PkgVerfCode());
         pkgVerfCode.setPkg(pkg);
-        pkgVerfCode.setValue(spdxPackage.packageVerificationCode().packageVerificationCodeValue());
+        pkgVerfCode.setValue(spdxPackage.getPackageVerificationCode().packageVerificationCodeValue());
 
         List<PkgVerfCodeExcludedFile> files = persistPkgVerfCodeExcludedFiles(spdxPackage, pkgVerfCode);
         pkgVerfCode.setPkgVerfCodeExcludedFiles(files);
@@ -189,8 +189,8 @@ public class SpdxReader implements SbomReader {
     }
 
     private List<PkgVerfCodeExcludedFile> persistPkgVerfCodeExcludedFiles(SpdxPackage spdxPackage, PkgVerfCode pkgVerfCode) {
-        if (Objects.isNull(spdxPackage.packageVerificationCode()) ||
-                Objects.isNull(spdxPackage.packageVerificationCode().packageVerificationCodeExcludedFiles())) {
+        if (Objects.isNull(spdxPackage.getPackageVerificationCode()) ||
+                Objects.isNull(spdxPackage.getPackageVerificationCode().packageVerificationCodeExcludedFiles())) {
             return new ArrayList<>();
         }
 
@@ -201,7 +201,7 @@ public class SpdxReader implements SbomReader {
                 .stream()
                 .collect(Collectors.toMap(PkgVerfCodeExcludedFile::getFile, Function.identity()));
 
-        spdxPackage.packageVerificationCode().packageVerificationCodeExcludedFiles().forEach(f -> {
+        spdxPackage.getPackageVerificationCode().packageVerificationCodeExcludedFiles().forEach(f -> {
             PkgVerfCodeExcludedFile pkgVerfCodeExcludedFile = existPkgVerfCodeExcludedFiles.getOrDefault(f, new PkgVerfCodeExcludedFile());
             pkgVerfCodeExcludedFile.setFile(f);
             pkgVerfCodeExcludedFile.setPkgVerfCode(pkgVerfCode);
@@ -212,7 +212,7 @@ public class SpdxReader implements SbomReader {
     }
 
     private List<Checksum> persistChecksums(SpdxPackage spdxPackage, Package pkg) {
-        if (Objects.isNull(spdxPackage.checksums())) {
+        if (Objects.isNull(spdxPackage.getChecksums())) {
             return new ArrayList<>();
         }
 
@@ -221,7 +221,7 @@ public class SpdxReader implements SbomReader {
                 .orElse(new ArrayList<>())
                 .stream()
                 .collect(Collectors.toMap(it -> Pair.of(it.getAlgorithm(), it.getValue()), Function.identity()));
-        spdxPackage.checksums().forEach(it -> {
+        spdxPackage.getChecksums().forEach(it -> {
             Checksum checksum = existChecksums.getOrDefault(Pair.of(it.algorithm().name(), it.checksumValue()), new Checksum());
             checksum.setAlgorithm(it.algorithm().toString());
             checksum.setValue(it.checksumValue());
@@ -232,7 +232,7 @@ public class SpdxReader implements SbomReader {
     }
 
     private Map<ReferenceType, List<?>> persistExternalRefs(SpdxPackage spdxPackage, Package pkg) {
-        if (Objects.isNull(spdxPackage.externalRefs())) {
+        if (Objects.isNull(spdxPackage.getExternalRefs())) {
             return new HashMap<>();
         }
 
@@ -248,7 +248,7 @@ public class SpdxReader implements SbomReader {
                 .orElse(new ArrayList<>())
                 .stream()
                 .collect(Collectors.toMap(it -> it.getVulnerability().getVulId(), Function.identity()));
-        spdxPackage.externalRefs().forEach(it -> {
+        spdxPackage.getExternalRefs().forEach(it -> {
             if (it.referenceType() == ReferenceType.PURL) {
                 ExternalPurlRef externalPurlRef = existExternalPurlRefs.getOrDefault(strToPackageURL(it.referenceLocator()), new ExternalPurlRef());
                 Purl purl = persistPurl(externalPurlRef, it.referenceLocator());
