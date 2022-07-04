@@ -2,17 +2,9 @@ package org.openeuler.sbom.manager.service.reader.impl.spdx;
 
 import com.github.packageurl.MalformedPackageURLException;
 import com.github.packageurl.PackageURL;
+import org.apache.commons.lang3.tuple.Pair;
+import org.apache.commons.lang3.tuple.Triple;
 import org.openeuler.sbom.manager.constant.SbomConstants;
-import org.openeuler.sbom.manager.dao.ChecksumRepository;
-import org.openeuler.sbom.manager.dao.ExternalPurlRefRepository;
-import org.openeuler.sbom.manager.dao.ExternalVulRefRepository;
-import org.openeuler.sbom.manager.dao.PackageRepository;
-import org.openeuler.sbom.manager.dao.PkgVerfCodeExcludedFileRepository;
-import org.openeuler.sbom.manager.dao.PkgVerfCodeRepository;
-import org.openeuler.sbom.manager.dao.PurlQualifierRepository;
-import org.openeuler.sbom.manager.dao.PurlRepository;
-import org.openeuler.sbom.manager.dao.SbomCreatorRepository;
-import org.openeuler.sbom.manager.dao.SbomElementRelationshipRepository;
 import org.openeuler.sbom.manager.dao.SbomRepository;
 import org.openeuler.sbom.manager.dao.VulnerabilityRepository;
 import org.openeuler.sbom.manager.model.Checksum;
@@ -36,21 +28,20 @@ import org.openeuler.sbom.manager.utils.SbomFormat;
 import org.openeuler.sbom.manager.utils.SbomMapperUtil;
 import org.openeuler.sbom.manager.utils.SbomSpecification;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Example;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
-import java.io.UnsupportedEncodingException;
-import java.net.URLEncoder;
-import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Optional;
+import java.util.function.Function;
+import java.util.stream.Collectors;
 
 import static org.openeuler.sbom.manager.utils.SbomMapperUtil.fileToExt;
 
@@ -62,37 +53,7 @@ public class SpdxReader implements SbomReader {
     private SbomRepository sbomRepository;
 
     @Autowired
-    private SbomCreatorRepository sbomCreatorRepository;
-
-    @Autowired
-    private SbomElementRelationshipRepository sbomElementRelationshipRepository;
-
-    @Autowired
-    private PackageRepository packageRepository;
-
-    @Autowired
-    private PkgVerfCodeRepository pkgVerfCodeRepository;
-
-    @Autowired
-    private PkgVerfCodeExcludedFileRepository pkgVerfCodeExcludedFileRepository;
-
-    @Autowired
-    private ChecksumRepository checksumRepository;
-
-    @Autowired
-    private ExternalPurlRefRepository externalPurlRefRepository;
-
-    @Autowired
-    private PurlRepository purlRepository;
-
-    @Autowired
-    private PurlQualifierRepository purlQualifierRepository;
-
-    @Autowired
     private VulnerabilityRepository vulnerabilityRepository;
-
-    @Autowired
-    private ExternalVulRefRepository externalVulRefRepository;
 
     @Override
     public void read(String productId, File file) throws IOException {
@@ -107,50 +68,61 @@ public class SpdxReader implements SbomReader {
     @Override
     public void read(String productId, SbomFormat format, byte[] fileContent) throws IOException {
         SpdxDocument document = SbomMapperUtil.readDocument(format, SbomSpecification.SPDX_2_2.getDocumentClass(), fileContent);
-        Sbom sbom = persistSbom(productId, document);
-        persistSbomCreators(document, sbom);
-        persistSbomElementRelationship(document, sbom);
-        persistPackages(document, sbom);
+        persistSbom(productId, document);
     }
 
-    private Sbom persistSbom(String productId, SpdxDocument document) {
+    private void persistSbom(String productId, SpdxDocument document) {
         Sbom sbom = sbomRepository.findByProductId(productId).orElse(new Sbom(productId));
         sbom.setCreated(document.getCreationInfo().created().toString());
         sbom.setDataLicense(document.getDataLicense());
         sbom.setLicenseListVersion(document.getCreationInfo().licenseListVersion());
         sbom.setName(document.getName());
         sbom.setNamespace(document.getDocumentNamespace());
-        return sbomRepository.save(sbom);
+        List<SbomCreator> sbomCreators = persistSbomCreators(document, sbom);
+        sbom.setSbomCreators(sbomCreators);
+        List<SbomElementRelationship> sbomElementRelationships = persistSbomElementRelationship(document, sbom);
+        sbom.setSbomElementRelationships(sbomElementRelationships);
+        List<Package> packages = persistPackages(document, sbom);
+        sbom.setPackages(packages);
+        sbomRepository.save(sbom);
     }
 
-    private void persistSbomCreators(SpdxDocument document, Sbom sbom) {
+    private List<SbomCreator> persistSbomCreators(SpdxDocument document, Sbom sbom) {
         if (Objects.isNull(document.getCreationInfo().creators())) {
-            return;
+            return new ArrayList<>();
         }
 
+        Map<String, SbomCreator> existSbomCreators = Optional
+                .ofNullable(sbom.getSbomCreators())
+                .orElse(new ArrayList<>())
+                .stream()
+                .collect(Collectors.toMap(SbomCreator::getName, Function.identity()));
         List<SbomCreator> sbomCreators = new ArrayList<>();
         document.getCreationInfo().creators().forEach(it -> {
-            SbomCreator sbomCreator = Optional
-                    .ofNullable(sbomCreatorRepository.findBySbomIdAndName(sbom.getId(), it))
-                    .orElse(new SbomCreator());
+            SbomCreator sbomCreator = existSbomCreators.getOrDefault(it, new SbomCreator());
             sbomCreator.setName(it);
             sbomCreator.setSbom(sbom);
             sbomCreators.add(sbomCreator);
         });
-        sbomCreatorRepository.saveAll(sbomCreators);
+        return sbomCreators;
     }
 
-    private void persistSbomElementRelationship(SpdxDocument document, Sbom sbom) {
+    private List<SbomElementRelationship> persistSbomElementRelationship(SpdxDocument document, Sbom sbom) {
         if (Objects.isNull(document.getRelationships())) {
-            return;
+            return new ArrayList<>();
         }
+
+        Map<Triple<String, String, String>, SbomElementRelationship> existSbomElementRelationships = Optional
+                .ofNullable(sbom.getSbomElementRelationships())
+                .orElse(new ArrayList<>())
+                .stream()
+                .collect(Collectors.toMap(it -> Triple.of(
+                        it.getElementId(), it.getRelatedElementId(), it.getRelationshipType()), Function.identity()));
 
         List<SbomElementRelationship> sbomElementRelationships = new ArrayList<>();
         document.getRelationships().forEach(it -> {
-            SbomElementRelationship sbomElementRelationship = Optional
-                    .ofNullable(sbomElementRelationshipRepository.findUniqueItem(
-                            sbom.getId(), it.spdxElementId(), it.relatedSpdxElement(), it.relationshipType().name()))
-                    .orElse(new SbomElementRelationship());
+            SbomElementRelationship sbomElementRelationship = existSbomElementRelationships.getOrDefault(
+                    Triple.of(it.spdxElementId(), it.relatedSpdxElement(), it.relationshipType().name()), new SbomElementRelationship());
             sbomElementRelationship.setElementId(it.spdxElementId());
             sbomElementRelationship.setRelatedElementId(it.relatedSpdxElement());
             sbomElementRelationship.setRelationshipType(it.relationshipType().name());
@@ -158,19 +130,22 @@ public class SpdxReader implements SbomReader {
             sbomElementRelationship.setSbom(sbom);
             sbomElementRelationships.add(sbomElementRelationship);
         });
-        sbomElementRelationshipRepository.saveAll(sbomElementRelationships);
+        return sbomElementRelationships;
     }
 
-    private void persistPackages(SpdxDocument document, Sbom sbom) {
+    @SuppressWarnings("unchecked")
+    private List<Package> persistPackages(SpdxDocument document, Sbom sbom) {
         if (Objects.isNull(document.getPackages())) {
-            return;
+            return new ArrayList<>();
         }
 
+        List<Package> packages = new ArrayList<>();
+        Map<Pair<String, String>, Package> existPackages = Optional.ofNullable(sbom.getPackages())
+                .orElse(new ArrayList<>())
+                .stream()
+                .collect(Collectors.toMap(it -> Pair.of(it.getSpdxId(), it.getName()), Function.identity()));
         document.getPackages().forEach(it -> {
-            Package pkg = Optional
-                    .ofNullable(packageRepository.findBySbomIdAndSpdxIdAndNameAndVersion(
-                            sbom.getId(), it.spdxId(), it.name(), it.versionInfo()))
-                    .orElse(new Package());
+            Package pkg = existPackages.getOrDefault(Pair.of(it.spdxId(), it.name()), new Package());
             pkg.setSpdxId(it.spdxId());
             pkg.setName(it.name());
             pkg.setVersion(it.versionInfo());
@@ -185,13 +160,18 @@ public class SpdxReader implements SbomReader {
             pkg.setSummary(it.summary());
             pkg.setSupplier(it.supplier());
             pkg.setSbom(sbom);
-            Package newPkg = packageRepository.save(pkg);
 
-            PkgVerfCode pkgVerfCode = persistPkgVerfCode(it, newPkg);
-            persistPkgVerfCodeExcludedFiles(it, pkgVerfCode);
-            persistChecksums(it, newPkg);
-            persistExternalRefs(it, newPkg);
+            PkgVerfCode pkgVerfCode = persistPkgVerfCode(it, pkg);
+            pkg.setPkgVerfCode(pkgVerfCode);
+            List<Checksum> checksums = persistChecksums(it, pkg);
+            pkg.setChecksums(checksums);
+            Map<ReferenceType, List<?>> externalRefs = persistExternalRefs(it, pkg);
+            pkg.setExternalPurlRefs((List<ExternalPurlRef>) externalRefs.getOrDefault(ReferenceType.PURL, new ArrayList<>()));
+            pkg.setExternalVulRefs((List<ExternalVulRef>) externalRefs.getOrDefault(ReferenceType.CVE, new ArrayList<>()));
+
+            packages.add(pkg);
         });
+        return packages;
     }
 
     private PkgVerfCode persistPkgVerfCode(SpdxPackage spdxPackage, Package pkg) {
@@ -199,62 +179,79 @@ public class SpdxReader implements SbomReader {
             return null;
         }
 
-        PkgVerfCode pkgVerfCode = Optional.ofNullable(pkgVerfCodeRepository.findByPkgId(pkg.getId())).orElse(new PkgVerfCode());
+        PkgVerfCode pkgVerfCode = Optional.ofNullable(pkg.getPkgVerfCode()).orElse(new PkgVerfCode());
         pkgVerfCode.setPkg(pkg);
         pkgVerfCode.setValue(spdxPackage.packageVerificationCode().packageVerificationCodeValue());
-        return pkgVerfCodeRepository.save(pkgVerfCode);
+
+        List<PkgVerfCodeExcludedFile> files = persistPkgVerfCodeExcludedFiles(spdxPackage, pkgVerfCode);
+        pkgVerfCode.setPkgVerfCodeExcludedFiles(files);
+        return pkgVerfCode;
     }
 
-    private void persistPkgVerfCodeExcludedFiles(SpdxPackage spdxPackage, PkgVerfCode pkgVerfCode) {
+    private List<PkgVerfCodeExcludedFile> persistPkgVerfCodeExcludedFiles(SpdxPackage spdxPackage, PkgVerfCode pkgVerfCode) {
         if (Objects.isNull(spdxPackage.packageVerificationCode()) ||
                 Objects.isNull(spdxPackage.packageVerificationCode().packageVerificationCodeExcludedFiles())) {
-            return;
+            return new ArrayList<>();
         }
 
         List<PkgVerfCodeExcludedFile> pkgVerfCodeExcludedFiles = new ArrayList<>();
+        Map<String, PkgVerfCodeExcludedFile> existPkgVerfCodeExcludedFiles = Optional
+                .ofNullable(pkgVerfCode.getPkgVerfCodeExcludedFiles())
+                .orElse(new ArrayList<>())
+                .stream()
+                .collect(Collectors.toMap(PkgVerfCodeExcludedFile::getFile, Function.identity()));
+
         spdxPackage.packageVerificationCode().packageVerificationCodeExcludedFiles().forEach(f -> {
-            PkgVerfCodeExcludedFile pkgVerfCodeExcludedFile = Optional
-                    .ofNullable(pkgVerfCodeExcludedFileRepository.findByPkgVerfCodeIdAndFile(pkgVerfCode.getId(), f))
-                    .orElse(new PkgVerfCodeExcludedFile());
+            PkgVerfCodeExcludedFile pkgVerfCodeExcludedFile = existPkgVerfCodeExcludedFiles.getOrDefault(f, new PkgVerfCodeExcludedFile());
             pkgVerfCodeExcludedFile.setFile(f);
             pkgVerfCodeExcludedFile.setPkgVerfCode(pkgVerfCode);
             pkgVerfCodeExcludedFiles.add(pkgVerfCodeExcludedFile);
 
         });
-        pkgVerfCodeExcludedFileRepository.saveAll(pkgVerfCodeExcludedFiles);
+        return pkgVerfCodeExcludedFiles;
     }
 
-    private void persistChecksums(SpdxPackage spdxPackage, Package pkg) {
+    private List<Checksum> persistChecksums(SpdxPackage spdxPackage, Package pkg) {
         if (Objects.isNull(spdxPackage.checksums())) {
-            return;
+            return new ArrayList<>();
         }
 
         List<Checksum> checksums = new ArrayList<>();
+        Map<Pair<String, String>, Checksum> existChecksums = Optional.ofNullable(pkg.getChecksums())
+                .orElse(new ArrayList<>())
+                .stream()
+                .collect(Collectors.toMap(it -> Pair.of(it.getAlgorithm(), it.getValue()), Function.identity()));
         spdxPackage.checksums().forEach(it -> {
-            Checksum checksum = Optional
-                    .ofNullable(checksumRepository.findByPkgIdAndAlgorithmAndValue(pkg.getId(), it.algorithm().toString(), it.checksumValue()))
-                    .orElse(new Checksum());
+            Checksum checksum = existChecksums.getOrDefault(Pair.of(it.algorithm().name(), it.checksumValue()), new Checksum());
             checksum.setAlgorithm(it.algorithm().toString());
             checksum.setValue(it.checksumValue());
             checksum.setPkg(pkg);
             checksums.add(checksum);
         });
-        checksumRepository.saveAll(checksums);
+        return checksums;
     }
 
-    private void persistExternalRefs(SpdxPackage spdxPackage, Package pkg) {
+    private Map<ReferenceType, List<?>> persistExternalRefs(SpdxPackage spdxPackage, Package pkg) {
         if (Objects.isNull(spdxPackage.externalRefs())) {
-            return;
+            return new HashMap<>();
         }
 
         List<ExternalPurlRef> externalPurlRefs = new ArrayList<>();
         List<ExternalVulRef> externalVulRefs = new ArrayList<>();
+        Map<PackageURL, ExternalPurlRef> existExternalPurlRefs = Optional
+                .ofNullable(pkg.getExternalPurlRefs())
+                .orElse(new ArrayList<>())
+                .stream()
+                .collect(Collectors.toMap(it -> strToPackageURL(it.getPurl().getPurl()), Function.identity()));
+        Map<String, ExternalVulRef> existExternalVulRefs = Optional
+                .ofNullable(pkg.getExternalVulRefs())
+                .orElse(new ArrayList<>())
+                .stream()
+                .collect(Collectors.toMap(it -> it.getVulnerability().getVulId(), Function.identity()));
         spdxPackage.externalRefs().forEach(it -> {
             if (it.referenceType() == ReferenceType.PURL) {
-                Purl purl = persistPurl(it.referenceLocator());
-                ExternalPurlRef externalPurlRef = Optional
-                        .ofNullable(externalPurlRefRepository.findByPkgIdAndPurlId(pkg.getId(), purl.getId()))
-                        .orElse(new ExternalPurlRef());
+                ExternalPurlRef externalPurlRef = existExternalPurlRefs.getOrDefault(strToPackageURL(it.referenceLocator()), new ExternalPurlRef());
+                Purl purl = persistPurl(externalPurlRef, it.referenceLocator());
                 externalPurlRef.setCategory(it.referenceCategory().name());
                 externalPurlRef.setType(it.referenceType().getType());
                 externalPurlRef.setComment(it.comment());
@@ -264,9 +261,7 @@ public class SpdxReader implements SbomReader {
             } else if (it.referenceType() == ReferenceType.CVE) {
                 Vulnerability vulnerability = vulnerabilityRepository.findById(it.referenceLocator()).orElse(null);
                 if (Objects.nonNull(vulnerability)) {
-                    ExternalVulRef externalVulRef = Optional
-                            .ofNullable(externalVulRefRepository.findByPkgIdAndVulId(pkg.getId(), vulnerability.getVulId()))
-                            .orElse(new ExternalVulRef());
+                    ExternalVulRef externalVulRef = existExternalVulRefs.getOrDefault(vulnerability.getVulId(), new ExternalVulRef());
                     externalVulRef.setCategory(it.referenceCategory().name());
                     externalVulRef.setType(it.referenceType().getType());
                     externalVulRef.setComment(it.comment());
@@ -277,38 +272,41 @@ public class SpdxReader implements SbomReader {
                 }
             }
         });
-        externalPurlRefRepository.saveAll(externalPurlRefs);
-        externalVulRefRepository.saveAll(externalVulRefs);
+        return Map.of(ReferenceType.PURL, externalPurlRefs, ReferenceType.CVE, externalVulRefs);
     }
 
-    private Purl persistPurl(String purlStr) {
-        PackageURL packageURL;
-        try {
-            packageURL = new PackageURL(purlStr);
-        } catch (MalformedPackageURLException e) {
-            throw new RuntimeException(e);
-        }
+    private Purl persistPurl(ExternalPurlRef externalPurlRef, String referenceLocator) {
+        PackageURL packageURL = strToPackageURL(referenceLocator);
+        Purl purl = Optional.ofNullable(externalPurlRef.getPurl()).orElse(new Purl());
+        purl.setType(packageURL.getType());
+        purl.setName(packageURL.getName());
+        purl.setNamespace(packageURL.getNamespace());
+        purl.setVersion(packageURL.getVersion());
+        purl.setSubPath(packageURL.getSubpath());
+        purl.setQualifier(canonicalizePurlQualifier(packageURL.getQualifiers()));
+        purl.setPurl(packageURL.canonicalize());
+        purl.setExternalPurlRef(externalPurlRef);
 
-        Purl temp = new Purl();
-        temp.setType(packageURL.getType());
-        temp.setName(packageURL.getName());
-        temp.setNamespace(packageURL.getNamespace());
-        temp.setVersion(packageURL.getVersion());
-        temp.setSubPath(packageURL.getSubpath());
-        temp.setQualifier(generatePurlQualifier(packageURL.getQualifiers()));
-
-        Purl purl = purlRepository.findOne(Example.of(temp)).orElseGet(() -> purlRepository.save(temp));
-        persistPurlQualifiers(purl, packageURL.getQualifiers());
+        List<PurlQualifier> purlQualifiers = persistPurlQualifiers(purl, packageURL.getQualifiers());
+        purl.setPurlQualifiers(purlQualifiers);
         return purl;
     }
 
-    private String generatePurlQualifier(Map<String, String> qualifiers) {
+    private PackageURL strToPackageURL(String purlStr) {
+        try {
+            return new PackageURL(purlStr);
+        } catch (MalformedPackageURLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    private String canonicalizePurlQualifier(Map<String, String> qualifiers) {
         final StringBuilder qualifier = new StringBuilder();
         if (qualifiers != null && qualifiers.size() > 0) {
             qualifiers.entrySet().stream().forEachOrdered((entry) -> {
                 qualifier.append(entry.getKey());
                 qualifier.append("=");
-                qualifier.append(percentEncode(entry.getValue()));
+                qualifier.append(entry.getValue());
                 qualifier.append("&");
             });
             qualifier.setLength(qualifier.length() - 1);
@@ -316,32 +314,24 @@ public class SpdxReader implements SbomReader {
         return qualifier.toString();
     }
 
-    private String percentEncode(final String input) {
-        try {
-            return URLEncoder.encode(input, StandardCharsets.UTF_8.name())
-                    .replace("+", "%20")
-                    // "*" is a reserved character in RFC 3986.
-                    .replace("*", "%2A")
-                    // "~" is an unreserved character in RFC 3986.
-                    .replace("%7E", "~");
-        } catch (UnsupportedEncodingException e) {
-            return input; // this should never occur
+    private List<PurlQualifier> persistPurlQualifiers(Purl purl, Map<String, String> qualifiers) {
+        if (qualifiers == null || qualifiers.size() == 0) {
+            return new ArrayList<>();
         }
-    }
 
-    private void persistPurlQualifiers(Purl purl, Map<String, String> qualifiers) {
-        if (qualifiers != null && qualifiers.size() > 0) {
-            List<PurlQualifier> purlQualifiers = new ArrayList<>();
-            qualifiers.entrySet().stream().forEachOrdered((entry) -> {
-                PurlQualifier purlQualifier = Optional
-                        .ofNullable(purlQualifierRepository.findByPurlIdAndKeyAndValue(purl.getId(), entry.getKey(), entry.getValue()))
-                        .orElse(new PurlQualifier());
-                purlQualifier.setKey(entry.getKey());
-                purlQualifier.setValue(entry.getValue());
-                purlQualifier.setPurl(purl);
-                purlQualifiers.add(purlQualifier);
-            });
-            purlQualifierRepository.saveAll(purlQualifiers);
-        }
+        List<PurlQualifier> purlQualifiers = new ArrayList<>();
+        Map<Pair<String, String>, PurlQualifier> existPurlQualifiers = Optional
+                .ofNullable(purl.getPurlQualifiers())
+                .orElse(new ArrayList<>())
+                .stream()
+                .collect(Collectors.toMap(it -> Pair.of(it.getKey(), it.getValue()), Function.identity()));
+        qualifiers.entrySet().stream().forEachOrdered((entry) -> {
+            PurlQualifier purlQualifier = existPurlQualifiers.getOrDefault(Pair.of(entry.getKey(), entry.getValue()), new PurlQualifier());
+            purlQualifier.setKey(entry.getKey());
+            purlQualifier.setValue(entry.getValue());
+            purlQualifier.setPurl(purl);
+            purlQualifiers.add(purlQualifier);
+        });
+        return purlQualifiers;
     }
 }

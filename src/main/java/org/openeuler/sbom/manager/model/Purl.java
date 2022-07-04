@@ -1,16 +1,22 @@
 package org.openeuler.sbom.manager.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.ForeignKey;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.Index;
+import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import java.util.List;
+import java.util.Objects;
 import java.util.UUID;
 
 /**
@@ -18,7 +24,8 @@ import java.util.UUID;
  */
 @Entity
 @Table(indexes = {
-        @Index(name = "purl_uk", columnList = "name, namespace, type, version, subpath, qualifier", unique = true)
+        @Index(name = "purl_uk", columnList = "external_purl_ref_id, name, namespace, type, version, subpath, qualifier", unique = true),
+        @Index(name = "external_purl_ref_id_idx", columnList = "external_purl_ref_id")
 })
 public class Purl {
     @Id
@@ -62,6 +69,9 @@ public class Purl {
     @Column(columnDefinition = "TEXT")
     private String qualifier;
 
+    @Column(columnDefinition = "TEXT")
+    private String purl;
+
     /**
      * Individual qualifier key-value pairs for a package.
      */
@@ -71,8 +81,10 @@ public class Purl {
     /**
      * External purl references that refer to this purl.
      */
-    @OneToMany(mappedBy = "purl", orphanRemoval = true)
-    private List<ExternalPurlRef> externalPurlRefs;
+    @OneToOne(fetch = FetchType.LAZY, optional = false)
+    @JoinColumn(name = "external_purl_ref_id", foreignKey = @ForeignKey(name = "external_purl_ref_id_fk"))
+    @JsonIgnore
+    private ExternalPurlRef externalPurlRef;
 
     public UUID getId() {
         return id;
@@ -130,19 +142,32 @@ public class Purl {
         this.qualifier = qualifier;
     }
 
+    public String getPurl() {
+        return purl;
+    }
+
+    public void setPurl(String purl) {
+        this.purl = purl;
+    }
+
     public List<PurlQualifier> getPurlQualifiers() {
         return purlQualifiers;
     }
 
     public void setPurlQualifiers(List<PurlQualifier> purlQualifiers) {
-        this.purlQualifiers = purlQualifiers;
+        if (Objects.isNull(this.purlQualifiers)) {
+            this.purlQualifiers = purlQualifiers;
+        } else {
+            this.purlQualifiers.clear();
+            this.purlQualifiers.addAll(purlQualifiers);
+        }
     }
 
-    public List<ExternalPurlRef> getExternalPurlRefs() {
-        return externalPurlRefs;
+    public ExternalPurlRef getExternalPurlRef() {
+        return externalPurlRef;
     }
 
-    public void setExternalPurlRefs(List<ExternalPurlRef> externalPurlRefs) {
-        this.externalPurlRefs = externalPurlRefs;
+    public void setExternalPurlRef(ExternalPurlRef externalPurlRef) {
+        this.externalPurlRef = externalPurlRef;
     }
 }

@@ -3,15 +3,16 @@ package org.openeuler.sbom.manager.model;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.hibernate.annotations.GenericGenerator;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.ForeignKey;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
-import javax.persistence.Index;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import java.util.UUID;
 
@@ -19,9 +20,7 @@ import java.util.UUID;
  * External purl reference of a package.
  */
 @Entity
-@Table(indexes = {
-        @Index(name = "package_purl_uk", columnList = "pkg_id, purl_id", unique = true)
-})
+@Table
 public class ExternalPurlRef {
     @Id
     @GeneratedValue(generator = "UUID")
@@ -50,9 +49,7 @@ public class ExternalPurlRef {
     /**
      * Purl of the reference.
      */
-    @ManyToOne(fetch = FetchType.LAZY, optional = false)
-    @JoinColumn(name = "purl_id", foreignKey = @ForeignKey(name = "purl_id_fk"))
-    @JsonIgnore
+    @OneToOne(mappedBy = "externalPurlRef", fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
     private Purl purl;
 
     /**
