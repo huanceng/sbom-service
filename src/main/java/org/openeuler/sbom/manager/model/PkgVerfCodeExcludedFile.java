@@ -3,7 +3,6 @@ package org.openeuler.sbom.manager.model;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.hibernate.annotations.GenericGenerator;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -21,7 +20,8 @@ import java.util.UUID;
  */
 @Entity
 @Table(indexes = {
-        @Index(name = "pkg_verf_code_file_uk", columnList = "pkg_verf_code_id, file", unique = true)
+        @Index(name = "pkg_verf_code_file_uk", columnList = "pkg_verf_code_id, file", unique = true),
+        @Index(name = "pkg_verf_code_id_idx", columnList = "pkg_verf_code_id")
 })
 public class PkgVerfCodeExcludedFile {
     @Id

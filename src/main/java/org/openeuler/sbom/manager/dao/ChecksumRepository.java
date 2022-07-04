@@ -6,5 +6,4 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import java.util.UUID;
 
 public interface ChecksumRepository extends JpaRepository<Checksum, UUID> {
-    Checksum findByPkgIdAndAlgorithmAndValue(UUID pkgId, String algorithm, String value);
 }

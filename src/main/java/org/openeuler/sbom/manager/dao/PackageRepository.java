@@ -7,7 +7,5 @@ import java.util.List;
 import java.util.UUID;
 
 public interface PackageRepository extends JpaRepository<Package, UUID> {
-    Package findBySbomIdAndSpdxIdAndNameAndVersion(UUID sbomId, String spdxId, String name, String version);
-
     List<Package> findBySpdxId(String spdxId);
 }

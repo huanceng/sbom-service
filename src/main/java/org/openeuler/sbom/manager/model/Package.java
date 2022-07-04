@@ -21,6 +21,7 @@ import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import java.util.List;
+import java.util.Objects;
 import java.util.Set;
 import java.util.UUID;
 
@@ -282,7 +283,12 @@ public class Package {
     }
 
     public void setChecksums(List<Checksum> checksums) {
-        this.checksums = checksums;
+        if (Objects.isNull(this.checksums)) {
+            this.checksums = checksums;
+        } else {
+            this.checksums.clear();
+            this.checksums.addAll(checksums);
+        }
     }
 
     public List<ExternalVulRef> getExternalVulRefs() {
@@ -290,7 +296,12 @@ public class Package {
     }
 
     public void setExternalVulRefs(List<ExternalVulRef> externalVulRefs) {
-        this.externalVulRefs = externalVulRefs;
+        if (Objects.isNull(this.externalVulRefs)) {
+            this.externalVulRefs = externalVulRefs;
+        } else {
+            this.externalVulRefs.clear();
+            this.externalVulRefs.addAll(externalVulRefs);
+        }
     }
 
     public List<ExternalPurlRef> getExternalPurlRefs() {
@@ -298,7 +309,12 @@ public class Package {
     }
 
     public void setExternalPurlRefs(List<ExternalPurlRef> externalPurlRefs) {
-        this.externalPurlRefs = externalPurlRefs;
+        if (Objects.isNull(this.externalPurlRefs)) {
+            this.externalPurlRefs = externalPurlRefs;
+        } else {
+            this.externalPurlRefs.clear();
+            this.externalPurlRefs.addAll(externalPurlRefs);
+        }
     }
 
     public Sbom getSbom() {

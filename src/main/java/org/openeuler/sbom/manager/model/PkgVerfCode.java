@@ -16,6 +16,7 @@ import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import java.util.List;
+import java.util.Objects;
 import java.util.UUID;
 
 /**
@@ -80,6 +81,11 @@ public class PkgVerfCode {
     }
 
     public void setPkgVerfCodeExcludedFiles(List<PkgVerfCodeExcludedFile> pkgVerfCodeExcludedFiles) {
-        this.pkgVerfCodeExcludedFiles = pkgVerfCodeExcludedFiles;
+        if (Objects.isNull(this.pkgVerfCodeExcludedFiles)) {
+            this.pkgVerfCodeExcludedFiles = pkgVerfCodeExcludedFiles;
+        } else {
+            this.pkgVerfCodeExcludedFiles.clear();
+            this.pkgVerfCodeExcludedFiles.addAll(pkgVerfCodeExcludedFiles);
+        }
     }
 }

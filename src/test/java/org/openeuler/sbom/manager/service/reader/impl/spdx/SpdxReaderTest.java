@@ -117,8 +117,8 @@ class SpdxReaderTest {
         assertThat(pkgVerfCodeExcludedFileRepository.findAll().size()).isEqualTo(0);
         assertThat(checksumRepository.findAll().size()).isEqualTo(0);
         assertThat(externalPurlRefRepository.findAll().size()).isEqualTo(0);
-        assertThat(purlRepository.findAll().size()).isEqualTo(36);
-        assertThat(purlQualifierRepository.findAll().size()).isEqualTo(2);
+        assertThat(purlRepository.findAll().size()).isEqualTo(0);
+        assertThat(purlQualifierRepository.findAll().size()).isEqualTo(0);
         assertThat(vulnerabilityRepository.findAll().size()).isEqualTo(1);
         assertThat(externalVulRefRepository.findAll().size()).isEqualTo(0);
     }
@@ -182,7 +182,7 @@ class SpdxReaderTest {
         assertThat(externalPurlRefs.size()).isEqualTo(76);
 
         List<Purl> purls = purlRepository.findAll();
-        assertThat(purls.size()).isEqualTo(36);
+        assertThat(purls.size()).isEqualTo(76);
 
         List<PurlQualifier> purlQualifiers = purlQualifierRepository.findAll();
         assertThat(purlQualifiers.size()).isEqualTo(2);

@@ -11,6 +11,7 @@ import javax.persistence.Index;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import java.util.List;
+import java.util.Objects;
 import java.util.UUID;
 
 /**
@@ -160,7 +161,12 @@ public class Sbom {
     }
 
     public void setPackages(List<Package> packages) {
-        this.packages = packages;
+        if (Objects.isNull(this.packages)) {
+            this.packages = packages;
+        } else {
+            this.packages.clear();
+            this.packages.addAll(packages);
+        }
     }
 
     public List<SbomCreator> getSbomCreators() {
@@ -168,7 +174,12 @@ public class Sbom {
     }
 
     public void setSbomCreators(List<SbomCreator> sbomCreators) {
-        this.sbomCreators = sbomCreators;
+        if (Objects.isNull(this.sbomCreators)) {
+            this.sbomCreators = sbomCreators;
+        } else {
+            this.sbomCreators.clear();
+            this.sbomCreators.addAll(sbomCreators);
+        }
     }
 
     public List<SbomElementRelationship> getSbomElementRelationships() {
@@ -176,6 +187,11 @@ public class Sbom {
     }
 
     public void setSbomElementRelationships(List<SbomElementRelationship> sbomElementRelationships) {
-        this.sbomElementRelationships = sbomElementRelationships;
+        if (Objects.isNull(this.sbomElementRelationships)) {
+            this.sbomElementRelationships = sbomElementRelationships;
+        } else {
+            this.sbomElementRelationships.clear();
+            this.sbomElementRelationships.addAll(sbomElementRelationships);
+        }
     }
 }
