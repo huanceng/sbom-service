@@ -1,5 +1,6 @@
 package org.openeuler.sbom.manager.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.CascadeType;
@@ -39,6 +40,7 @@ public class PkgVerfCodeExcludedFile {
      */
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "pkg_verf_code_id", foreignKey = @ForeignKey(name = "pkg_verf_code_id_fk"))
+    @JsonIgnore
     private PkgVerfCode pkgVerfCode;
 
     public UUID getId() {
