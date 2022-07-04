@@ -1,5 +1,6 @@
 package org.openeuler.sbom.manager.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.CascadeType;
@@ -51,6 +52,7 @@ public class VulScore {
      */
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "vul_id", foreignKey = @ForeignKey(name = "vul_id_fk"))
+    @JsonIgnore
     private Vulnerability vulnerability;
 
     public UUID getId() {

@@ -68,6 +68,7 @@ public class Sbom {
 
     // @OneToOne(fetch = FetchType.LAZY, optional = false)
     // @JoinColumn(name = "product_id", foreignKey = @ForeignKey(name = "product_id_fk"))
+    // @JsonIgnore
     // private Product product;
     @Column(columnDefinition = "TEXT", name = "product_id")
     private String productId;

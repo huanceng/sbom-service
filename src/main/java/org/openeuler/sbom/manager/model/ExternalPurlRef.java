@@ -1,5 +1,6 @@
 package org.openeuler.sbom.manager.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.Column;
@@ -51,6 +52,7 @@ public class ExternalPurlRef {
      */
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "purl_id", foreignKey = @ForeignKey(name = "purl_id_fk"))
+    @JsonIgnore
     private Purl purl;
 
     /**
@@ -58,6 +60,7 @@ public class ExternalPurlRef {
      */
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "pkg_id", foreignKey = @ForeignKey(name = "pkg_id_fk"))
+    @JsonIgnore
     private Package pkg;
 
     public UUID getId() {

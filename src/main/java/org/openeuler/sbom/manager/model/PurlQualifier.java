@@ -1,5 +1,6 @@
 package org.openeuler.sbom.manager.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.CascadeType;
@@ -46,6 +47,7 @@ public class PurlQualifier {
      */
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "purl_id", foreignKey = @ForeignKey(name = "purl_id_fk"))
+    @JsonIgnore
     private Purl purl;
 
     public UUID getId() {

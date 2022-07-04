@@ -1,5 +1,6 @@
 package org.openeuler.sbom.manager.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.CascadeType;
@@ -41,6 +42,7 @@ public class PkgVerfCode {
      */
     @OneToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "pkg_id", foreignKey = @ForeignKey(name = "pkg_id_fk"))
+    @JsonIgnore
     private Package pkg;
 
     /**

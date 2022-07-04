@@ -1,5 +1,6 @@
 package org.openeuler.sbom.manager.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.NotFound;
 import org.hibernate.annotations.NotFoundAction;
@@ -120,6 +121,7 @@ public class Package {
     @JoinTable(name = "pkg_license_relp",
             joinColumns = {@JoinColumn(name = "pkg_id", foreignKey = @ForeignKey(name = "pkg_id_fk"))},
             inverseJoinColumns = {@JoinColumn(name = "license_id", foreignKey = @ForeignKey(name = "license_id_fk"))})
+    @JsonIgnore
     private Set<License> licenses;
 
     /**
@@ -145,6 +147,7 @@ public class Package {
      */
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "sbom_id", foreignKey = @ForeignKey(name = "sbom_id_fk"))
+    @JsonIgnore
     private Sbom sbom;
 
     /**
