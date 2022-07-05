@@ -2,6 +2,7 @@ plugins {
     id("org.springframework.boot")
     id("io.spring.dependency-management")
     id("java")
+    id("war")
 }
 
 group = "org.openeuler.sbom"
@@ -26,7 +27,13 @@ dependencies {
     implementation("com.github.package-url:packageurl-java:$packageUrlJavaVersion")
     runtimeOnly("org.postgresql:postgresql")
 
+    providedRuntime("org.springframework.boot:spring-boot-starter-tomcat")
+
     testImplementation("org.springframework.boot:spring-boot-starter-test")
+}
+
+springBoot {
+    mainClass.set("org.openeuler.sbom.manager.SbomManagerApplication")
 }
 
 configurations {
