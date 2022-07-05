@@ -1,8 +1,12 @@
 package org.openeuler.sbom.manager.service;
 
+import org.openeuler.sbom.manager.model.Package;
+import org.openeuler.sbom.manager.model.vo.BinaryManagementVo;
+import org.openeuler.sbom.manager.model.vo.PageVo;
 import org.openeuler.sbom.manager.model.RawSbom;
 
 import java.io.IOException;
+import java.util.List;
 
 public interface SbomService {
 
@@ -11,4 +15,10 @@ public interface SbomService {
     RawSbom writeSbomFile(String productId, String spec, String specVersion, String format);
 
     byte[] writeSbom(String productId, String spec, String specVersion, String format) throws IOException;
+
+    PageVo<Package> findPackagesPageable(String productId, int page, int size);
+
+    List<Package> queryPackageInfoByName(String productId, String packageName, boolean isEqual);
+
+    BinaryManagementVo queryPackageBinaryManagement(String packageId, String binaryType);
 }
