@@ -4,6 +4,7 @@ import org.junit.jupiter.api.MethodOrderer;
 import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestMethodOrder;
+import org.openeuler.sbom.manager.TestConstants;
 import org.openeuler.sbom.manager.constant.SbomConstants;
 import org.openeuler.sbom.manager.dao.ChecksumRepository;
 import org.openeuler.sbom.manager.dao.ExternalPurlRefRepository;
@@ -38,8 +39,6 @@ import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 @SpringBootTest
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 class SpdxReaderTest {
-
-    private static final String SAMPLE_UPLOAD_FILE_NAME = "sample/sample-spdx.json";
 
     private static final String PRODUCT_ID = "SpdxReaderTest";
 
@@ -130,7 +129,7 @@ class SpdxReaderTest {
         vulnerability.setType("cve");
         vulnerabilityRepository.save(vulnerability);
 
-        spdxReader.read(PRODUCT_ID, new ClassPathResource(SAMPLE_UPLOAD_FILE_NAME).getFile());
+        spdxReader.read(PRODUCT_ID, new ClassPathResource(TestConstants.SAMPLE_UPLOAD_FILE_NAME).getFile());
 
         Sbom sbom = sbomRepository.findByProductId(PRODUCT_ID).orElse(null);
         assertThat(sbom).isNotNull();
