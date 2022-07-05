@@ -1,4 +1,4 @@
-package org.openeuler.sbom.manager.model;
+package org.openeuler.sbom.manager.model.vo;
 
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
