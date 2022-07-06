@@ -7,5 +7,7 @@ RUN yum update -y && yum install -y \
 
 WORKDIR /opt
 RUN git clone --recurse-submodules https://github.com/huanceng/sbom-service.git
+WORKDIR /opt/sbom-service
+RUN /bin/bash gradlew bootWar
 
 ENTRYPOINT ["/bin/bash", "/opt/sbom-service/docker-entrypoint.sh"]
