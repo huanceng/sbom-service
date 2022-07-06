@@ -8,6 +8,7 @@ import org.openeuler.sbom.manager.dao.PackageRepository;
 import org.openeuler.sbom.manager.dao.RawSbomRepository;
 import org.openeuler.sbom.manager.dao.SbomRepository;
 import org.openeuler.sbom.manager.model.Package;
+import org.openeuler.sbom.manager.model.vo.PackagePurlVo;
 import org.openeuler.sbom.manager.model.vo.BinaryManagementVo;
 import org.openeuler.sbom.manager.model.vo.PageVo;
 import org.openeuler.sbom.manager.model.RawSbom;
@@ -16,6 +17,8 @@ import org.openeuler.sbom.manager.model.spdx.ReferenceCategory;
 import org.openeuler.sbom.manager.service.SbomService;
 import org.openeuler.sbom.manager.service.reader.SbomReader;
 import org.openeuler.sbom.manager.service.writer.SbomWriter;
+import org.openeuler.sbom.manager.utils.EntityUtil;
+import org.openeuler.sbom.manager.utils.PurlUtil;
 import org.openeuler.sbom.manager.utils.SbomFormat;
 import org.openeuler.sbom.manager.utils.SbomSpecification;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,12 +26,13 @@ import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
-import org.springframework.data.repository.query.Param;
+import org.springframework.data.util.Pair;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.Map;
 import java.util.UUID;
 
 import static org.openeuler.sbom.manager.utils.SbomMapperUtil.fileToExt;
@@ -150,6 +154,30 @@ public class SbomServiceImpl implements SbomService {
             vo.setExternalList(externalPurlRefRepository.queryPackageRef(packageUUID, ReferenceCategory.EXTERNAL_MANAGER.name()));
         }
         return vo;
+    }
+
+    @Override
+    public List<PackagePurlVo> queryPackageInfoByBinary(String productId,
+                                                        String binaryType,
+                                                        String type,
+                                                        String namespace,
+                                                        String name,
+                                                        String version) throws Exception {
+
+        ReferenceCategory referenceCategory = ReferenceCategory.findReferenceCategory(binaryType);
+        if (!ReferenceCategory.BINARY_TYPE.contains(referenceCategory)) {
+            throw new RuntimeException("binary type: %s is not support".formatted(binaryType));
+        }
+
+        Pair<String, Boolean> purlQueryCondition = PurlUtil.generatePurlQueryCondition(type, namespace, name, version);
+
+        List<Map> result = packageRepository.queryPackageInfoByBinary(productId,
+                binaryType,
+                purlQueryCondition.getSecond(),
+                purlQueryCondition.getFirst(),
+                purlQueryCondition.getFirst());
+
+        return EntityUtil.castEntity(result, PackagePurlVo.class);
     }
 
 }

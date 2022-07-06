@@ -3,6 +3,7 @@ package org.openeuler.sbom.manager.controller;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import org.apache.commons.lang3.ArrayUtils;
 import org.openeuler.sbom.manager.model.Package;
+import org.openeuler.sbom.manager.model.vo.PackagePurlVo;
 import org.openeuler.sbom.manager.model.vo.BinaryManagementVo;
 import org.openeuler.sbom.manager.model.vo.PageVo;
 import org.openeuler.sbom.manager.model.RawSbom;
@@ -196,4 +197,39 @@ public class SbomController {
         return ResponseEntity.status(HttpStatus.OK).body(result);
     }
 
+
+    @PostMapping("/querySbomPackagesByBinary")
+    public @ResponseBody ResponseEntity queryPackageInfoByBinary(@RequestParam("productId") String productId,
+                                                                 @RequestParam("binaryType") String binaryType,
+                                                                 @RequestParam("type") String type,
+                                                                 @RequestParam(name = "namespace", required = false) String namespace,
+                                                                 @RequestParam(name = "name", required = false) String name,
+                                                                 @RequestParam(name = "version", required = false) String version) {
+        logger.info("query package info by packageId:{}, binaryType:{}, type:{}, namespace:{}, name:{}, version:{}", productId,
+                binaryType,
+                type,
+                namespace,
+                name,
+                version);
+
+
+        List<PackagePurlVo> queryResult = null;
+        try {
+            queryResult = sbomService.queryPackageInfoByBinary(productId,
+                    binaryType,
+                    type,
+                    namespace,
+                    name,
+                    version);
+        } catch (RuntimeException e) {
+            logger.error("query sbom packages failed.", e);
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(e.getMessage());
+        } catch (Exception e) {
+            logger.error("query sbom packages failed.", e);
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("query sbom packages failed.");
+        }
+
+        logger.info("query sbom packages result:{}", queryResult == null ? 0 : queryResult.size());
+        return ResponseEntity.status(HttpStatus.OK).body(queryResult);
+    }
 }

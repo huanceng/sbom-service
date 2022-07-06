@@ -1,9 +1,10 @@
 package org.openeuler.sbom.manager.service;
 
 import org.openeuler.sbom.manager.model.Package;
+import org.openeuler.sbom.manager.model.vo.PackagePurlVo;
+import org.openeuler.sbom.manager.model.RawSbom;
 import org.openeuler.sbom.manager.model.vo.BinaryManagementVo;
 import org.openeuler.sbom.manager.model.vo.PageVo;
-import org.openeuler.sbom.manager.model.RawSbom;
 
 import java.io.IOException;
 import java.util.List;
@@ -21,4 +22,11 @@ public interface SbomService {
     List<Package> queryPackageInfoByName(String productId, String packageName, boolean isEqual);
 
     BinaryManagementVo queryPackageBinaryManagement(String packageId, String binaryType);
+
+    List<PackagePurlVo> queryPackageInfoByBinary(String productId,
+                                                 String binaryType,
+                                                 String type,
+                                                 String namespace,
+                                                 String name,
+                                                 String version) throws Exception;
 }
