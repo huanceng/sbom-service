@@ -97,30 +97,64 @@ class SpdxReaderTest {
     @Test
     @Order(4)
     public void deleteSbom() {
-        sbomRepository.deleteAll();
-        assertThat(sbomRepository.findAll().size()).isEqualTo(0);
-        assertThat(sbomCreatorRepository.findAll().size()).isEqualTo(0);
-        assertThat(sbomElementRelationshipRepository.findAll().size()).isEqualTo(0);
-        assertThat(packageRepository.findAll().size()).isEqualTo(0);
-        assertThat(pkgVerfCodeRepository.findAll().size()).isEqualTo(0);
-        assertThat(pkgVerfCodeExcludedFileRepository.findAll().size()).isEqualTo(0);
-        assertThat(checksumRepository.findAll().size()).isEqualTo(0);
-        assertThat(externalPurlRefRepository.findAll().size()).isEqualTo(0);
-        assertThat(vulnerabilityRepository.findAll().size()).isEqualTo(1);
-        assertThat(externalVulRefRepository.findAll().size()).isEqualTo(0);
+        Sbom sbom = sbomRepository.findByProductId(PRODUCT_ID).orElse(null);
+        if (sbom == null) {
+            return;
+        }
+
+        long sbomCreatorSize = sbomCreatorRepository.count();
+        long sbomElementRelationshipSize = sbomElementRelationshipRepository.count();
+        long packageSize = packageRepository.count();
+        long pkgVerfCodeSize = pkgVerfCodeRepository.count();
+        long pkgVerfCodeExcludedFileSize = pkgVerfCodeExcludedFileRepository.count();
+        long checksumSize = checksumRepository.count();
+        long externalPurlRefSize = externalPurlRefRepository.count();
+        long vulnerabilitySize = vulnerabilityRepository.count();
+        long externalVulRefSize = externalVulRefRepository.count();
+
+        sbomRepository.delete(sbom);
+
+        assertThat(sbomRepository.findByProductId(PRODUCT_ID).orElse(null)).isNull();
+        assertThat(sbomCreatorRepository.count()).isLessThan(sbomCreatorSize);
+        assertThat(sbomElementRelationshipRepository.count()).isLessThan(sbomElementRelationshipSize);
+        assertThat(packageRepository.count()).isLessThan(packageSize);
+        assertThat(pkgVerfCodeRepository.count()).isLessThan(pkgVerfCodeSize);
+        assertThat(pkgVerfCodeExcludedFileRepository.count()).isLessThan(pkgVerfCodeExcludedFileSize);
+        assertThat(checksumRepository.count()).isLessThan(checksumSize);
+        assertThat(externalPurlRefRepository.count()).isLessThan(externalPurlRefSize);
+        assertThat(vulnerabilityRepository.count()).isEqualTo(vulnerabilitySize);
+        assertThat(externalVulRefRepository.count()).isLessThan(externalVulRefSize);
     }
 
     private void cleanDb() {
-        sbomRepository.deleteAll();
-        sbomCreatorRepository.deleteAll();
-        sbomElementRelationshipRepository.deleteAll();
-        packageRepository.deleteAll();
-        pkgVerfCodeRepository.deleteAll();
-        pkgVerfCodeExcludedFileRepository.deleteAll();
-        checksumRepository.deleteAll();
-        externalPurlRefRepository.deleteAll();
+        Sbom sbom = sbomRepository.findByProductId(PRODUCT_ID).orElse(null);
+        if (sbom == null) {
+            return;
+        }
+
+        long sbomCreatorSize = sbomCreatorRepository.count();
+        long sbomElementRelationshipSize = sbomElementRelationshipRepository.count();
+        long packageSize = packageRepository.count();
+        long pkgVerfCodeSize = pkgVerfCodeRepository.count();
+        long pkgVerfCodeExcludedFileSize = pkgVerfCodeExcludedFileRepository.count();
+        long checksumSize = checksumRepository.count();
+        long externalPurlRefSize = externalPurlRefRepository.count();
+        long vulnerabilitySize = vulnerabilityRepository.count();
+        long externalVulRefSize = externalVulRefRepository.count();
+
+        sbomRepository.delete(sbom);
         vulnerabilityRepository.deleteAll();
-        externalVulRefRepository.deleteAll();
+
+        assertThat(sbomRepository.findByProductId(PRODUCT_ID).orElse(null)).isNull();
+        assertThat(sbomCreatorRepository.count()).isLessThan(sbomCreatorSize);
+        assertThat(sbomElementRelationshipRepository.count()).isLessThan(sbomElementRelationshipSize);
+        assertThat(packageRepository.count()).isLessThan(packageSize);
+        assertThat(pkgVerfCodeRepository.count()).isLessThan(pkgVerfCodeSize);
+        assertThat(pkgVerfCodeExcludedFileRepository.count()).isLessThan(pkgVerfCodeExcludedFileSize);
+        assertThat(checksumRepository.count()).isLessThan(checksumSize);
+        assertThat(externalPurlRefRepository.count()).isLessThan(externalPurlRefSize);
+        assertThat(vulnerabilityRepository.count()).isLessThan(vulnerabilitySize);
+        assertThat(externalVulRefRepository.count()).isLessThan(externalVulRefSize);
     }
 
     private void functionBody() throws IOException {
@@ -135,38 +169,38 @@ class SpdxReaderTest {
         assertThat(sbom).isNotNull();
         assertThat(sbom.getProductId()).isEqualTo(PRODUCT_ID);
 
-        List<SbomCreator> sbomCreators = sbomCreatorRepository.findAll();
+        List<SbomCreator> sbomCreators = sbomCreatorRepository.findBySbomId(sbom.getId());
         assertThat(sbomCreators.size()).isEqualTo(1);
         assertThat(sbomCreators.get(0).getSbom().getProductId()).isEqualTo(PRODUCT_ID);
         assertThat(sbomCreators.get(0).getName()).isEqualTo("Tool: OSS Review Toolkit - e5b343ff71-dirty");
 
-        List<SbomElementRelationship> sbomElementRelationships = sbomElementRelationshipRepository.findAll();
+        List<SbomElementRelationship> sbomElementRelationships = sbomElementRelationshipRepository.findBySbomId(sbom.getId());
         assertThat(sbomElementRelationships.size()).isEqualTo(77);
 
-        List<Package> packages = packageRepository.findAll();
+        List<Package> packages = packageRepository.findBySbomId(sbom.getId());
         assertThat(packages.size()).isEqualTo(78);
         packages.forEach(p -> assertThat(p.getSbom().getId()).isEqualTo(sbom.getId()));
 
-        List<Package> specificPackages = packageRepository.findBySpdxId("SPDXRef-Package-PyPI-asttokens-2.0.5-vcs");
+        List<Package> specificPackages = packageRepository.findBySbomIdAndSpdxId(sbom.getId(), "SPDXRef-Package-PyPI-asttokens-2.0.5-vcs");
         assertThat(specificPackages.size()).isEqualTo(1);
         assertThat(specificPackages.get(0).getName()).isEqualTo("asttokens");
 
-        List<PkgVerfCode> pkgVerfCodes = pkgVerfCodeRepository.findAll();
+        List<PkgVerfCode> pkgVerfCodes = pkgVerfCodeRepository.findBySbomId(sbom.getId());
         assertThat(pkgVerfCodes.size()).isEqualTo(1);
         assertThat(pkgVerfCodes.get(0).getValue()).isEqualTo("8aba92182455b539af15d0524fe5baffd3d9248b");
 
-        List<PkgVerfCodeExcludedFile> pkgVerfCodeExcludedFiles = pkgVerfCodeExcludedFileRepository.findAll();
+        List<PkgVerfCodeExcludedFile> pkgVerfCodeExcludedFiles = pkgVerfCodeExcludedFileRepository.findBySbomId(sbom.getId());
         assertThat(pkgVerfCodeExcludedFiles.size()).isEqualTo(2);
 
-        List<Checksum> checksums = checksumRepository.findAll();
+        List<Checksum> checksums = checksumRepository.findBySbomId(sbom.getId());
         assertThat(checksums.size()).isEqualTo(1);
         assertThat(checksums.get(0).getAlgorithm()).isEqualTo("SHA256");
         assertThat(checksums.get(0).getValue()).isEqualTo("b5dcc8da8a08e73dc2acdf1b1c4b06ca0bab0db5d9da9417c2841c1d6872c126");
 
-        List<ExternalPurlRef> externalPurlRefs = externalPurlRefRepository.findAll();
+        List<ExternalPurlRef> externalPurlRefs = externalPurlRefRepository.findBySbomId(sbom.getId());
         assertThat(externalPurlRefs.size()).isEqualTo(76);
 
-        List<ExternalVulRef> externalVulRefs = externalVulRefRepository.findAll();
+        List<ExternalVulRef> externalVulRefs = externalVulRefRepository.findBySbomId(sbom.getId());
         assertThat(externalVulRefs.size()).isEqualTo(1);
     }
 }
