@@ -21,6 +21,7 @@ import static org.hamcrest.Matchers.hasSize;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.header;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -132,6 +133,101 @@ public class PkgQueryControllerTests {
                 .andExpect(jsonPath("$.packageList.*", hasSize(0)))
                 .andExpect(jsonPath("$.provideList.*", hasSize(0)))
                 .andExpect(jsonPath("$.externalList.*", hasSize(217)));
+    }
+
+
+    @Test
+    public void queryPackageInfoByBinaryExactlyTest() throws Exception {
+        this.mockMvc
+                .perform(post("/sbom/querySbomPackagesByBinary")
+                        .param("productId", TestConstants.OPENEULER_PRODUCT_NAME)
+                        .param("binaryType", ReferenceCategory.EXTERNAL_MANAGER.name())
+                        .param("type", "maven")
+                        .param("namespace", "org.apache.zookeeper")
+                        .param("name", "zookeeper")
+                        .param("version", "3.4.6")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .accept(MediaType.APPLICATION_JSON))
+                .andDo(print())
+                .andExpect(status().isOk())
+                .andExpect(header().string("Content-Type", "application/json"))
+                .andExpect(jsonPath("$.*", hasSize(1)))
+                .andExpect(jsonPath("$.[0].name").value("hive"));
+    }
+
+
+    @Test
+    public void queryPackageInfoByBinaryWithoutVersionTest() throws Exception {
+        this.mockMvc
+                .perform(post("/sbom/querySbomPackagesByBinary")
+                        .param("productId", TestConstants.OPENEULER_PRODUCT_NAME)
+                        .param("binaryType", ReferenceCategory.EXTERNAL_MANAGER.name())
+                        .param("type", "maven")
+                        .param("namespace", "org.apache.zookeeper")
+                        .param("name", "zookeeper")
+                        .param("version", "")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .accept(MediaType.APPLICATION_JSON))
+                .andDo(print())
+                .andExpect(status().isOk())
+                .andExpect(header().string("Content-Type", "application/json"))
+                .andExpect(jsonPath("$.*", hasSize(10)))
+                .andExpect(jsonPath("$.[4].name").value("hive"));
+    }
+
+    @Test
+    public void queryPackageInfoByBinaryOnlyNameTest() throws Exception {
+        this.mockMvc
+                .perform(post("/sbom/querySbomPackagesByBinary")
+                        .param("productId", TestConstants.OPENEULER_PRODUCT_NAME)
+                        .param("binaryType", ReferenceCategory.EXTERNAL_MANAGER.name())
+                        .param("type", "maven")
+                        .param("namespace", "")
+                        .param("name", "zookeeper")
+                        .param("version", "")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .accept(MediaType.APPLICATION_JSON))
+                .andDo(print())
+                .andExpect(status().isOk())
+                .andExpect(header().string("Content-Type", "application/json"))
+                .andExpect(jsonPath("$.*", hasSize(12)))
+                .andExpect(jsonPath("$.[6].name").value("hive"));
+    }
+
+    @Test
+    public void queryPackageInfoByBinaryNoNameTest() throws Exception {
+        this.mockMvc
+                .perform(post("/sbom/querySbomPackagesByBinary")
+                        .param("productId", TestConstants.OPENEULER_PRODUCT_NAME)
+                        .param("binaryType", ReferenceCategory.EXTERNAL_MANAGER.name())
+                        .param("type", "maven")
+                        .param("namespace", "zookeeper")
+                        .param("name", "")
+                        .param("version", "")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .accept(MediaType.APPLICATION_JSON))
+                .andDo(print())
+                .andExpect(status().isInternalServerError())
+                .andExpect(header().string("Content-Type", "application/json"))
+                .andExpect(content().string("maven purl query condition params is error, namespace: zookeeper, name: , version: "));
+    }
+
+    @Test
+    public void queryPackageInfoByBinaryErrorTypeTest() throws Exception {
+        this.mockMvc
+                .perform(post("/sbom/querySbomPackagesByBinary")
+                        .param("productId", TestConstants.OPENEULER_PRODUCT_NAME)
+                        .param("binaryType", ReferenceCategory.EXTERNAL_MANAGER.name())
+                        .param("type", "pip")
+                        .param("namespace", "")
+                        .param("name", "zookeeper")
+                        .param("version", "")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .accept(MediaType.APPLICATION_JSON))
+                .andDo(print())
+                .andExpect(status().isInternalServerError())
+                .andExpect(header().string("Content-Type", "application/json"))
+                .andExpect(content().string("purl query condition not support type: pip"));
     }
 
 }

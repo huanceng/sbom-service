@@ -1,14 +1,12 @@
 package org.openeuler.sbom.manager.service;
 
 
-import org.junit.jupiter.api.MethodOrderer;
-import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.TestMethodOrder;
 import org.openeuler.sbom.manager.TestConstants;
 import org.openeuler.sbom.manager.model.Package;
 import org.openeuler.sbom.manager.model.spdx.ReferenceCategory;
 import org.openeuler.sbom.manager.model.vo.BinaryManagementVo;
+import org.openeuler.sbom.manager.model.vo.PackagePurlVo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
@@ -17,7 +15,6 @@ import java.util.List;
 import static org.assertj.core.api.Assertions.assertThat;
 
 @SpringBootTest
-@TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 class SbomServiceTest {
 
 
@@ -38,7 +35,6 @@ class SbomServiceTest {
     }
 
     @Test
-    @Order(2)
     public void getAllCategoryRef() {
         if (SbomServiceTest.packageId == null) {
             getPackageId();
@@ -50,7 +46,6 @@ class SbomServiceTest {
     }
 
     @Test
-    @Order(2)
     public void getPackageCategoryRef() {
         if (SbomServiceTest.packageId == null) {
             getPackageId();
@@ -62,7 +57,6 @@ class SbomServiceTest {
     }
 
     @Test
-    @Order(2)
     public void getProvideCategoryRef() {
         if (SbomServiceTest.packageId == null) {
             getPackageId();
@@ -74,7 +68,6 @@ class SbomServiceTest {
     }
 
     @Test
-    @Order(2)
     public void getExternalCategoryRef() {
         if (SbomServiceTest.packageId == null) {
             getPackageId();
@@ -83,6 +76,40 @@ class SbomServiceTest {
         assertThat(vo.getPackageList().size()).isEqualTo(0);
         assertThat(vo.getProvideList().size()).isEqualTo(0);
         assertThat(vo.getExternalList().size()).isGreaterThan(1);
+    }
+
+
+    @Test
+    public void queryPackageInfoByBinaryExactlyTest() throws Exception {
+        List<PackagePurlVo> result = sbomService.queryPackageInfoByBinary(TestConstants.OPENEULER_PRODUCT_NAME,
+                ReferenceCategory.EXTERNAL_MANAGER.name(),
+                "maven",
+                "org.apache.zookeeper",
+                "zookeeper",
+                "3.4.6");
+        assertThat(result.size()).isEqualTo(1);
+    }
+
+    @Test
+    public void queryPackageInfoByBinaryWithoutVersionTest() throws Exception {
+        List<PackagePurlVo> result = sbomService.queryPackageInfoByBinary(TestConstants.OPENEULER_PRODUCT_NAME,
+                ReferenceCategory.EXTERNAL_MANAGER.name(),
+                "maven",
+                "org.apache.zookeeper",
+                "zookeeper",
+                "");
+        assertThat(result.size()).isEqualTo(10);
+    }
+
+    @Test
+    public void queryPackageInfoByBinaryOnlyNameTest() throws Exception {
+        List<PackagePurlVo> result = sbomService.queryPackageInfoByBinary(TestConstants.OPENEULER_PRODUCT_NAME,
+                ReferenceCategory.EXTERNAL_MANAGER.name(),
+                "maven",
+                "",
+                "zookeeper",
+                "");
+        assertThat(result.size()).isEqualTo(12);
     }
 
 }
