@@ -7,15 +7,6 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestMethodOrder;
 import org.openeuler.sbom.manager.TestConstants;
 import org.openeuler.sbom.manager.constant.SbomConstants;
-import org.openeuler.sbom.manager.dao.ChecksumRepository;
-import org.openeuler.sbom.manager.dao.ExternalPurlRefRepository;
-import org.openeuler.sbom.manager.dao.ExternalVulRefRepository;
-import org.openeuler.sbom.manager.dao.PackageRepository;
-import org.openeuler.sbom.manager.dao.PkgVerfCodeExcludedFileRepository;
-import org.openeuler.sbom.manager.dao.PkgVerfCodeRepository;
-import org.openeuler.sbom.manager.dao.SbomCreatorRepository;
-import org.openeuler.sbom.manager.dao.SbomElementRelationshipRepository;
-import org.openeuler.sbom.manager.dao.SbomRepository;
 import org.openeuler.sbom.manager.dao.VulnerabilityRepository;
 import org.openeuler.sbom.manager.model.Vulnerability;
 import org.openeuler.sbom.manager.service.writer.impl.spdx.SpdxWriter;
@@ -45,34 +36,7 @@ class SpdxWriteTest {
     private SpdxWriter spdxWriter;
 
     @Autowired
-    private SbomRepository sbomRepository;
-
-    @Autowired
-    private SbomCreatorRepository sbomCreatorRepository;
-
-    @Autowired
-    private SbomElementRelationshipRepository sbomElementRelationshipRepository;
-
-    @Autowired
-    private PackageRepository packageRepository;
-
-    @Autowired
-    private PkgVerfCodeRepository pkgVerfCodeRepository;
-
-    @Autowired
-    private PkgVerfCodeExcludedFileRepository pkgVerfCodeExcludedFileRepository;
-
-    @Autowired
-    private ChecksumRepository checksumRepository;
-
-    @Autowired
-    private ExternalPurlRefRepository externalPurlRefRepository;
-
-    @Autowired
     private VulnerabilityRepository vulnerabilityRepository;
-
-    @Autowired
-    private ExternalVulRefRepository externalVulRefRepository;
 
     @Test
     @Order(1)
