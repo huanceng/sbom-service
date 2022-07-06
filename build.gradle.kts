@@ -25,6 +25,7 @@ dependencies {
     implementation("org.apache.commons:commons-lang3:$commonsLang3Version")
     implementation("commons-io:commons-io:$commonsIoVersion")
     implementation("com.github.package-url:packageurl-java:$packageUrlJavaVersion")
+    testImplementation("org.bgee.log4jdbc-log4j2:log4jdbc-log4j2-jdbc4.1:1.16")
     runtimeOnly("org.postgresql:postgresql")
 
     providedRuntime("org.springframework.boot:spring-boot-starter-tomcat")

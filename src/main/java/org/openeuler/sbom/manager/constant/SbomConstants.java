@@ -8,4 +8,6 @@ public class SbomConstants {
     public static final String CYCLONEDX_NAME = "CycloneDX";
     public static final String SWID_NAME = "SWID";
 
+    public static final int MAX_QUERY_LINE = 15;
+
 }

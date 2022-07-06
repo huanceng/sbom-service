@@ -129,18 +129,21 @@ public class Package {
      * Checksums of a package.
      */
     @OneToMany(mappedBy = "pkg", cascade = CascadeType.ALL, orphanRemoval = true)
+    @JsonIgnore
     private List<Checksum> checksums;
 
     /**
      * External vulnerability references of a package.
      */
     @OneToMany(mappedBy = "pkg", cascade = CascadeType.ALL, orphanRemoval = true)
+    @JsonIgnore
     private List<ExternalVulRef> externalVulRefs;
 
     /**
      * External purl references of a package.
      */
     @OneToMany(mappedBy = "pkg", cascade = CascadeType.ALL, orphanRemoval = true)
+    @JsonIgnore
     private List<ExternalPurlRef> externalPurlRefs;
 
     /**
