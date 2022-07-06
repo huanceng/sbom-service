@@ -13,4 +13,4 @@ sed -i "s/{db_password}/$(cat ${DB_PASSWORD_FILE})/" ${APP_PROPERTIES_FILE}
 
 /bin/bash gradlew bootWar
 
-java -jar ${WORKSPACE}/build/libs/sbom-service-*.war
+java -jar ${WORKSPACE}/build/libs/sbom-service-1.0-SNAPSHOT.war
