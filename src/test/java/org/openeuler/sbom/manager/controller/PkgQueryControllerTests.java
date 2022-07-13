@@ -37,7 +37,7 @@ public class PkgQueryControllerTests {
     private SbomService sbomService;
 
     @Test
-    public void queryPackagesListByPageable() throws Exception {
+    public void queryPackagesListForPageable() throws Exception {
         this.mockMvc
                 .perform(post("/sbom/querySbomPackages")
                         .param("productId", TestConstants.SAMPLE_PRODUCT_NAME)
@@ -53,6 +53,75 @@ public class PkgQueryControllerTests {
                 .andExpect(jsonPath("$.number").value(1))
                 .andExpect(jsonPath("$.content.[0].name").value("eigen"))
                 .andExpect(jsonPath("$.content.[1].homepage").value("http://google.github.io/flatbuffers/"));
+    }
+
+    @Test
+    public void queryPackagesListByExactlyNameForPageable() throws Exception {
+        this.mockMvc
+                .perform(post("/sbom/querySbomPackages")
+                        .param("productId", TestConstants.OPENEULER_PRODUCT_NAME)
+                        .param("packageName", "hive")
+                        .param("isExactly", Boolean.TRUE.toString())
+                        .param("page", "0")
+                        .param("size", "15")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .accept(MediaType.APPLICATION_JSON))
+                .andDo(print())
+                .andExpect(status().isOk())
+                .andExpect(header().string("Content-Type", "application/json"))
+                .andExpect(jsonPath("$.last").value(true))
+                .andExpect(jsonPath("$.totalElements").value(1))
+                .andExpect(jsonPath("$.number").value(0))
+                .andExpect(jsonPath("$.numberOfElements").value(1))
+                .andExpect(jsonPath("$.content.[0].name").value("hive"))
+                .andExpect(jsonPath("$.content.[0].homepage").value("http://hive.apache.org/"));
+    }
+
+    @Test
+    public void queryPackagesListByFuzzyNameForPageable() throws Exception {
+        this.mockMvc
+                .perform(post("/sbom/querySbomPackages")
+                        .param("productId", TestConstants.OPENEULER_PRODUCT_NAME)
+                        .param("packageName", "hive")
+                        .param("isExactly", Boolean.FALSE.toString())
+                        .param("page", "0")
+                        .param("size", "15")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .accept(MediaType.APPLICATION_JSON))
+                .andDo(print())
+                .andExpect(status().isOk())
+                .andExpect(header().string("Content-Type", "application/json"))
+                .andExpect(jsonPath("$.last").value(false))
+                .andExpect(jsonPath("$.totalElements").value(28))
+                .andExpect(jsonPath("$.totalPages").value(2))
+                .andExpect(jsonPath("$.number").value(0))
+                .andExpect(jsonPath("$.numberOfElements").value(15))
+                .andExpect(jsonPath("$.content.[0].name").value("autoconf-archive"))
+                .andExpect(jsonPath("$.content.[0].homepage").value("http://www.gnu.org/software/autoconf-archive/"))
+                .andExpect(jsonPath("$.content.[2].name").value("hive"))
+                .andExpect(jsonPath("$.content.[2].homepage").value("http://hive.apache.org/"));
+    }
+
+    @Test
+    public void queryPackagesListByErrorNameForPageable() throws Exception {
+        this.mockMvc
+                .perform(post("/sbom/querySbomPackages")
+                        .param("productId", TestConstants.OPENEULER_PRODUCT_NAME)
+                        .param("packageName", "hive-XXXX")
+                        .param("isExactly", Boolean.FALSE.toString())
+                        .param("page", "0")
+                        .param("size", "15")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .accept(MediaType.APPLICATION_JSON))
+                .andDo(print())
+                .andExpect(status().isOk())
+                .andExpect(header().string("Content-Type", "application/json"))
+                .andExpect(jsonPath("$.last").value(true))
+                .andExpect(jsonPath("$.totalElements").value(0))
+                .andExpect(jsonPath("$.totalPages").value(0))
+                .andExpect(jsonPath("$.number").value(0))
+                .andExpect(jsonPath("$.numberOfElements").value(0))
+                .andExpect(jsonPath("$.content.*", hasSize(0)));
     }
 
     @Test
@@ -135,7 +204,6 @@ public class PkgQueryControllerTests {
                 .andExpect(jsonPath("$.externalList.*", hasSize(217)));
     }
 
-
     @Test
     public void queryPackageInfoByBinaryExactlyTest() throws Exception {
         this.mockMvc
@@ -154,7 +222,6 @@ public class PkgQueryControllerTests {
                 .andExpect(jsonPath("$.*", hasSize(1)))
                 .andExpect(jsonPath("$.[0].name").value("hive"));
     }
-
 
     @Test
     public void queryPackageInfoByBinaryWithoutVersionTest() throws Exception {
@@ -231,4 +298,3 @@ public class PkgQueryControllerTests {
     }
 
 }
-
