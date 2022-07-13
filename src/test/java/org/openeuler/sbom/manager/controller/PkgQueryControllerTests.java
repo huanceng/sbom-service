@@ -60,7 +60,7 @@ public class PkgQueryControllerTests {
         this.mockMvc
                 .perform(post("/sbom/querySbomPackages")
                         .param("productId", TestConstants.OPENEULER_PRODUCT_NAME)
-                        .param("packageName", "hive")
+                        .param("packageName", TestConstants.BINARY_TEST_PACKAGE_NAME)
                         .param("isExactly", Boolean.TRUE.toString())
                         .param("page", "0")
                         .param("size", "15")
@@ -82,7 +82,7 @@ public class PkgQueryControllerTests {
         this.mockMvc
                 .perform(post("/sbom/querySbomPackages")
                         .param("productId", TestConstants.OPENEULER_PRODUCT_NAME)
-                        .param("packageName", "hive")
+                        .param("packageName", TestConstants.BINARY_TEST_PACKAGE_NAME)
                         .param("isExactly", Boolean.FALSE.toString())
                         .param("page", "0")
                         .param("size", "15")
