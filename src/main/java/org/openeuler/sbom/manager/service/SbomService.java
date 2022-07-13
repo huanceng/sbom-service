@@ -19,7 +19,9 @@ public interface SbomService {
 
     PageVo<Package> findPackagesPageable(String productId, int page, int size);
 
-    List<Package> queryPackageInfoByName(String productId, String packageName, boolean isEqual);
+    List<Package> queryPackageInfoByName(String productId, String packageName, boolean isExactly);
+
+    PageVo<Package> getPackageInfoByNameForPage(String productId, String packageName, Boolean isEqual, int page, int size);
 
     BinaryManagementVo queryPackageBinaryManagement(String packageId, String binaryType);
 

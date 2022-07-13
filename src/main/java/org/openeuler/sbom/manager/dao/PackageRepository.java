@@ -34,6 +34,17 @@ public interface PackageRepository extends JpaRepository<Package, UUID> {
                                        @Param("likePackageName") String likePackageName,
                                        @Param("maxLine") Integer maxLine);
 
+    @Query(value = "SELECT * FROM package WHERE sbom_id = ( SELECT id FROM sbom WHERE product_id = :productId) " +
+            "AND (:isExactly IS NULL OR :isExactly = FALSE OR (name = :equalPackageName)) " +
+            "AND (:isExactly IS NULL OR :isExactly = TRUE OR (name LIKE %:likePackageName%))",
+            countProjection = "1",
+            nativeQuery = true)
+    Page<Package> getPackageInfoByNameForPage(@Param("productId") String productId,
+                                              @Param("isExactly") Boolean isExactly,
+                                              @Param("equalPackageName") String equalPackageName,
+                                              @Param("likePackageName") String likePackageName,
+                                              Pageable pageable);
+
     @Query(value = "SELECT CAST(A.id as varchar) id, A.name, A.version, A.supplier, A.description, A.copyright, A.summary, A.homepage, " +
             "    A.spdx_id spdxId, A.download_location downloadLocation, A.files_analyzed filesAnalyzed," +
             "    A.license_concluded licenseConcluded, A.license_declared licenseDeclared, A.source_info sourceInfo," +
