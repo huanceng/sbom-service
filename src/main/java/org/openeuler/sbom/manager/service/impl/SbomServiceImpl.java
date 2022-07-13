@@ -1,5 +1,6 @@
 package org.openeuler.sbom.manager.service.impl;
 
+import org.apache.commons.lang3.BooleanUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.openeuler.sbom.manager.SbomApplicationContextHolder;
 import org.openeuler.sbom.manager.constant.SbomConstants;
@@ -127,10 +128,18 @@ public class SbomServiceImpl implements SbomService {
     }
 
     @Override
-    public List<Package> queryPackageInfoByName(String productId, String packageName, boolean isEqual) {
-        String equalPackageName = isEqual ? packageName : null;
+    public List<Package> queryPackageInfoByName(String productId, String packageName, boolean isExactly) {
+        String equalPackageName = isExactly ? packageName : null;
 
         return packageRepository.getPackageInfoByName(productId, equalPackageName, packageName, SbomConstants.MAX_QUERY_LINE);
+    }
+
+    @Override
+    public PageVo<Package> getPackageInfoByNameForPage(String productId, String packageName, Boolean isExactly, int page, int size) {
+        String equalPackageName = BooleanUtils.isTrue(isExactly) ? packageName : null;
+        Pageable pageable = PageRequest.of(page, size).withSort(Sort.by(Sort.Order.by("name")));
+
+        return new PageVo<>((PageImpl<Package>) packageRepository.getPackageInfoByNameForPage(productId, isExactly, equalPackageName, packageName, pageable));
     }
 
     @Override
