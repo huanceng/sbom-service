@@ -4,12 +4,16 @@ package org.openeuler.sbom.manager.controller;
 import org.junit.jupiter.api.Test;
 import org.openeuler.sbom.manager.SbomApplicationContextHolder;
 import org.openeuler.sbom.manager.SbomManagerApplication;
+import org.openeuler.sbom.manager.TestCommon;
 import org.openeuler.sbom.manager.TestConstants;
+import org.openeuler.sbom.manager.model.spdx.SpdxDocument;
+import org.openeuler.sbom.utils.Mapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.MvcResult;
 
 import static org.hamcrest.Matchers.containsString;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
@@ -103,7 +107,7 @@ public class ExportControllerTests {
 
     @Test
     public void exportSbomJsonSuccess() throws Exception {
-        this.mockMvc
+        MvcResult mvcResult = this.mockMvc
                 .perform(post("/sbom/exportSbom")
                         .param("productId", TestConstants.SAMPLE_PRODUCT_NAME)
                         .param("spec", "spdx")
@@ -114,12 +118,16 @@ public class ExportControllerTests {
                 .andDo(print())
                 .andExpect(status().isOk())
                 .andExpect(header().string("Content-Disposition", "attachment;filename=" + TestConstants.SAMPLE_PRODUCT_NAME + "-spdx-sbom.json"))
-                .andExpect(jsonPath("$.spdxVersion").value("SPDX-2.2"));
+                .andExpect(jsonPath("$.spdxVersion").value("SPDX-2.2"))
+                .andReturn();
+        String content = mvcResult.getResponse().getContentAsString();
+        SpdxDocument spdxDocument = Mapper.jsonSbomMapper.readValue(content, SpdxDocument.class);
+        TestCommon.assertSpdxDocument(spdxDocument);
     }
 
     @Test
     public void exportSbomYamlSuccess() throws Exception {
-        this.mockMvc
+        MvcResult mvcResult = this.mockMvc
                 .perform(post("/sbom/exportSbom")
                         .param("productId", TestConstants.SAMPLE_PRODUCT_NAME)
                         .param("spec", "spdx")
@@ -130,12 +138,16 @@ public class ExportControllerTests {
                 .andDo(print())
                 .andExpect(status().isOk())
                 .andExpect(header().string("Content-Disposition", "attachment;filename=" + TestConstants.SAMPLE_PRODUCT_NAME + "-spdx-sbom.yaml"))
-                .andExpect(content().string(containsString("spdxVersion: \"SPDX-2.2\"")));
+                .andExpect(content().string(containsString("spdxVersion: \"SPDX-2.2\"")))
+                .andReturn();
+        String content = mvcResult.getResponse().getContentAsString();
+        SpdxDocument spdxDocument = Mapper.yamlSbomMapper.readValue(content, SpdxDocument.class);
+        TestCommon.assertSpdxDocument(spdxDocument);
     }
 
     @Test
     public void exportSbomXmlSuccess() throws Exception {
-        this.mockMvc
+        MvcResult mvcResult = this.mockMvc
                 .perform(post("/sbom/exportSbom")
                         .param("productId", TestConstants.SAMPLE_PRODUCT_NAME)
                         .param("spec", "spdx")
@@ -146,8 +158,11 @@ public class ExportControllerTests {
                 .andDo(print())
                 .andExpect(status().isOk())
                 .andExpect(header().string("Content-Disposition", "attachment;filename=" + TestConstants.SAMPLE_PRODUCT_NAME + "-spdx-sbom.xml"))
-                .andExpect(content().string(containsString("<spdxVersion>SPDX-2.2</spdxVersion>")));
+                .andExpect(content().string(containsString("<spdxVersion>SPDX-2.2</spdxVersion>")))
+                .andReturn();
+        String content = mvcResult.getResponse().getContentAsString();
+        SpdxDocument spdxDocument = Mapper.xmlSbomMapper.readValue(content, SpdxDocument.class);
+        TestCommon.assertSpdxDocument(spdxDocument);
     }
-
 }
 

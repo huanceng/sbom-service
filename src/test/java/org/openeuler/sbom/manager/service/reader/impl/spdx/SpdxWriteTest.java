@@ -1,24 +1,24 @@
 package org.openeuler.sbom.manager.service.reader.impl.spdx;
 
-import com.fasterxml.jackson.databind.json.JsonMapper;
 import org.junit.jupiter.api.MethodOrderer;
 import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestMethodOrder;
+import org.openeuler.sbom.manager.TestCommon;
 import org.openeuler.sbom.manager.TestConstants;
 import org.openeuler.sbom.manager.constant.SbomConstants;
 import org.openeuler.sbom.manager.dao.VulnerabilityRepository;
 import org.openeuler.sbom.manager.model.Vulnerability;
+import org.openeuler.sbom.manager.model.spdx.SpdxDocument;
 import org.openeuler.sbom.manager.service.writer.impl.spdx.SpdxWriter;
 import org.openeuler.sbom.manager.utils.SbomFormat;
+import org.openeuler.sbom.utils.Mapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.core.io.ClassPathResource;
 
 import java.io.IOException;
-
-import static org.assertj.core.api.Assertions.assertThat;
 
 @SpringBootTest
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
@@ -50,9 +50,23 @@ class SpdxWriteTest {
     }
 
     @Test
-    @Order(2)
-    public void writeSbom() throws IOException {
+    public void writeJsonSbom() throws IOException {
         byte[] result = spdxWriter.write(PRODUCT_ID, SbomFormat.EXT_TO_FORMAT.get("json"));
-        assertThat(new JsonMapper().createParser(result).isNaN()).isFalse();
+        SpdxDocument spdxDocument = Mapper.jsonSbomMapper.readValue(result, SpdxDocument.class);
+        TestCommon.assertSpdxDocument(spdxDocument);
+    }
+
+    @Test
+    public void writeYamlSbom() throws IOException {
+        byte[] result = spdxWriter.write(PRODUCT_ID, SbomFormat.EXT_TO_FORMAT.get("yaml"));
+        SpdxDocument spdxDocument = Mapper.yamlSbomMapper.readValue(result, SpdxDocument.class);
+        TestCommon.assertSpdxDocument(spdxDocument);
+    }
+
+    @Test
+    public void writeXmlSbom() throws IOException {
+        byte[] result = spdxWriter.write(PRODUCT_ID, SbomFormat.EXT_TO_FORMAT.get("xml"));
+        SpdxDocument spdxDocument = Mapper.xmlSbomMapper.readValue(result, SpdxDocument.class);
+        TestCommon.assertSpdxDocument(spdxDocument);
     }
 }
