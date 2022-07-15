@@ -135,6 +135,11 @@ public class SbomServiceImpl implements SbomService {
     }
 
     @Override
+    public Package queryPackageInfoById(String packageId){
+      return  packageRepository.findById(UUID.fromString(packageId)).orElse(null);
+    }
+
+    @Override
     public PageVo<Package> getPackageInfoByNameForPage(String productId, String packageName, Boolean isExactly, int page, int size) {
         String equalPackageName = BooleanUtils.isTrue(isExactly) ? packageName : null;
         Pageable pageable = PageRequest.of(page, size).withSort(Sort.by(Sort.Order.by("name")));
