@@ -1,6 +1,5 @@
 package org.openeuler.sbom.manager.controller;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
 import org.apache.commons.lang3.ArrayUtils;
 import org.openeuler.sbom.manager.model.Package;
 import org.openeuler.sbom.manager.model.RawSbom;
@@ -166,7 +165,7 @@ public class SbomController {
                                                           @RequestParam(value = "packageName", required = false) String packageName,
                                                           @RequestParam(value = "isExactly", required = false) Boolean isExactly,
                                                           @RequestParam(name = "page", required = false, defaultValue = "0") Integer page,
-                                                          @RequestParam(name = "size", required = false, defaultValue = "15") Integer size) throws IOException {
+                                                          @RequestParam(name = "size", required = false, defaultValue = "15") Integer size) {
         logger.info("query sbom packages by productId:{}, packageName:{}, isExactly:{}, page:{}, size:{}",
                 productId,
                 packageName,
@@ -180,9 +179,9 @@ public class SbomController {
     }
 
     @GetMapping("/querySbomPackages/{productId}/{packageName}/{isExactly}")
-    public @ResponseBody ResponseEntity getPackageInfoByName(@PathVariable("productId") String productId,
-                                                             @PathVariable("packageName") String packageName,
-                                                             @PathVariable(value = "isExactly") boolean isExactly) throws JsonProcessingException {
+    public @ResponseBody ResponseEntity getPackagesInfoByName(@PathVariable("productId") String productId,
+                                                              @PathVariable("packageName") String packageName,
+                                                              @PathVariable(value = "isExactly") boolean isExactly) {
         logger.info("query sbom packages by productId:{}, packageName:{}, isExactly:{}", productId, packageName, isExactly);
         List<Package> packagesList = sbomService.queryPackageInfoByName(productId, packageName, isExactly);
 
@@ -190,9 +189,27 @@ public class SbomController {
         return ResponseEntity.status(HttpStatus.OK).body(packagesList);
     }
 
+    @GetMapping("/querySbomPackage/{packageId}")
+    public @ResponseBody ResponseEntity getPackageInfoById(@PathVariable("packageId") String packageId) {
+        logger.info("query sbom package by packageId:{}", packageId);
+        Package packageInfo = null;
+        try {
+            packageInfo = sbomService.queryPackageInfoById(packageId);
+        } catch (RuntimeException e) {
+            logger.error("query sbom package error:", e);
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(e.getMessage());
+        }
+
+        logger.info("query sbom package result:{}", packageInfo);
+        if (packageInfo == null) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("packageId:%s is not exist".formatted(packageId));
+        }
+        return ResponseEntity.status(HttpStatus.OK).body(packageInfo);
+    }
+
     @GetMapping("/queryPackageBinaryManagement/{packageId}/{binaryType}")
     public @ResponseBody ResponseEntity queryPackageBinaryManagement(@PathVariable("packageId") String packageId,
-                                                                     @PathVariable("binaryType") String binaryType) throws JsonProcessingException {
+                                                                     @PathVariable("binaryType") String binaryType) {
         logger.info("query package binary management by packageId:{}, binaryType:{}", packageId, binaryType);
 
         BinaryManagementVo result = sbomService.queryPackageBinaryManagement(packageId, binaryType);

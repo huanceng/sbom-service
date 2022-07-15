@@ -154,6 +154,53 @@ public class PkgQueryControllerTests {
     }
 
     @Test
+    public void queryPackageByIdTest() throws Exception {
+        if (PkgQueryControllerTests.packageId == null) {
+            getPackageId();
+        }
+        this.mockMvc
+                .perform(get("/sbom/querySbomPackage/%s".formatted(PkgQueryControllerTests.packageId))
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .accept(MediaType.APPLICATION_JSON))
+                .andDo(print())
+                .andExpect(status().isOk())
+                .andExpect(header().string("Content-Type", "application/json"))
+                .andExpect(jsonPath("$.name").value("hive"))
+                .andExpect(jsonPath("$.version").value("0:3.1.2-3.oe2203"))
+                .andExpect(jsonPath("$.homepage").value("http://hive.apache.org/"));
+    }
+
+    @Test
+    public void queryPackageByErrorUUIDTest() throws Exception {
+        if (PkgQueryControllerTests.packageId == null) {
+            getPackageId();
+        }
+        this.mockMvc
+                .perform(get("/sbom/querySbomPackage/%s".formatted("11"))
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .accept(MediaType.APPLICATION_JSON))
+                .andDo(print())
+                .andExpect(status().isInternalServerError())
+                .andExpect(header().string("Content-Type", "application/json"))
+                .andExpect(content().string("Invalid UUID string: 11"));
+    }
+
+    @Test
+    public void queryPackageByErrorIdTest() throws Exception {
+        if (PkgQueryControllerTests.packageId == null) {
+            getPackageId();
+        }
+        this.mockMvc
+                .perform(get("/sbom/querySbomPackage/%s".formatted("134aaa0c-1111-1111-1111-05686b9fc20c"))
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .accept(MediaType.APPLICATION_JSON))
+                .andDo(print())
+                .andExpect(status().isInternalServerError())
+                .andExpect(header().string("Content-Type", "application/json"))
+                .andExpect(content().string("packageId:134aaa0c-1111-1111-1111-05686b9fc20c is not exist"));
+    }
+
+    @Test
     public void queryAllCategoryRef() throws Exception {
         if (PkgQueryControllerTests.packageId == null) {
             getPackageId();
