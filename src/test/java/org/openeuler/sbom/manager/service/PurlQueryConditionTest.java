@@ -2,6 +2,7 @@ package org.openeuler.sbom.manager.service;
 
 import com.github.packageurl.MalformedPackageURLException;
 import org.junit.jupiter.api.Test;
+import org.openeuler.sbom.manager.model.vo.PackageUrlVo;
 import org.openeuler.sbom.manager.utils.PurlUtil;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.data.util.Pair;
@@ -13,7 +14,7 @@ public class PurlQueryConditionTest {
 
     @Test
     public void mavenOnlyNameTest() throws MalformedPackageURLException {
-        Pair<String, Boolean> result = PurlUtil.generatePurlQueryCondition("maven", "", "zookeeper", "");
+        Pair<String, Boolean> result = PurlUtil.generatePurlQueryCondition(new PackageUrlVo("maven", "", "zookeeper", ""));
 
         assertThat(result.getFirst()).isEqualTo("zookeeper");
         assertThat(result.getSecond()).isFalse();
@@ -21,7 +22,7 @@ public class PurlQueryConditionTest {
 
     @Test
     public void mavenNameAndNamespaceTest() throws MalformedPackageURLException {
-        Pair<String, Boolean> result = PurlUtil.generatePurlQueryCondition("maven", "org.apache.zookeeper", "zookeeper", "");
+        Pair<String, Boolean> result = PurlUtil.generatePurlQueryCondition(new PackageUrlVo("maven", "org.apache.zookeeper", "zookeeper", ""));
 
         assertThat(result.getFirst()).isEqualTo("pkg:maven/org.apache.zookeeper/zookeeper");
         assertThat(result.getSecond()).isFalse();
@@ -29,7 +30,7 @@ public class PurlQueryConditionTest {
 
     @Test
     public void mavenGavTest() throws MalformedPackageURLException {
-        Pair<String, Boolean> result = PurlUtil.generatePurlQueryCondition("maven", "org.apache.zookeeper", "zookeeper", "3.4.6");
+        Pair<String, Boolean> result = PurlUtil.generatePurlQueryCondition(new PackageUrlVo("maven", "org.apache.zookeeper", "zookeeper", "3.4.6"));
 
         assertThat(result.getFirst()).isEqualTo("pkg:maven/org.apache.zookeeper/zookeeper@3.4.6");
         assertThat(result.getSecond()).isTrue();
@@ -39,7 +40,7 @@ public class PurlQueryConditionTest {
     public void notSupportTypeTest() throws MalformedPackageURLException {
         Pair<String, Boolean> result = null;
         try {
-            result = PurlUtil.generatePurlQueryCondition("pip", "org.apache.zookeeper", "zookeeper", "3.4.6");
+            result = PurlUtil.generatePurlQueryCondition(new PackageUrlVo("pip", "org.apache.zookeeper", "zookeeper", "3.4.6"));
         } catch (RuntimeException e) {
             assertThat(e.getMessage()).isEqualTo("purl query condition not support type: pip");
         }

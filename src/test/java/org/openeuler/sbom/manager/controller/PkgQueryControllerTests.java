@@ -266,8 +266,10 @@ public class PkgQueryControllerTests {
                 .andDo(print())
                 .andExpect(status().isOk())
                 .andExpect(header().string("Content-Type", "application/json"))
-                .andExpect(jsonPath("$.*", hasSize(1)))
-                .andExpect(jsonPath("$.[0].name").value("hive"));
+                .andExpect(jsonPath("$.last").value(true))
+                .andExpect(jsonPath("$.totalElements").value(1))
+                .andExpect(jsonPath("$.totalPages").value(1))
+                .andExpect(jsonPath("$.content.[0].name").value("hive"));
     }
 
     @Test
@@ -285,8 +287,10 @@ public class PkgQueryControllerTests {
                 .andDo(print())
                 .andExpect(status().isOk())
                 .andExpect(header().string("Content-Type", "application/json"))
-                .andExpect(jsonPath("$.*", hasSize(10)))
-                .andExpect(jsonPath("$.[4].name").value("hive"));
+                .andExpect(jsonPath("$.last").value(true))
+                .andExpect(jsonPath("$.totalElements").value(10))
+                .andExpect(jsonPath("$.totalPages").value(1))
+                .andExpect(jsonPath("$.content.[4].name").value("hive"));
     }
 
     @Test
@@ -304,8 +308,10 @@ public class PkgQueryControllerTests {
                 .andDo(print())
                 .andExpect(status().isOk())
                 .andExpect(header().string("Content-Type", "application/json"))
-                .andExpect(jsonPath("$.*", hasSize(12)))
-                .andExpect(jsonPath("$.[6].name").value("hive"));
+                .andExpect(jsonPath("$.last").value(true))
+                .andExpect(jsonPath("$.totalElements").value(12))
+                .andExpect(jsonPath("$.totalPages").value(1))
+                .andExpect(jsonPath("$.content.[6].name").value("hive"));
     }
 
     @Test

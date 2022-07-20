@@ -7,8 +7,13 @@ import org.openeuler.sbom.manager.model.Package;
 import org.openeuler.sbom.manager.model.spdx.ReferenceCategory;
 import org.openeuler.sbom.manager.model.vo.BinaryManagementVo;
 import org.openeuler.sbom.manager.model.vo.PackagePurlVo;
+import org.openeuler.sbom.manager.model.vo.PackageUrlVo;
+import org.openeuler.sbom.manager.model.vo.PageVo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 
 import java.util.List;
 
@@ -16,7 +21,6 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 @SpringBootTest
 class SbomServiceTest {
-
 
     @Autowired
     private SbomService sbomService;
@@ -81,35 +85,47 @@ class SbomServiceTest {
 
     @Test
     public void queryPackageInfoByBinaryExactlyTest() throws Exception {
-        List<PackagePurlVo> result = sbomService.queryPackageInfoByBinary(TestConstants.OPENEULER_PRODUCT_NAME,
-                ReferenceCategory.EXTERNAL_MANAGER.name(),
-                "maven",
+        PackageUrlVo purl=new PackageUrlVo("maven",
                 "org.apache.zookeeper",
                 "zookeeper",
                 "3.4.6");
-        assertThat(result.size()).isEqualTo(1);
+        Pageable pageable = PageRequest.of(0, 15).withSort(Sort.by(Sort.Order.by("name")));
+
+        PageVo<PackagePurlVo> result = sbomService.queryPackageInfoByBinary(TestConstants.OPENEULER_PRODUCT_NAME,
+                ReferenceCategory.EXTERNAL_MANAGER.name(),
+                purl,
+                pageable);
+        assertThat(result.getTotalElements()).isEqualTo(1);
     }
 
     @Test
     public void queryPackageInfoByBinaryWithoutVersionTest() throws Exception {
-        List<PackagePurlVo> result = sbomService.queryPackageInfoByBinary(TestConstants.OPENEULER_PRODUCT_NAME,
-                ReferenceCategory.EXTERNAL_MANAGER.name(),
-                "maven",
+        PackageUrlVo purl=new PackageUrlVo("maven",
                 "org.apache.zookeeper",
                 "zookeeper",
                 "");
-        assertThat(result.size()).isEqualTo(10);
+        Pageable pageable = PageRequest.of(0, 15).withSort(Sort.by(Sort.Order.by("name")));
+
+        PageVo<PackagePurlVo> result = sbomService.queryPackageInfoByBinary(TestConstants.OPENEULER_PRODUCT_NAME,
+                ReferenceCategory.EXTERNAL_MANAGER.name(),
+                purl,
+                pageable);
+        assertThat(result.getTotalElements()).isEqualTo(10);
     }
 
     @Test
     public void queryPackageInfoByBinaryOnlyNameTest() throws Exception {
-        List<PackagePurlVo> result = sbomService.queryPackageInfoByBinary(TestConstants.OPENEULER_PRODUCT_NAME,
-                ReferenceCategory.EXTERNAL_MANAGER.name(),
-                "maven",
+        PackageUrlVo purl=new PackageUrlVo("maven",
                 "",
                 "zookeeper",
                 "");
-        assertThat(result.size()).isEqualTo(12);
+        Pageable pageable = PageRequest.of(0, 15).withSort(Sort.by(Sort.Order.by("name")));
+
+        PageVo<PackagePurlVo> result = sbomService.queryPackageInfoByBinary(TestConstants.OPENEULER_PRODUCT_NAME,
+                ReferenceCategory.EXTERNAL_MANAGER.name(),
+                purl,
+                pageable);
+        assertThat(result.getTotalElements()).isEqualTo(12);
     }
 
 }
