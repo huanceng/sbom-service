@@ -11,6 +11,7 @@ import org.openeuler.sbom.manager.dao.SbomRepository;
 import org.openeuler.sbom.manager.model.Package;
 import org.openeuler.sbom.manager.model.vo.PackagePurlVo;
 import org.openeuler.sbom.manager.model.vo.BinaryManagementVo;
+import org.openeuler.sbom.manager.model.vo.PackageUrlVo;
 import org.openeuler.sbom.manager.model.vo.PageVo;
 import org.openeuler.sbom.manager.model.RawSbom;
 import org.openeuler.sbom.manager.model.Sbom;
@@ -23,6 +24,7 @@ import org.openeuler.sbom.manager.utils.PurlUtil;
 import org.openeuler.sbom.manager.utils.SbomFormat;
 import org.openeuler.sbom.manager.utils.SbomSpecification;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -171,27 +173,26 @@ public class SbomServiceImpl implements SbomService {
     }
 
     @Override
-    public List<PackagePurlVo> queryPackageInfoByBinary(String productId,
+    public PageVo<PackagePurlVo> queryPackageInfoByBinary(String productId,
                                                         String binaryType,
-                                                        String type,
-                                                        String namespace,
-                                                        String name,
-                                                        String version) throws Exception {
-
+                                                        PackageUrlVo purl,
+                                                        Pageable pageable
+                                                        ) throws Exception {
         ReferenceCategory referenceCategory = ReferenceCategory.findReferenceCategory(binaryType);
         if (!ReferenceCategory.BINARY_TYPE.contains(referenceCategory)) {
             throw new RuntimeException("binary type: %s is not support".formatted(binaryType));
         }
 
-        Pair<String, Boolean> purlQueryCondition = PurlUtil.generatePurlQueryCondition(type, namespace, name, version);
+        Pair<String, Boolean> purlQueryCondition = PurlUtil.generatePurlQueryCondition(purl);
 
-        List<Map> result = packageRepository.queryPackageInfoByBinary(productId,
+        Page<Map> result = packageRepository.queryPackageInfoByBinary(productId,
                 binaryType,
                 purlQueryCondition.getSecond(),
                 purlQueryCondition.getFirst(),
-                purlQueryCondition.getFirst());
+                purlQueryCondition.getFirst(),
+                pageable);
 
-        return EntityUtil.castEntity(result, PackagePurlVo.class);
+        return new PageVo<>((PageImpl<PackagePurlVo>)EntityUtil.castEntity(result, PackagePurlVo.class));
     }
 
 }

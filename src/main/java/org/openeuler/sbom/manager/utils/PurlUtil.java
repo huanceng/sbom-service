@@ -3,6 +3,7 @@ package org.openeuler.sbom.manager.utils;
 import com.github.packageurl.MalformedPackageURLException;
 import com.github.packageurl.PackageURL;
 import org.apache.commons.lang3.StringUtils;
+import org.openeuler.sbom.manager.model.vo.PackageUrlVo;
 import org.springframework.data.util.Pair;
 
 public class PurlUtil {
@@ -18,11 +19,11 @@ public class PurlUtil {
         return strToPackageURL(purl).canonicalize();
     }
 
-    public static Pair<String, Boolean> generatePurlQueryCondition(String type, String namespace, String name, String version) throws MalformedPackageURLException {
-        type = StringUtils.lowerCase(type);
+    public static Pair<String, Boolean> generatePurlQueryCondition(PackageUrlVo purl) throws MalformedPackageURLException {
+        String type = StringUtils.lowerCase(purl.getType());
         switch (type) {
             case "maven":
-                return PurlUtil.generateMavenPurlQueryCondition(namespace, name, version);
+                return PurlUtil.generateMavenPurlQueryCondition(purl.getNamespace(), purl.getName(), purl.getVersion());
             // TODO 后续追加其他包管理的支持
         }
 

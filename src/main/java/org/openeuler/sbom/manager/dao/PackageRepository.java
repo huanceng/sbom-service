@@ -55,11 +55,13 @@ public interface PackageRepository extends JpaRepository<Package, UUID> {
             "    AND B.category = :binaryType" +
             "    AND (:isExactly = FALSE OR (B.purl = :equalQueryPurl))" +
             "    AND (:isExactly = TRUE OR (B.purl LIKE %:likeQueryPurl% ))",
+            countProjection = "1",
             nativeQuery = true)
-    List<Map> queryPackageInfoByBinary(@Param("productId") String productId,
+    Page<Map> queryPackageInfoByBinary(@Param("productId") String productId,
                                        @Param("binaryType") String binaryType,
                                        @Param("isExactly") Boolean isExactly,
                                        @Param("equalQueryPurl") String equalQueryPurl,
-                                       @Param("likeQueryPurl") String likeQueryPurl);
+                                       @Param("likeQueryPurl") String likeQueryPurl,
+                                       Pageable pageable);
 
 }
