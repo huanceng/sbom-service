@@ -5,11 +5,15 @@ import org.openeuler.sbom.manager.model.Package;
 import org.openeuler.sbom.manager.model.RawSbom;
 import org.openeuler.sbom.manager.model.vo.BinaryManagementVo;
 import org.openeuler.sbom.manager.model.vo.PackagePurlVo;
+import org.openeuler.sbom.manager.model.vo.PackageUrlVo;
 import org.openeuler.sbom.manager.model.vo.PageVo;
 import org.openeuler.sbom.manager.service.SbomService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -225,7 +229,9 @@ public class SbomController {
                                                                  @RequestParam("type") String type,
                                                                  @RequestParam(name = "namespace", required = false) String namespace,
                                                                  @RequestParam(name = "name", required = false) String name,
-                                                                 @RequestParam(name = "version", required = false) String version) {
+                                                                 @RequestParam(name = "version", required = false) String version,
+                                                                 @RequestParam(name = "page", required = false, defaultValue = "0") Integer page,
+                                                                 @RequestParam(name = "size", required = false, defaultValue = "15") Integer size) {
         logger.info("query package info by packageId:{}, binaryType:{}, type:{}, namespace:{}, name:{}, version:{}", productId,
                 binaryType,
                 type,
@@ -233,15 +239,15 @@ public class SbomController {
                 name,
                 version);
 
+        PackageUrlVo purl= new PackageUrlVo(type,  namespace,  name,  version);
+        Pageable pageable = PageRequest.of(page, size).withSort(Sort.by(Sort.Order.by("name")));
+        PageVo<PackagePurlVo> queryResult = null;
 
-        List<PackagePurlVo> queryResult = null;
         try {
             queryResult = sbomService.queryPackageInfoByBinary(productId,
                     binaryType,
-                    type,
-                    namespace,
-                    name,
-                    version);
+                    purl,
+                    pageable);
         } catch (RuntimeException e) {
             logger.error("query sbom packages failed.", e);
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(e.getMessage());
@@ -250,7 +256,7 @@ public class SbomController {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("query sbom packages failed.");
         }
 
-        logger.info("query sbom packages result:{}", queryResult == null ? 0 : queryResult.size());
+        logger.info("query sbom packages result:{}", queryResult == null ? 0 : queryResult.getTotalElements());
         return ResponseEntity.status(HttpStatus.OK).body(queryResult);
     }
 }

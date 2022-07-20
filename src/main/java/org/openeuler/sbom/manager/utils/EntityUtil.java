@@ -1,5 +1,7 @@
 package org.openeuler.sbom.manager.utils;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
 import org.springframework.util.CollectionUtils;
 
 import java.lang.reflect.Field;
@@ -23,6 +25,20 @@ public class EntityUtil {
             }
         }
         return returnList;
+    }
+
+    public static <T> Page<T> castEntity(Page<Map> oldPage, Class<T> clazz) throws Exception {
+        List<T> returnList = new ArrayList<T>();
+        if (oldPage!=null&&oldPage.getSize()>0) {
+            for (Map o : oldPage) {
+                T obj = (T) mapToObject(o, clazz);
+                if (obj != null) {
+                    returnList.add(obj);
+                }
+            }
+        }
+
+        return new  PageImpl(returnList,oldPage.getPageable(),oldPage.getTotalElements());
     }
 
     public static <T> T mapToObject(Map<String, Object> map, Class<?> beanClass) throws Exception {
