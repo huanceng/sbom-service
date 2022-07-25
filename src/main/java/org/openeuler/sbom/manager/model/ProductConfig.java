@@ -43,6 +43,12 @@ public class ProductConfig {
     private String name;
 
     /**
+     * 前端展示用字段名称
+     * */
+    @Column(columnDefinition = "TEXT", nullable = false)
+    private String label;
+
+    /**
      * Value type of config, such as Integer/String/Boolean/enum(x86_64, aarch64).
      */
     @Column(columnDefinition = "TEXT", nullable = false)
@@ -76,6 +82,14 @@ public class ProductConfig {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public String getLabel() {
+        return label;
+    }
+
+    public void setLabel(String label) {
+        this.label = label;
     }
 
     public String getValueType() {
