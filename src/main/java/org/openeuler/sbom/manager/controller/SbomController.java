@@ -2,11 +2,13 @@ package org.openeuler.sbom.manager.controller;
 
 import org.apache.commons.lang3.ArrayUtils;
 import org.openeuler.sbom.manager.model.Package;
+import org.openeuler.sbom.manager.model.Product;
 import org.openeuler.sbom.manager.model.RawSbom;
 import org.openeuler.sbom.manager.model.vo.BinaryManagementVo;
 import org.openeuler.sbom.manager.model.vo.PackagePurlVo;
 import org.openeuler.sbom.manager.model.vo.PackageUrlVo;
 import org.openeuler.sbom.manager.model.vo.PageVo;
+import org.openeuler.sbom.manager.model.vo.ProductConfigVo;
 import org.openeuler.sbom.manager.service.SbomService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -21,6 +23,7 @@ import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -35,6 +38,7 @@ import java.io.OutputStream;
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
 import java.util.List;
+import java.util.Map;
 
 @Controller
 @RequestMapping(path = "/sbom-api")
@@ -239,7 +243,7 @@ public class SbomController {
                 name,
                 version);
 
-        PackageUrlVo purl= new PackageUrlVo(type,  namespace,  name,  version);
+        PackageUrlVo purl = new PackageUrlVo(type, namespace, name, version);
         Pageable pageable = PageRequest.of(page, size).withSort(Sort.by(Sort.Order.by("name")));
         PageVo<PackagePurlVo> queryResult = null;
 
@@ -259,4 +263,67 @@ public class SbomController {
         logger.info("query sbom packages result:{}", queryResult == null ? 0 : queryResult.getTotalElements());
         return ResponseEntity.status(HttpStatus.OK).body(queryResult);
     }
+
+    @GetMapping("/queryProductType")
+    public @ResponseBody ResponseEntity queryProductType() {
+        logger.info("query product type");
+        List<String> queryResult;
+
+        try {
+            queryResult = sbomService.queryProductType();
+        } catch (RuntimeException e) {
+            logger.error("query product type failed.", e);
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(e.getMessage());
+        } catch (Exception e) {
+            logger.error("query product type failed.", e);
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("query product type failed.");
+        }
+
+        logger.info("query product type result:{}", queryResult);
+        return ResponseEntity.status(HttpStatus.OK).body(queryResult);
+    }
+
+    @GetMapping("/queryProductConfig/{productType}")
+    public @ResponseBody ResponseEntity queryProductConfigByProductType(@PathVariable("productType") String productType) {
+        logger.info("query product config by productType:{}", productType);
+        List<ProductConfigVo> queryResult;
+
+        try {
+            queryResult = sbomService.queryProductConfigByProductType(productType);
+        } catch (RuntimeException e) {
+            logger.error("query product config failed.", e);
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(e.getMessage());
+        } catch (Exception e) {
+            logger.error("query product config failed.", e);
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("query product config failed.");
+        }
+
+        logger.info("query product config result size:{}", queryResult.size());
+        return ResponseEntity.status(HttpStatus.OK).body(queryResult);
+    }
+
+    @PostMapping("/queryProduct/{productType}")
+    public @ResponseBody ResponseEntity queryProductByFullAttributes(@PathVariable("productType") String productType, @RequestBody Map<String, Object> attributes) {
+        logger.info("query product info by productType:{}, attributes:{}", productType, attributes);
+        attributes.put("productType", productType);
+
+        try {
+            Product queryResult = sbomService.queryProductByFullAttributes(attributes);
+
+            if (queryResult == null) {
+                logger.info("query product info result is null");
+                return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("product is not exist");
+            } else {
+                logger.info("query product info result:{}", queryResult);
+                return ResponseEntity.status(HttpStatus.OK).body(queryResult);
+            }
+        } catch (RuntimeException e) {
+            logger.error("query product info failed.", e);
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(e.getMessage());
+        } catch (Exception e) {
+            logger.error("query product info failed.", e);
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("query product info failed.");
+        }
+    }
+
 }

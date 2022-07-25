@@ -14,15 +14,14 @@ import org.openeuler.sbom.manager.dao.RawSbomRepository;
 import org.openeuler.sbom.manager.dao.SbomRepository;
 import org.openeuler.sbom.manager.model.Package;
 import org.openeuler.sbom.manager.model.Product;
-import org.openeuler.sbom.manager.model.ProductConfig;
 import org.openeuler.sbom.manager.model.ProductType;
-import org.openeuler.sbom.manager.model.vo.PackagePurlVo;
-import org.openeuler.sbom.manager.model.vo.BinaryManagementVo;
-import org.openeuler.sbom.manager.model.vo.PackageUrlVo;
-import org.openeuler.sbom.manager.model.vo.PageVo;
 import org.openeuler.sbom.manager.model.RawSbom;
 import org.openeuler.sbom.manager.model.Sbom;
 import org.openeuler.sbom.manager.model.spdx.ReferenceCategory;
+import org.openeuler.sbom.manager.model.vo.BinaryManagementVo;
+import org.openeuler.sbom.manager.model.vo.PackagePurlVo;
+import org.openeuler.sbom.manager.model.vo.PackageUrlVo;
+import org.openeuler.sbom.manager.model.vo.PageVo;
 import org.openeuler.sbom.manager.model.vo.ProductConfigVo;
 import org.openeuler.sbom.manager.service.SbomService;
 import org.openeuler.sbom.manager.service.reader.SbomReader;
@@ -222,7 +221,7 @@ public class SbomServiceImpl implements SbomService {
     public List<ProductConfigVo> queryProductConfigByProductType(String productType) {
         return productConfigRepository.findByProductTypeOrderByOrdAsc(productType)
                 .stream()
-                .map(it -> new ProductConfigVo(it.getName(), it.getValueType(), it.getOrd()))
+                .map(it -> new ProductConfigVo(it.getName(), it.getLabel(), it.getValueType(), it.getOrd()))
                 .toList();
     }
 

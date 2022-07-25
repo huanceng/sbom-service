@@ -1,6 +1,7 @@
 package org.openeuler.sbom.manager.controller;
 
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.Test;
 import org.openeuler.sbom.manager.SbomApplicationContextHolder;
 import org.openeuler.sbom.manager.SbomManagerApplication;
@@ -13,8 +14,10 @@ import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMock
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.util.CollectionUtils;
 
 import java.util.List;
+import java.util.Map;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.hamcrest.Matchers.hasSize;
@@ -350,4 +353,114 @@ public class PkgQueryControllerTests {
                 .andExpect(content().string("purl query condition not support type: pip"));
     }
 
+    @Test
+    public void queryProductTypeTest() throws Exception {
+        this.mockMvc
+                .perform(get("/sbom-api/queryProductType")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .accept(MediaType.APPLICATION_JSON))
+                .andDo(print())
+                .andExpect(status().isOk())
+                .andExpect(header().string("Content-Type", "application/json"))
+                .andExpect(jsonPath("$.*", hasSize(3)))
+                .andExpect(jsonPath("$.[0]").value("openEuler"))
+                .andExpect(jsonPath("$.[1]").value("mindspore"))
+                .andExpect(jsonPath("$.[2]").value("openGauss"));
+    }
+
+    @Test
+    public void queryProductConfigForOpenEuler() throws Exception {
+        this.mockMvc
+                .perform(get("/sbom-api/queryProductConfig/%s".formatted(TestConstants.OPENEULER_PRODUCT_TYPE_NAME))
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .accept(MediaType.APPLICATION_JSON))
+                .andDo(print())
+                .andExpect(status().isOk())
+                .andExpect(header().string("Content-Type", "application/json"))
+                .andExpect(jsonPath("$.*", hasSize(4)))
+                .andExpect(jsonPath("$.[0].name").value("version"))
+                .andExpect(jsonPath("$.[0].label").value("版本号"))
+                .andExpect(jsonPath("$.[0].valueType").value("enum([{\"label\":\"22.03-LTS\",\"value\":\"22.03-LTS\"}])"))
+                .andExpect(jsonPath("$.[0].ord").value(1))
+                .andExpect(jsonPath("$.[3].name").value("arch"))
+                .andExpect(jsonPath("$.[3].label").value("系统架构"))
+                .andExpect(jsonPath("$.[3].valueType").value("enum([{\"label\":\"aarch64\",\"value\":\"aarch64\"},{\"label\":\"x86 64\",\"value\":\"x86_64\"}])"))
+                .andExpect(jsonPath("$.[3].ord").value(4));
+    }
+
+    @Test
+    public void queryProductConfigForErrorTypeName() throws Exception {
+        this.mockMvc
+                .perform(get("/sbom-api/queryProductConfig/%s".formatted(TestConstants.OPENEULER_PRODUCT_TYPE_NAME.toLowerCase()))
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .accept(MediaType.APPLICATION_JSON))
+                .andDo(print())
+                .andExpect(status().isOk())
+                .andExpect(header().string("Content-Type", "application/json"))
+                .andExpect(jsonPath("$.*", hasSize(0)));
+    }
+
+    @Test
+    public void queryProductByAttrsForOpenEuler1() throws Exception {
+        Map<String, String> attributes = CollectionUtils.newHashMap(0);
+        attributes.put("version", "22.03-LTS");
+        attributes.put("imageFormat", "ISO");
+        attributes.put("imageType", "everything");
+        attributes.put("arch", "x86_64");
+        ObjectMapper objectMapper = new ObjectMapper();
+
+        this.mockMvc
+                .perform(post("/sbom-api/queryProduct/%s".formatted(TestConstants.OPENEULER_PRODUCT_TYPE_NAME))
+                        .content(objectMapper.writeValueAsString(attributes))
+                        .param("productId", TestConstants.OPENEULER_PRODUCT_NAME)
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .accept(MediaType.APPLICATION_JSON))
+                .andDo(print())
+                .andExpect(status().isOk())
+                .andExpect(header().string("Content-Type", "application/json"))
+                .andExpect(jsonPath("$.id").value("55dfefff-ec35-49f4-b395-de3824605bbc"))
+                .andExpect(jsonPath("$.name").value("openEuler-22.03-LTS-everything-x86_64-dvd.iso"));
+    }
+
+    @Test
+    public void queryProductByAttrsForOpenEuler2() throws Exception {
+        Map<String, String> attributes = CollectionUtils.newHashMap(0);
+        attributes.put("arch", "x86_64");
+        attributes.put("imageType", "everything");
+        attributes.put("imageFormat", "ISO");
+        attributes.put("version", "22.03-LTS");
+        ObjectMapper objectMapper = new ObjectMapper();
+
+        this.mockMvc
+                .perform(post("/sbom-api/queryProduct/%s".formatted(TestConstants.OPENEULER_PRODUCT_TYPE_NAME))
+                        .content(objectMapper.writeValueAsString(attributes))
+                        .param("productId", TestConstants.OPENEULER_PRODUCT_NAME)
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .accept(MediaType.APPLICATION_JSON))
+                .andDo(print())
+                .andExpect(status().isOk())
+                .andExpect(header().string("Content-Type", "application/json"))
+                .andExpect(jsonPath("$.id").value("55dfefff-ec35-49f4-b395-de3824605bbc"))
+                .andExpect(jsonPath("$.name").value("openEuler-22.03-LTS-everything-x86_64-dvd.iso"));
+    }
+
+    @Test
+    public void queryProductByAttrsForOpenEulerError() throws Exception {
+        Map<String, String> attributes = CollectionUtils.newHashMap(0);
+        attributes.put("version", "22.03-LTS");
+        attributes.put("imageFormat", "ISO");
+        attributes.put("imageType", "everything");
+        ObjectMapper objectMapper = new ObjectMapper();
+
+        this.mockMvc
+                .perform(post("/sbom-api/queryProduct/%s".formatted(TestConstants.OPENEULER_PRODUCT_TYPE_NAME))
+                        .content(objectMapper.writeValueAsString(attributes))
+                        .param("productId", TestConstants.OPENEULER_PRODUCT_NAME)
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .accept(MediaType.APPLICATION_JSON))
+                .andDo(print())
+                .andExpect(status().isInternalServerError())
+                .andExpect(header().string("Content-Type", "application/json"))
+                .andExpect(content().string("product is not exist"));
+    }
 }
