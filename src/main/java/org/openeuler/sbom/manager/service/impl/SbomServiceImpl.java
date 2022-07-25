@@ -1,14 +1,21 @@
 package org.openeuler.sbom.manager.service.impl;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import org.apache.commons.lang3.BooleanUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.openeuler.sbom.manager.SbomApplicationContextHolder;
 import org.openeuler.sbom.manager.constant.SbomConstants;
 import org.openeuler.sbom.manager.dao.ExternalPurlRefRepository;
 import org.openeuler.sbom.manager.dao.PackageRepository;
+import org.openeuler.sbom.manager.dao.ProductConfigRepository;
+import org.openeuler.sbom.manager.dao.ProductRepository;
+import org.openeuler.sbom.manager.dao.ProductTypeRepository;
 import org.openeuler.sbom.manager.dao.RawSbomRepository;
 import org.openeuler.sbom.manager.dao.SbomRepository;
 import org.openeuler.sbom.manager.model.Package;
+import org.openeuler.sbom.manager.model.Product;
+import org.openeuler.sbom.manager.model.ProductConfig;
+import org.openeuler.sbom.manager.model.ProductType;
 import org.openeuler.sbom.manager.model.vo.PackagePurlVo;
 import org.openeuler.sbom.manager.model.vo.BinaryManagementVo;
 import org.openeuler.sbom.manager.model.vo.PackageUrlVo;
@@ -16,6 +23,7 @@ import org.openeuler.sbom.manager.model.vo.PageVo;
 import org.openeuler.sbom.manager.model.RawSbom;
 import org.openeuler.sbom.manager.model.Sbom;
 import org.openeuler.sbom.manager.model.spdx.ReferenceCategory;
+import org.openeuler.sbom.manager.model.vo.ProductConfigVo;
 import org.openeuler.sbom.manager.service.SbomService;
 import org.openeuler.sbom.manager.service.reader.SbomReader;
 import org.openeuler.sbom.manager.service.writer.SbomWriter;
@@ -23,6 +31,7 @@ import org.openeuler.sbom.manager.utils.EntityUtil;
 import org.openeuler.sbom.manager.utils.PurlUtil;
 import org.openeuler.sbom.manager.utils.SbomFormat;
 import org.openeuler.sbom.manager.utils.SbomSpecification;
+import org.openeuler.sbom.utils.Mapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
@@ -56,6 +65,15 @@ public class SbomServiceImpl implements SbomService {
 
     @Autowired
     private ExternalPurlRefRepository externalPurlRefRepository;
+
+    @Autowired
+    private ProductTypeRepository productTypeRepository;
+
+    @Autowired
+    private ProductConfigRepository productConfigRepository;
+
+    @Autowired
+    private ProductRepository productRepository;
 
     @Override
     // TODO 后续productID作为外键支持
@@ -195,4 +213,21 @@ public class SbomServiceImpl implements SbomService {
         return new PageVo<>((PageImpl<PackagePurlVo>)EntityUtil.castEntity(result, PackagePurlVo.class));
     }
 
+    @Override
+    public List<String> queryProductType() {
+        return productTypeRepository.findAll().stream().map(ProductType::getType).toList();
+    }
+
+    @Override
+    public List<ProductConfigVo> queryProductConfigByProductType(String productType) {
+        return productConfigRepository.findByProductTypeOrderByOrdAsc(productType)
+                .stream()
+                .map(it -> new ProductConfigVo(it.getName(), it.getValueType(), it.getOrd()))
+                .toList();
+    }
+
+    public Product queryProductByFullAttributes(Map<String, ?> attributes) throws JsonProcessingException {
+        String attr = Mapper.objectMapper.writeValueAsString(attributes);
+        return productRepository.queryProductByFullAttributes(attr);
+    }
 }

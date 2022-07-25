@@ -9,6 +9,8 @@ import com.fasterxml.jackson.dataformat.yaml.YAMLMapper;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 
 public class Mapper {
+    public static final ObjectMapper objectMapper = new ObjectMapper();
+
     public static ObjectMapper initMapper(ObjectMapper mapper) {
         return mapper.registerModule(new JavaTimeModule())
                 .findAndRegisterModules()

@@ -1,15 +1,19 @@
 package org.openeuler.sbom.manager.service;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import org.openeuler.sbom.manager.model.Package;
-import org.openeuler.sbom.manager.model.vo.PackagePurlVo;
+import org.openeuler.sbom.manager.model.Product;
 import org.openeuler.sbom.manager.model.RawSbom;
 import org.openeuler.sbom.manager.model.vo.BinaryManagementVo;
+import org.openeuler.sbom.manager.model.vo.PackagePurlVo;
 import org.openeuler.sbom.manager.model.vo.PackageUrlVo;
 import org.openeuler.sbom.manager.model.vo.PageVo;
+import org.openeuler.sbom.manager.model.vo.ProductConfigVo;
 import org.springframework.data.domain.Pageable;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.Map;
 
 public interface SbomService {
 
@@ -33,4 +37,10 @@ public interface SbomService {
                                                  String binaryType,
                                                  PackageUrlVo purl,
                                                  Pageable pageable) throws Exception;
+
+    List<String> queryProductType();
+
+    List<ProductConfigVo> queryProductConfigByProductType(String productType);
+
+    Product queryProductByFullAttributes(Map<String, ?> attributes) throws JsonProcessingException;
 }
