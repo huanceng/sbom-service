@@ -34,7 +34,7 @@ public class SbomDataInitTest {
                 , "json", classPathResource.getInputStream());
 
         this.mockMvc
-                .perform(multipart("/sbom/uploadSbomFile").file(file)
+                .perform(multipart("/sbom-api/uploadSbomFile").file(file)
                         .param("productId", TestConstants.SAMPLE_PRODUCT_NAME)
                         .contentType(MediaType.MULTIPART_FORM_DATA))
                 .andDo(print())

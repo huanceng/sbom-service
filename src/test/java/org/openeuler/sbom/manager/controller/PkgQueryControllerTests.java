@@ -39,7 +39,7 @@ public class PkgQueryControllerTests {
     @Test
     public void queryPackagesListForPageable() throws Exception {
         this.mockMvc
-                .perform(post("/sbom/querySbomPackages")
+                .perform(post("/sbom-api/querySbomPackages")
                         .param("productId", TestConstants.SAMPLE_PRODUCT_NAME)
                         .param("page", "1")
                         .param("size", "15")
@@ -58,7 +58,7 @@ public class PkgQueryControllerTests {
     @Test
     public void queryPackagesListByExactlyNameForPageable() throws Exception {
         this.mockMvc
-                .perform(post("/sbom/querySbomPackages")
+                .perform(post("/sbom-api/querySbomPackages")
                         .param("productId", TestConstants.OPENEULER_PRODUCT_NAME)
                         .param("packageName", TestConstants.BINARY_TEST_PACKAGE_NAME)
                         .param("isExactly", Boolean.TRUE.toString())
@@ -80,7 +80,7 @@ public class PkgQueryControllerTests {
     @Test
     public void queryPackagesListByFuzzyNameForPageable() throws Exception {
         this.mockMvc
-                .perform(post("/sbom/querySbomPackages")
+                .perform(post("/sbom-api/querySbomPackages")
                         .param("productId", TestConstants.OPENEULER_PRODUCT_NAME)
                         .param("packageName", TestConstants.BINARY_TEST_PACKAGE_NAME)
                         .param("isExactly", Boolean.FALSE.toString())
@@ -105,7 +105,7 @@ public class PkgQueryControllerTests {
     @Test
     public void queryPackagesListByErrorNameForPageable() throws Exception {
         this.mockMvc
-                .perform(post("/sbom/querySbomPackages")
+                .perform(post("/sbom-api/querySbomPackages")
                         .param("productId", TestConstants.OPENEULER_PRODUCT_NAME)
                         .param("packageName", "hive-XXXX")
                         .param("isExactly", Boolean.FALSE.toString())
@@ -127,7 +127,7 @@ public class PkgQueryControllerTests {
     @Test
     public void queryPackagesListByName() throws Exception {
         this.mockMvc
-                .perform(get("/sbom/querySbomPackages/%s/%s/%s".formatted(TestConstants.SAMPLE_PRODUCT_NAME, "pill", "false"))
+                .perform(get("/sbom-api/querySbomPackages/%s/%s/%s".formatted(TestConstants.SAMPLE_PRODUCT_NAME, "pill", "false"))
                         .contentType(MediaType.APPLICATION_JSON)
                         .accept(MediaType.APPLICATION_JSON))
                 .andDo(print())
@@ -159,7 +159,7 @@ public class PkgQueryControllerTests {
             getPackageId();
         }
         this.mockMvc
-                .perform(get("/sbom/querySbomPackage/%s".formatted(PkgQueryControllerTests.packageId))
+                .perform(get("/sbom-api/querySbomPackage/%s".formatted(PkgQueryControllerTests.packageId))
                         .contentType(MediaType.APPLICATION_JSON)
                         .accept(MediaType.APPLICATION_JSON))
                 .andDo(print())
@@ -176,7 +176,7 @@ public class PkgQueryControllerTests {
             getPackageId();
         }
         this.mockMvc
-                .perform(get("/sbom/querySbomPackage/%s".formatted("11"))
+                .perform(get("/sbom-api/querySbomPackage/%s".formatted("11"))
                         .contentType(MediaType.APPLICATION_JSON)
                         .accept(MediaType.APPLICATION_JSON))
                 .andDo(print())
@@ -191,7 +191,7 @@ public class PkgQueryControllerTests {
             getPackageId();
         }
         this.mockMvc
-                .perform(get("/sbom/querySbomPackage/%s".formatted("134aaa0c-1111-1111-1111-05686b9fc20c"))
+                .perform(get("/sbom-api/querySbomPackage/%s".formatted("134aaa0c-1111-1111-1111-05686b9fc20c"))
                         .contentType(MediaType.APPLICATION_JSON)
                         .accept(MediaType.APPLICATION_JSON))
                 .andDo(print())
@@ -206,7 +206,7 @@ public class PkgQueryControllerTests {
             getPackageId();
         }
         this.mockMvc
-                .perform(get("/sbom/queryPackageBinaryManagement/%s/%s".formatted(PkgQueryControllerTests.packageId, "all"))
+                .perform(get("/sbom-api/queryPackageBinaryManagement/%s/%s".formatted(PkgQueryControllerTests.packageId, "all"))
                         .contentType(MediaType.APPLICATION_JSON)
                         .accept(MediaType.APPLICATION_JSON))
                 .andDo(print())
@@ -223,7 +223,7 @@ public class PkgQueryControllerTests {
             getPackageId();
         }
         this.mockMvc
-                .perform(get("/sbom/queryPackageBinaryManagement/%s/%s".formatted(PkgQueryControllerTests.packageId, ReferenceCategory.PACKAGE_MANAGER.name()))
+                .perform(get("/sbom-api/queryPackageBinaryManagement/%s/%s".formatted(PkgQueryControllerTests.packageId, ReferenceCategory.PACKAGE_MANAGER.name()))
                         .contentType(MediaType.APPLICATION_JSON)
                         .accept(MediaType.APPLICATION_JSON))
                 .andDo(print())
@@ -240,7 +240,7 @@ public class PkgQueryControllerTests {
             getPackageId();
         }
         this.mockMvc
-                .perform(get("/sbom/queryPackageBinaryManagement/%s/%s".formatted(PkgQueryControllerTests.packageId, ReferenceCategory.EXTERNAL_MANAGER.name()))
+                .perform(get("/sbom-api/queryPackageBinaryManagement/%s/%s".formatted(PkgQueryControllerTests.packageId, ReferenceCategory.EXTERNAL_MANAGER.name()))
                         .contentType(MediaType.APPLICATION_JSON)
                         .accept(MediaType.APPLICATION_JSON))
                 .andDo(print())
@@ -254,7 +254,7 @@ public class PkgQueryControllerTests {
     @Test
     public void queryPackageInfoByBinaryExactlyTest() throws Exception {
         this.mockMvc
-                .perform(post("/sbom/querySbomPackagesByBinary")
+                .perform(post("/sbom-api/querySbomPackagesByBinary")
                         .param("productId", TestConstants.OPENEULER_PRODUCT_NAME)
                         .param("binaryType", ReferenceCategory.EXTERNAL_MANAGER.name())
                         .param("type", "maven")
@@ -275,7 +275,7 @@ public class PkgQueryControllerTests {
     @Test
     public void queryPackageInfoByBinaryWithoutVersionTest() throws Exception {
         this.mockMvc
-                .perform(post("/sbom/querySbomPackagesByBinary")
+                .perform(post("/sbom-api/querySbomPackagesByBinary")
                         .param("productId", TestConstants.OPENEULER_PRODUCT_NAME)
                         .param("binaryType", ReferenceCategory.EXTERNAL_MANAGER.name())
                         .param("type", "maven")
@@ -296,7 +296,7 @@ public class PkgQueryControllerTests {
     @Test
     public void queryPackageInfoByBinaryOnlyNameTest() throws Exception {
         this.mockMvc
-                .perform(post("/sbom/querySbomPackagesByBinary")
+                .perform(post("/sbom-api/querySbomPackagesByBinary")
                         .param("productId", TestConstants.OPENEULER_PRODUCT_NAME)
                         .param("binaryType", ReferenceCategory.EXTERNAL_MANAGER.name())
                         .param("type", "maven")
@@ -317,7 +317,7 @@ public class PkgQueryControllerTests {
     @Test
     public void queryPackageInfoByBinaryNoNameTest() throws Exception {
         this.mockMvc
-                .perform(post("/sbom/querySbomPackagesByBinary")
+                .perform(post("/sbom-api/querySbomPackagesByBinary")
                         .param("productId", TestConstants.OPENEULER_PRODUCT_NAME)
                         .param("binaryType", ReferenceCategory.EXTERNAL_MANAGER.name())
                         .param("type", "maven")
@@ -335,7 +335,7 @@ public class PkgQueryControllerTests {
     @Test
     public void queryPackageInfoByBinaryErrorTypeTest() throws Exception {
         this.mockMvc
-                .perform(post("/sbom/querySbomPackagesByBinary")
+                .perform(post("/sbom-api/querySbomPackagesByBinary")
                         .param("productId", TestConstants.OPENEULER_PRODUCT_NAME)
                         .param("binaryType", ReferenceCategory.EXTERNAL_MANAGER.name())
                         .param("type", "pip")
