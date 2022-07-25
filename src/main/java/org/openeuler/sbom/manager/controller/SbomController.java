@@ -37,7 +37,7 @@ import java.nio.charset.StandardCharsets;
 import java.util.List;
 
 @Controller
-@RequestMapping(path = "/sbom")
+@RequestMapping(path = "/sbom-api")
 public class SbomController {
 
     private static final Logger logger = LoggerFactory.getLogger(SbomController.class);

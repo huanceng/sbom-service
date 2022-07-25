@@ -33,7 +33,7 @@ public class ExportControllerTests {
     @Test
     public void downloadSbomFileFailedNoSbom() throws Exception {
         this.mockMvc
-                .perform(post("/sbom/exportSbomFile")
+                .perform(post("/sbom-api/exportSbomFile")
                         .param("productId", TestConstants.SAMPLE_PRODUCT_NAME + ".iso")
                         .param("spec", "spdx")
                         .param("specVersion", "2.2")
@@ -48,7 +48,7 @@ public class ExportControllerTests {
     @Test
     public void downloadSbomFileFailedNoSpec() throws Exception {
         this.mockMvc
-                .perform(post("/sbom/exportSbomFile")
+                .perform(post("/sbom-api/exportSbomFile")
                         .param("productId", TestConstants.SAMPLE_PRODUCT_NAME)
                         .param("spec", "spdx")
                         .param("specVersion", "2.3")
@@ -63,7 +63,7 @@ public class ExportControllerTests {
     @Test
     public void downloadSbomFileSuccess() throws Exception {
         this.mockMvc
-                .perform(post("/sbom/exportSbomFile")
+                .perform(post("/sbom-api/exportSbomFile")
                         .param("productId", TestConstants.SAMPLE_PRODUCT_NAME)
                         .param("spec", "spdx")
                         .param("specVersion", "2.2")
@@ -78,7 +78,7 @@ public class ExportControllerTests {
     @Test
     public void exportSbomFailedNoSbom() throws Exception {
         this.mockMvc
-                .perform(post("/sbom/exportSbom")
+                .perform(post("/sbom-api/exportSbom")
                         .param("productId", TestConstants.SAMPLE_PRODUCT_NAME + ".iso")
                         .param("spec", "spdx")
                         .param("specVersion", "2.2")
@@ -93,7 +93,7 @@ public class ExportControllerTests {
     @Test
     public void exportSbomFailedNoSpec() throws Exception {
         this.mockMvc
-                .perform(post("/sbom/exportSbom")
+                .perform(post("/sbom-api/exportSbom")
                         .param("productId", TestConstants.SAMPLE_PRODUCT_NAME)
                         .param("spec", "spdx")
                         .param("specVersion", "2.3")
@@ -108,7 +108,7 @@ public class ExportControllerTests {
     @Test
     public void exportSbomJsonSuccess() throws Exception {
         MvcResult mvcResult = this.mockMvc
-                .perform(post("/sbom/exportSbom")
+                .perform(post("/sbom-api/exportSbom")
                         .param("productId", TestConstants.SAMPLE_PRODUCT_NAME)
                         .param("spec", "spdx")
                         .param("specVersion", "2.2")
@@ -128,7 +128,7 @@ public class ExportControllerTests {
     @Test
     public void exportSbomYamlSuccess() throws Exception {
         MvcResult mvcResult = this.mockMvc
-                .perform(post("/sbom/exportSbom")
+                .perform(post("/sbom-api/exportSbom")
                         .param("productId", TestConstants.SAMPLE_PRODUCT_NAME)
                         .param("spec", "spdx")
                         .param("specVersion", "2.2")
@@ -148,7 +148,7 @@ public class ExportControllerTests {
     @Test
     public void exportSbomXmlSuccess() throws Exception {
         MvcResult mvcResult = this.mockMvc
-                .perform(post("/sbom/exportSbom")
+                .perform(post("/sbom-api/exportSbom")
                         .param("productId", TestConstants.SAMPLE_PRODUCT_NAME)
                         .param("spec", "spdx")
                         .param("specVersion", "2.2")
