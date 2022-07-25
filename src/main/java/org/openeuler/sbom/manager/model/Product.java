@@ -1,28 +1,30 @@
 package org.openeuler.sbom.manager.model;
 
+import com.vladmihalcea.hibernate.type.json.JsonBinaryType;
 import org.hibernate.annotations.GenericGenerator;
+import org.hibernate.annotations.Type;
+import org.hibernate.annotations.TypeDef;
+import org.hibernate.annotations.TypeDefs;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.ForeignKey;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.Index;
-import javax.persistence.JoinColumn;
-import javax.persistence.OneToMany;
-import javax.persistence.OneToOne;
 import javax.persistence.Table;
-import java.util.List;
+import java.util.Map;
 import java.util.UUID;
 
 /**
  * Describes a product.
  */
 @Entity
+@TypeDefs({
+        @TypeDef(name = "jsonb", typeClass = JsonBinaryType.class)
+})
 @Table(indexes = {
-        @Index(name = "name_version_uk", columnList = "name, version", unique = true)
+        @Index(name = "name_uk", columnList = "name", unique = true),
+        @Index(name = "attr_uk", columnList = "attribute", unique = true)
 })
 public class Product {
     @Id
@@ -36,17 +38,18 @@ public class Product {
     @Column(columnDefinition = "TEXT", nullable = false)
     private String name;
 
-    /**
-     * Version of a product.
-     */
-    @Column(columnDefinition = "TEXT", nullable = false)
-    private String version;
-
 //    @OneToOne(mappedBy = "product", fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
 //    private Sbom sbom;
 
 //    @OneToMany(mappedBy = "product", cascade = CascadeType.ALL, orphanRemoval = true)
 //    private List<RawSbom> rawSboms;
+
+    /**
+     * Attributes of a product.
+     */
+    @Column(columnDefinition = "JSONB", nullable = false)
+    @Type(type = "jsonb")
+    private Map<String, ?> attribute;
 
     public UUID getId() {
         return id;
@@ -64,14 +67,6 @@ public class Product {
         this.name = name;
     }
 
-    public String getVersion() {
-        return version;
-    }
-
-    public void setVersion(String version) {
-        this.version = version;
-    }
-
 //    public List<Sbom> getSboms() {
 //        return sboms;
 //    }
@@ -87,4 +82,13 @@ public class Product {
 //    public void setRawSboms(List<RawSbom> rawSboms) {
 //        this.rawSboms = rawSboms;
 //    }
+
+    public Map<String, ?> getAttribute() {
+        return attribute;
+    }
+
+    public void setAttribute(Map<String, ?> attribute) {
+        this.attribute = attribute;
+    }
 }
+
