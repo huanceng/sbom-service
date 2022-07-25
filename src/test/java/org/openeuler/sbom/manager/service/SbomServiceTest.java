@@ -168,21 +168,25 @@ class SbomServiceTest {
         config_1.setValueType("String");
         config_1.setOrd(1);
         config_1.setName("os");
+        config_1.setLabel("操作系统");
 
         ProductConfig config_2 = new ProductConfig();
         config_2.setProductType(productType);
         config_2.setValueType("String");
         config_2.setOrd(2);
         config_2.setName("arch");
+        config_2.setLabel("系统架构");
 
         productType.setProductConfigs(List.of(config_1, config_2));
         ProductType ret = productTypeRepository.save(productType);
 
         List<ProductConfigVo> configVos = sbomService.queryProductConfigByProductType("test_type_2");
         assertThat(configVos.get(0).getName()).isEqualTo("os");
+        assertThat(configVos.get(0).getLabel()).isEqualTo("操作系统");
         assertThat(configVos.get(0).getValueType()).isEqualTo("String");
         assertThat(configVos.get(0).getOrd()).isEqualTo(1);
         assertThat(configVos.get(1).getName()).isEqualTo("arch");
+        assertThat(configVos.get(1).getLabel()).isEqualTo("系统架构");
         assertThat(configVos.get(1).getValueType()).isEqualTo("String");
         assertThat(configVos.get(1).getOrd()).isEqualTo(2);
 
