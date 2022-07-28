@@ -22,7 +22,7 @@ ON CONFLICT (id) DO UPDATE
     SET name = EXCLUDED.name, value_type = EXCLUDED.value_type, ord = EXCLUDED.ord, product_type = EXCLUDED.product_type;
 
 INSERT INTO product_config(id, name, label, value_type, ord, product_type)
-VALUES('7f959c6b-6651-4c56-be30-5e2cebb901cf', 'imageType', '镜像类型', 'enum([{"label":"everything","value":"everything"},{"label":"","value":""}])', 3, 'openEuler')
+VALUES('7f959c6b-6651-4c56-be30-5e2cebb901cf', 'imageType', '镜像类型', 'enum([{"label":"everything","value":"everything"},{"label":"","value":"empty"}])', 3, 'openEuler')
 ON CONFLICT (id) DO UPDATE
     SET name = EXCLUDED.name, value_type = EXCLUDED.value_type, ord = EXCLUDED.ord, product_type = EXCLUDED.product_type;
 
@@ -68,7 +68,7 @@ ON CONFLICT (id) DO UPDATE
 
 -- Insert openEuler products
 INSERT INTO product(id, name, attribute)
-VALUES('4a34d4b7-25ce-4c8d-b2f7-9d210a6dd32c', 'openEuler-22.03-LTS-x86_64-dvd.iso', '{"productType":"openEuler", "version":"22.03-LTS","imageFormat":"ISO","imageType":"","arch":"x86_64"}'::jsonb)
+VALUES('4a34d4b7-25ce-4c8d-b2f7-9d210a6dd32c', 'openEuler-22.03-LTS-x86_64-dvd.iso', '{"productType":"openEuler", "version":"22.03-LTS","imageFormat":"ISO","imageType":"empty","arch":"x86_64"}'::jsonb)
 ON CONFLICT (id) DO UPDATE
     SET name = EXCLUDED.name, attribute = EXCLUDED.attribute;
 

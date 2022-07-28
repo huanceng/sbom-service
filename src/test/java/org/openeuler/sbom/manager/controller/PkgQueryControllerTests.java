@@ -9,6 +9,7 @@ import org.openeuler.sbom.manager.TestConstants;
 import org.openeuler.sbom.manager.model.Package;
 import org.openeuler.sbom.manager.model.spdx.ReferenceCategory;
 import org.openeuler.sbom.manager.service.SbomService;
+import org.openeuler.sbom.utils.Mapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -407,11 +408,10 @@ public class PkgQueryControllerTests {
         attributes.put("imageFormat", "ISO");
         attributes.put("imageType", "everything");
         attributes.put("arch", "x86_64");
-        ObjectMapper objectMapper = new ObjectMapper();
 
         this.mockMvc
                 .perform(post("/sbom-api/queryProduct/%s".formatted(TestConstants.OPENEULER_PRODUCT_TYPE_NAME))
-                        .content(objectMapper.writeValueAsString(attributes))
+                        .content(Mapper.objectMapper.writeValueAsString(attributes))
                         .param("productId", TestConstants.OPENEULER_PRODUCT_NAME)
                         .contentType(MediaType.APPLICATION_JSON)
                         .accept(MediaType.APPLICATION_JSON))
@@ -429,11 +429,10 @@ public class PkgQueryControllerTests {
         attributes.put("imageType", "everything");
         attributes.put("imageFormat", "ISO");
         attributes.put("version", "22.03-LTS");
-        ObjectMapper objectMapper = new ObjectMapper();
 
         this.mockMvc
                 .perform(post("/sbom-api/queryProduct/%s".formatted(TestConstants.OPENEULER_PRODUCT_TYPE_NAME))
-                        .content(objectMapper.writeValueAsString(attributes))
+                        .content(Mapper.objectMapper.writeValueAsString(attributes))
                         .param("productId", TestConstants.OPENEULER_PRODUCT_NAME)
                         .contentType(MediaType.APPLICATION_JSON)
                         .accept(MediaType.APPLICATION_JSON))
@@ -450,11 +449,10 @@ public class PkgQueryControllerTests {
         attributes.put("version", "22.03-LTS");
         attributes.put("imageFormat", "ISO");
         attributes.put("imageType", "everything");
-        ObjectMapper objectMapper = new ObjectMapper();
 
         this.mockMvc
                 .perform(post("/sbom-api/queryProduct/%s".formatted(TestConstants.OPENEULER_PRODUCT_TYPE_NAME))
-                        .content(objectMapper.writeValueAsString(attributes))
+                        .content(Mapper.objectMapper.writeValueAsString(attributes))
                         .param("productId", TestConstants.OPENEULER_PRODUCT_NAME)
                         .contentType(MediaType.APPLICATION_JSON)
                         .accept(MediaType.APPLICATION_JSON))

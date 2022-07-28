@@ -1,6 +1,7 @@
 package org.openeuler.sbom.manager.controller;
 
 import org.apache.commons.lang3.ArrayUtils;
+import org.openeuler.sbom.manager.constant.SbomConstants;
 import org.openeuler.sbom.manager.model.Package;
 import org.openeuler.sbom.manager.model.Product;
 import org.openeuler.sbom.manager.model.RawSbom;
@@ -69,7 +70,7 @@ public class SbomController {
     }
 
     @RequestMapping("/exportSbomFile")
-    public void exportSbomFile(HttpServletResponse response, @RequestParam String productId, @RequestParam String spec,
+    public void exportSbomFile(HttpServletRequest request, HttpServletResponse response, @RequestParam String productId, @RequestParam String spec,
                                @RequestParam String specVersion, @RequestParam String format) throws IOException {
         logger.info("download original sbom file productId:{}, use spec:{}, specVersion:{}, format:{}",
                 productId,
@@ -100,6 +101,14 @@ public class SbomController {
             response.setStatus(HttpStatus.INTERNAL_SERVER_ERROR.value());
             response.setContentType("text/plain");
             response.addHeader("Content-Length", "" + returnContent.getBytes(StandardCharsets.UTF_8).length);
+            //CORS
+            String origin = request.getHeader("origin");
+            if (SbomConstants.ALLOW_ORIGINS.contains(origin)) {
+                response.addHeader("Access-Control-Allow-Origin", origin);
+                response.addHeader("Access-Control-Allow-Methods", "POST");
+                response.addHeader("Access-Control-Allow-Headers", "Content-Type");
+                response.addHeader("Access-Control-Expose-Headers", "Content-Disposition");
+            }
 
             OutputStream outputStream = new BufferedOutputStream(response.getOutputStream());
             outputStream.write(returnContent.getBytes(StandardCharsets.UTF_8));
@@ -120,7 +129,7 @@ public class SbomController {
     }
 
     @RequestMapping("/exportSbom")
-    public void exportSbom(HttpServletResponse response, @RequestParam String productId, @RequestParam String spec,
+    public void exportSbom(HttpServletRequest request, HttpServletResponse response, @RequestParam String productId, @RequestParam String spec,
                            @RequestParam String specVersion, @RequestParam String format) throws IOException {
         logger.info("download sbom metadata productId:{}, use spec:{}, specVersion:{}, format:{}",
                 productId,
@@ -161,6 +170,14 @@ public class SbomController {
             response.setHeader("Content-Disposition", "attachment;filename=" +
                     URLEncoder.encode(fileName, StandardCharsets.UTF_8));
             response.addHeader("Content-Length", "" + sbom.length);
+            //CORS
+            String origin = request.getHeader("origin");
+            if (SbomConstants.ALLOW_ORIGINS.contains(origin)) {
+                response.addHeader("Access-Control-Allow-Origin", origin);
+                response.addHeader("Access-Control-Allow-Methods", "POST");
+                response.addHeader("Access-Control-Allow-Headers", "Content-Type");
+                response.addHeader("Access-Control-Expose-Headers", "Content-Disposition");
+            }
 
             OutputStream outputStream = new BufferedOutputStream(response.getOutputStream());
             outputStream.write(sbom);
