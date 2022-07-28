@@ -6,7 +6,7 @@ public class TestConstants {
 
     public static final String SAMPLE_PRODUCT_NAME = "mindsporeTest";
 
-    public static final String OPENEULER_PRODUCT_NAME = "openEuler-22.03-LTS-x86_64-everything";
+    public static final String OPENEULER_PRODUCT_NAME = "openEuler-22.03-LTS-everything-x86_64-dvd.iso";
 
     public static final String BINARY_TEST_PACKAGE_NAME = "hive";
 
