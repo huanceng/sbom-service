@@ -1,7 +1,6 @@
 package org.openeuler.sbom.manager.controller;
 
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.Test;
 import org.openeuler.sbom.manager.SbomApplicationContextHolder;
 import org.openeuler.sbom.manager.SbomManagerApplication;
