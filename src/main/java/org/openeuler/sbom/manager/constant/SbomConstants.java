@@ -15,4 +15,6 @@ public class SbomConstants {
 
     public static final List<String> ALLOW_ORIGINS= Arrays.asList("http://localhost:8080","http://127.0.0.1:8080");
 
+    public static final  String PURL_SCHEMA_DEFAULT="pkg";
+
 }

@@ -16,7 +16,7 @@ public class PurlQueryConditionTest {
     public void mavenOnlyNameTest() throws MalformedPackageURLException {
         Pair<String, Boolean> result = PurlUtil.generatePurlQueryCondition(new PackageUrlVo("maven", "", "zookeeper", ""));
 
-        assertThat(result.getFirst()).isEqualTo("zookeeper");
+        assertThat(result.getFirst()).isEqualTo("pkg:maven%zookeeper");
         assertThat(result.getSecond()).isFalse();
     }
 
@@ -45,6 +45,38 @@ public class PurlQueryConditionTest {
             assertThat(e.getMessage()).isEqualTo("purl query condition not support type: pip");
         }
         assertThat(result).isNull();
+    }
+
+    @Test
+    public void pypiOnlyNameTest() throws MalformedPackageURLException {
+        Pair<String, Boolean> result = PurlUtil.generatePurlQueryCondition(new PackageUrlVo("pypi", "", "numpy", ""));
+
+        assertThat(result.getFirst()).isEqualTo("pkg:pypi%numpy");
+        assertThat(result.getSecond()).isFalse();
+    }
+
+    @Test
+    public void pypiNameAndVersionTest() throws MalformedPackageURLException {
+        Pair<String, Boolean> result = PurlUtil.generatePurlQueryCondition(new PackageUrlVo("pypi", "", "numpy", "5.9.1"));
+
+        assertThat(result.getFirst()).isEqualTo("pkg:pypi/numpy@5.9.1");
+        assertThat(result.getSecond()).isTrue();
+    }
+
+    @Test
+    public void rpmOnlyNameTest() throws MalformedPackageURLException {
+        Pair<String, Boolean> result = PurlUtil.generatePurlQueryCondition(new PackageUrlVo("rpm", "", "openssl", ""));
+
+        assertThat(result.getFirst()).isEqualTo("pkg:rpm%openssl");
+        assertThat(result.getSecond()).isFalse();
+    }
+
+    @Test
+    public void rpmNameAndVersionTest() throws MalformedPackageURLException {
+        Pair<String, Boolean> result = PurlUtil.generatePurlQueryCondition(new PackageUrlVo("rpm", "", "openssl", "1.2.3"));
+
+        assertThat(result.getFirst()).isEqualTo("pkg:rpm/openssl@1.2.3");
+        assertThat(result.getSecond()).isFalse();
     }
 
 }

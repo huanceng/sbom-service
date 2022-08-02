@@ -22,7 +22,7 @@ ON CONFLICT (id) DO UPDATE
     SET name = EXCLUDED.name, label = EXCLUDED.label, value_type = EXCLUDED.value_type, ord = EXCLUDED.ord, product_type = EXCLUDED.product_type;
 
 INSERT INTO product_config(id, name, label, value_type, ord, product_type)
-VALUES('7f959c6b-6651-4c56-be30-5e2cebb901cf', 'imageType', '镜像类型', 'enum([{"label":"everything","value":"everything"},{"label":" ","value":"empty"}])', 3, 'openEuler')
+VALUES('7f959c6b-6651-4c56-be30-5e2cebb901cf', 'imageType', '镜像类型', 'enum([{"label":"everything","value":"everything"},{"label":"Normal","value":"empty"}])', 3, 'openEuler')
 ON CONFLICT (id) DO UPDATE
     SET name = EXCLUDED.name, label = EXCLUDED.label, value_type = EXCLUDED.value_type, ord = EXCLUDED.ord, product_type = EXCLUDED.product_type;
 
