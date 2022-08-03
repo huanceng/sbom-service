@@ -1,7 +1,13 @@
 package org.openeuler.sbom.manager.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.vladmihalcea.hibernate.type.json.JsonBinaryType;
 import org.hibernate.annotations.GenericGenerator;
+import org.hibernate.annotations.Type;
+import org.hibernate.annotations.TypeDef;
+import org.hibernate.annotations.TypeDefs;
+import org.openeuler.sbom.manager.model.vo.PackageUrlVo;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -19,6 +25,9 @@ import java.util.UUID;
  * External purl reference of a package.
  */
 @Entity
+@TypeDefs({
+        @TypeDef(name = "jsonb", typeClass = JsonBinaryType.class)
+})
 @Table(indexes = {
         @Index(name = "external_purl_ref_uk", columnList = "pkg_id, category, type, purl", unique = true)
 })
@@ -50,8 +59,10 @@ public class ExternalPurlRef {
     /**
      * Purl of the reference.
      */
-    @Column(columnDefinition = "TEXT")
-    private String purl;
+    @Column(columnDefinition = "JSONB", nullable = false)
+    @Type(type = "jsonb")
+    @JsonIgnoreProperties(ignoreUnknown = true)
+    private PackageUrlVo purl;
 
     /**
      * Package of the reference.
@@ -93,11 +104,11 @@ public class ExternalPurlRef {
         this.comment = comment;
     }
 
-    public String getPurl() {
+    public PackageUrlVo getPurl() {
         return purl;
     }
 
-    public void setPurl(String purl) {
+    public void setPurl(PackageUrlVo purl) {
         this.purl = purl;
     }
 

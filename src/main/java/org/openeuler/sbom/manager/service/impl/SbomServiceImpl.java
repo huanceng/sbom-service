@@ -12,6 +12,8 @@ import org.openeuler.sbom.manager.dao.ProductRepository;
 import org.openeuler.sbom.manager.dao.ProductTypeRepository;
 import org.openeuler.sbom.manager.dao.RawSbomRepository;
 import org.openeuler.sbom.manager.dao.SbomRepository;
+import org.openeuler.sbom.manager.dao.spec.ExternalPurlRefSpecs;
+import org.openeuler.sbom.manager.model.ExternalPurlRef;
 import org.openeuler.sbom.manager.model.Package;
 import org.openeuler.sbom.manager.model.Product;
 import org.openeuler.sbom.manager.model.ProductType;
@@ -228,5 +230,21 @@ public class SbomServiceImpl implements SbomService {
     public Product queryProductByFullAttributes(Map<String, ?> attributes) throws JsonProcessingException {
         String attr = Mapper.objectMapper.writeValueAsString(attributes);
         return productRepository.queryProductByFullAttributes(attr);
+    }
+
+    @Override
+    public List<ExternalPurlRef> queryPackageInfoByBinaryViaSpec(String productId, String binaryType, String type, String namespace,
+                                                                 String name, String version) {
+        Sbom sbom = sbomRepository.findByProductId(productId)
+                .orElseThrow(() -> new RuntimeException("can't find %s's sbom metadata".formatted(productId)));
+        Map<String, Pair<String, Boolean>> purlComponents = Map.of(
+                "type", Pair.of(type, true),
+                "namespace", Pair.of(namespace, true),
+                "name", Pair.of(name, true),
+                "version", Pair.of(version, true)
+        );
+        return externalPurlRefRepository.findAll(ExternalPurlRefSpecs.hasSbomId(sbom.getId())
+                .and(ExternalPurlRefSpecs.hasCategory(binaryType))
+                .and(ExternalPurlRefSpecs.hasPurlComponent(purlComponents)));
     }
 }

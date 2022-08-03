@@ -7,6 +7,8 @@ import org.openeuler.sbom.manager.constant.SbomConstants;
 import org.openeuler.sbom.manager.model.vo.PackageUrlVo;
 import org.springframework.data.util.Pair;
 
+import java.util.TreeMap;
+
 public class PurlUtil {
     public static PackageURL strToPackageURL(String purlStr) {
         try {
@@ -18,6 +20,22 @@ public class PurlUtil {
 
     public static String canonicalizePurl(String purl) {
         return strToPackageURL(purl).canonicalize();
+    }
+
+    public static PackageUrlVo strToPackageUrlVo(String purlStr) {
+        PackageURL packageURL = strToPackageURL(purlStr);
+        return new PackageUrlVo(packageURL.getScheme(), packageURL.getType(), packageURL.getNamespace(),
+                packageURL.getName(), packageURL.getVersion(), (TreeMap<String, String>) packageURL.getQualifiers(),
+                packageURL.getSubpath());
+    }
+
+    public static PackageURL PackageUrlVoToPackageURL(PackageUrlVo vo) {
+        try {
+            return new PackageURL(vo.getType(), vo.getNamespace(), vo.getName(), vo.getVersion(),
+                    vo.getQualifiers(), vo.getSubpath());
+        } catch (MalformedPackageURLException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     public static Pair<String, Boolean> generatePurlQueryCondition(PackageUrlVo purl) throws MalformedPackageURLException {

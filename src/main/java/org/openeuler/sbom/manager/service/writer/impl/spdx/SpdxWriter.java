@@ -23,6 +23,7 @@ import org.openeuler.sbom.manager.model.spdx.SpdxPackage;
 import org.openeuler.sbom.manager.model.spdx.SpdxPackageVerificationCode;
 import org.openeuler.sbom.manager.model.spdx.SpdxRelationship;
 import org.openeuler.sbom.manager.service.writer.SbomWriter;
+import org.openeuler.sbom.manager.utils.PurlUtil;
 import org.openeuler.sbom.manager.utils.SbomFormat;
 import org.openeuler.sbom.manager.utils.SbomMapperUtil;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -123,7 +124,7 @@ public class SpdxWriter implements SbomWriter {
         }
 
         return new SpdxExternalReference(ref.getComment(), ReferenceCategory.valueOf(ref.getCategory()),
-                ReferenceType.findReferenceType(ref.getType()), ref.getPurl());
+                ReferenceType.findReferenceType(ref.getType()), PurlUtil.PackageUrlVoToPackageURL(ref.getPurl()).canonicalize());
     }
 
     private SpdxExternalReference transformExternalVulRef(ExternalVulRef ref) {
