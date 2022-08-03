@@ -1,6 +1,7 @@
 package org.openeuler.sbom.manager.service;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
+import org.openeuler.sbom.manager.model.ExternalPurlRef;
 import org.openeuler.sbom.manager.model.Package;
 import org.openeuler.sbom.manager.model.Product;
 import org.openeuler.sbom.manager.model.RawSbom;
@@ -43,4 +44,7 @@ public interface SbomService {
     List<ProductConfigVo> queryProductConfigByProductType(String productType);
 
     Product queryProductByFullAttributes(Map<String, ?> attributes) throws JsonProcessingException;
+
+    List<ExternalPurlRef> queryPackageInfoByBinaryViaSpec(String productId, String binaryType, String type, String namespace,
+                                                          String name, String version);
 }

@@ -7,6 +7,7 @@ import org.openeuler.sbom.manager.TestConstants;
 import org.openeuler.sbom.manager.dao.ProductConfigRepository;
 import org.openeuler.sbom.manager.dao.ProductRepository;
 import org.openeuler.sbom.manager.dao.ProductTypeRepository;
+import org.openeuler.sbom.manager.model.ExternalPurlRef;
 import org.openeuler.sbom.manager.model.Package;
 import org.openeuler.sbom.manager.model.Product;
 import org.openeuler.sbom.manager.model.ProductConfig;
@@ -207,5 +208,29 @@ class SbomServiceTest {
         assertThat(product_found.getAttribute().get("test")).isEqualTo(1);
 
         productRepository.delete(ret);
+    }
+
+    @Test
+    public void queryPackageInfoByBinaryViaSpecFullComponent() {
+        List<ExternalPurlRef> refs = sbomService.queryPackageInfoByBinaryViaSpec(
+                "mindspore-1.8.0-cp37-cp37m-linux_x86_64.whl", "PACKAGE_MANAGER",
+                "gitee", "ascend", "metadef", "1.9.0");
+        assertThat(refs.size()).isEqualTo(1);
+    }
+
+    @Test
+    public void queryPackageInfoByBinaryViaSpecNotExists() {
+        List<ExternalPurlRef> refs = sbomService.queryPackageInfoByBinaryViaSpec(
+                "mindspore-1.8.0-cp37-cp37m-linux_x86_64.whl", "PACKAGE_MANAGER",
+                "gitee", "ascend", "metadef", "x.9.0");
+        assertThat(refs.size()).isEqualTo(0);
+    }
+
+    @Test
+    public void queryPackageInfoByBinaryViaSpecPartialComponent() {
+        List<ExternalPurlRef> refs = sbomService.queryPackageInfoByBinaryViaSpec(
+                "openEuler-22.03-LTS-everything-x86_64-dvd.iso", "PACKAGE_MANAGER",
+                "", "", "maven-archiver", "");
+        assertThat(refs.size()).isEqualTo(1);
     }
 }

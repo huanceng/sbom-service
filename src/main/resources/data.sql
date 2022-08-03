@@ -2,7 +2,7 @@
 INSERT INTO product_type VALUES('openEuler')
 ON CONFLICT (type) DO NOTHING;
 
-INSERT INTO product_type VALUES('mindspore')
+INSERT INTO product_type VALUES('MindSpore')
 ON CONFLICT (type) DO NOTHING;
 
 INSERT INTO product_type VALUES('openGauss')
@@ -32,29 +32,29 @@ ON CONFLICT (id) DO UPDATE
     SET name = EXCLUDED.name, label = EXCLUDED.label, value_type = EXCLUDED.value_type, ord = EXCLUDED.ord, product_type = EXCLUDED.product_type;
 
 
--- mindspore
+-- MindSpore
 INSERT INTO product_config(id, name, label, value_type, ord, product_type)
-VALUES('d96a0380-d9c0-4176-bbd6-9578952636f6', 'version', '版本号', 'enum([{"label":"1.8.0","value":"1.8.0"}])', 1, 'mindspore')
+VALUES('d96a0380-d9c0-4176-bbd6-9578952636f6', 'version', '版本号', 'enum([{"label":"1.8.0","value":"1.8.0"}])', 1, 'MindSpore')
 ON CONFLICT (id) DO UPDATE
     SET name = EXCLUDED.name, label = EXCLUDED.label, value_type = EXCLUDED.value_type, ord = EXCLUDED.ord, product_type = EXCLUDED.product_type;
 
 INSERT INTO product_config(id, name, label, value_type, ord, product_type)
-VALUES('a4e710c7-6811-4626-b32b-ae067fade540', 'platform', '硬件平台', 'enum([{"label":"CPU","value":"CPU"}])', 2, 'mindspore')
+VALUES('a4e710c7-6811-4626-b32b-ae067fade540', 'platform', '硬件平台', 'enum([{"label":"CPU","value":"CPU"}])', 2, 'MindSpore')
 ON CONFLICT (id) DO UPDATE
     SET name = EXCLUDED.name, label = EXCLUDED.label, value_type = EXCLUDED.value_type, ord = EXCLUDED.ord, product_type = EXCLUDED.product_type;
 
 INSERT INTO product_config(id, name, label, value_type, ord, product_type)
-VALUES('327af62f-9689-4dd4-a1ff-b8ff7ad0bd61', 'os', '操作系统', 'enum([{"label":"Linux","value":"Linux"}])', 3, 'mindspore')
+VALUES('327af62f-9689-4dd4-a1ff-b8ff7ad0bd61', 'os', '操作系统', 'enum([{"label":"Linux","value":"Linux"}])', 3, 'MindSpore')
 ON CONFLICT (id) DO UPDATE
     SET name = EXCLUDED.name, label = EXCLUDED.label, value_type = EXCLUDED.value_type, ord = EXCLUDED.ord, product_type = EXCLUDED.product_type;
 
 INSERT INTO product_config(id, name, label, value_type, ord, product_type)
-VALUES('75e5459b-b969-49e7-9d68-f2f346eb2120', 'arch', '系统架构', 'enum([{"label":"aarch64","value":"aarch64"},{"label":"x86 64","value":"x86_64"}])', 4, 'mindspore')
+VALUES('75e5459b-b969-49e7-9d68-f2f346eb2120', 'arch', '系统架构', 'enum([{"label":"aarch64","value":"aarch64"},{"label":"x86 64","value":"x86_64"}])', 4, 'MindSpore')
 ON CONFLICT (id) DO UPDATE
     SET name = EXCLUDED.name, label = EXCLUDED.label, value_type = EXCLUDED.value_type, ord = EXCLUDED.ord, product_type = EXCLUDED.product_type;
 
 INSERT INTO product_config(id, name, label, value_type, ord, product_type)
-VALUES('e471690e-69a1-4646-8868-036e53d702c6', 'language', '编程语言', 'enum([{"label":"Python 3.7.0","value":"Python 3.7.0"},{"label":"Python 3.8.0","value":"Python 3.8.0"},{"label":"Python 3.9.0","value":"Python 3.9.0"}])', 5, 'mindspore')
+VALUES('e471690e-69a1-4646-8868-036e53d702c6', 'language', '编程语言', 'enum([{"label":"Python 3.7.0","value":"Python 3.7.0"},{"label":"Python 3.8.0","value":"Python 3.8.0"},{"label":"Python 3.9.0","value":"Python 3.9.0"}])', 5, 'MindSpore')
 ON CONFLICT (id) DO UPDATE
     SET name = EXCLUDED.name, label = EXCLUDED.label, value_type = EXCLUDED.value_type, ord = EXCLUDED.ord, product_type = EXCLUDED.product_type;
 
@@ -78,6 +78,6 @@ ON CONFLICT (id) DO UPDATE
     SET name = EXCLUDED.name, attribute = EXCLUDED.attribute;
 
 INSERT INTO product(id, name, attribute)
-VALUES('e686d5ba-cd30-41e7-b97a-a3481bb6e0a2', 'mindspore-1.8.0-cp37-cp37m-linux_x86_64.whl', '{"productType": "mindspore", "version": "1.8.0","platform": "CPU", "os": "Linux", "arch": "x86_64", "language": "Python 3.7.0"}'::jsonb)
+VALUES('e686d5ba-cd30-41e7-b97a-a3481bb6e0a2', 'mindspore-1.8.0-cp37-cp37m-linux_x86_64.whl', '{"productType": "MindSpore", "version": "1.8.0","platform": "CPU", "os": "Linux", "arch": "x86_64", "language": "Python 3.7.0"}'::jsonb)
 ON CONFLICT (id) DO UPDATE
     SET name = EXCLUDED.name, attribute = EXCLUDED.attribute;

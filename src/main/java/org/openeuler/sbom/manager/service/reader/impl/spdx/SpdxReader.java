@@ -239,7 +239,8 @@ public class SpdxReader implements SbomReader {
                 .ofNullable(pkg.getExternalPurlRefs())
                 .orElse(new ArrayList<>())
                 .stream()
-                .collect(Collectors.toMap(it -> Triple.of(it.getCategory(), it.getType(), PurlUtil.canonicalizePurl(it.getPurl())), Function.identity()));
+                .collect(Collectors.toMap(it -> Triple.of(it.getCategory(), it.getType(),
+                        PurlUtil.PackageUrlVoToPackageURL(it.getPurl()).canonicalize()), Function.identity()));
         Map<String, ExternalVulRef> existExternalVulRefs = Optional
                 .ofNullable(pkg.getExternalVulRefs())
                 .orElse(new ArrayList<>())
@@ -253,7 +254,7 @@ public class SpdxReader implements SbomReader {
                 externalPurlRef.setCategory(it.referenceCategory().name());
                 externalPurlRef.setType(it.referenceType().getType());
                 externalPurlRef.setComment(it.comment());
-                externalPurlRef.setPurl(it.referenceLocator());
+                externalPurlRef.setPurl(PurlUtil.strToPackageUrlVo(it.referenceLocator()));
                 externalPurlRef.setPkg(pkg);
                 externalPurlRefs.add(externalPurlRef);
             } else if (it.referenceType() == ReferenceType.CVE) {
