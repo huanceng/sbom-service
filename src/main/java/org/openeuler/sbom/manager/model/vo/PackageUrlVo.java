@@ -32,9 +32,9 @@ public class PackageUrlVo implements Serializable {
 
     private String namespace;
 
-    private  String name;
+    private String name;
 
-    private  String version;
+    private String version;
 
     private TreeMap<String, String> qualifiers;
 

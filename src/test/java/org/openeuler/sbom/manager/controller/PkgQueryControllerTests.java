@@ -314,7 +314,7 @@ public class PkgQueryControllerTests {
                 .andExpect(jsonPath("$.last").value(true))
                 .andExpect(jsonPath("$.totalElements").value(12))
                 .andExpect(jsonPath("$.totalPages").value(1))
-                .andExpect(jsonPath("$.content.[6].name").value("hive"));
+                .andExpect(jsonPath("$.content.[5].name").value("hive"));
     }
 
     @Test
@@ -364,7 +364,7 @@ public class PkgQueryControllerTests {
                 .andExpect(header().string("Content-Type", "application/json"))
                 .andExpect(jsonPath("$.*", hasSize(3)))
                 .andExpect(jsonPath("$.[0]").value("openEuler"))
-                .andExpect(jsonPath("$.[1]").value("mindspore"))
+                .andExpect(jsonPath("$.[1]").value("MindSpore"))
                 .andExpect(jsonPath("$.[2]").value("openGauss"));
     }
 
