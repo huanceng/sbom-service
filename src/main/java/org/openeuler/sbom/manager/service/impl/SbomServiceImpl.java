@@ -47,6 +47,7 @@ import java.io.IOException;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 import static org.openeuler.sbom.manager.utils.SbomMapperUtil.fileToExt;
 import static org.openeuler.sbom.manager.utils.SbomMapperUtil.fileToSpec;
@@ -156,8 +157,8 @@ public class SbomServiceImpl implements SbomService {
     }
 
     @Override
-    public Package queryPackageInfoById(String packageId){
-      return  packageRepository.findById(UUID.fromString(packageId)).orElse(null);
+    public Package queryPackageInfoById(String packageId) {
+        return packageRepository.findById(UUID.fromString(packageId)).orElse(null);
     }
 
     @Override
@@ -192,11 +193,11 @@ public class SbomServiceImpl implements SbomService {
     }
 
     @Override
+    @Deprecated
     public PageVo<PackagePurlVo> queryPackageInfoByBinary(String productId,
-                                                        String binaryType,
-                                                        PackageUrlVo purl,
-                                                        Pageable pageable
-                                                        ) throws Exception {
+                                                          String binaryType,
+                                                          PackageUrlVo purl,
+                                                          Pageable pageable) throws Exception {
         ReferenceCategory referenceCategory = ReferenceCategory.findReferenceCategory(binaryType);
         if (!ReferenceCategory.BINARY_TYPE.contains(referenceCategory)) {
             throw new RuntimeException("binary type: %s is not support".formatted(binaryType));
@@ -211,7 +212,32 @@ public class SbomServiceImpl implements SbomService {
                 purlQueryCondition.getFirst(),
                 pageable);
 
-        return new PageVo<>((PageImpl<PackagePurlVo>)EntityUtil.castEntity(result, PackagePurlVo.class));
+        return new PageVo<>((PageImpl<PackagePurlVo>) EntityUtil.castEntity(result, PackagePurlVo.class));
+    }
+
+    @Override
+    public PageVo<PackagePurlVo> queryPackageInfoByBinaryViaSpec(String productId,
+                                                                 String binaryType,
+                                                                 PackageUrlVo purl,
+                                                                 Pageable pageable) {
+        ReferenceCategory referenceCategory = ReferenceCategory.findReferenceCategory(binaryType);
+        if (!ReferenceCategory.BINARY_TYPE.contains(referenceCategory)) {
+            throw new RuntimeException("binary type: %s is not support".formatted(binaryType));
+        }
+        Sbom sbom = sbomRepository.findByProductId(productId)
+                .orElseThrow(() -> new RuntimeException("can't find %s's sbom metadata".formatted(productId)));
+
+        Map<String, Pair<String, Boolean>> purlComponents = PurlUtil.generatePurlQueryConditionMap(purl);
+        Page<ExternalPurlRef> result = externalPurlRefRepository.findAll(
+                ExternalPurlRefSpecs.hasSbomId(sbom.getId())
+                        .and(ExternalPurlRefSpecs.hasCategory(binaryType))
+                        .and(ExternalPurlRefSpecs.hasPurlComponent(purlComponents))
+                        .and(ExternalPurlRefSpecs.withSort("name")),
+                pageable);
+
+        return new PageVo<>(new PageImpl(result.stream().map(item -> PackagePurlVo.fromExternalPurlRef(item)).collect(Collectors.toList()),
+                result.getPageable(),
+                result.getTotalElements()));
     }
 
     @Override
@@ -232,19 +258,4 @@ public class SbomServiceImpl implements SbomService {
         return productRepository.queryProductByFullAttributes(attr);
     }
 
-    @Override
-    public List<ExternalPurlRef> queryPackageInfoByBinaryViaSpec(String productId, String binaryType, String type, String namespace,
-                                                                 String name, String version) {
-        Sbom sbom = sbomRepository.findByProductId(productId)
-                .orElseThrow(() -> new RuntimeException("can't find %s's sbom metadata".formatted(productId)));
-        Map<String, Pair<String, Boolean>> purlComponents = Map.of(
-                "type", Pair.of(type, true),
-                "namespace", Pair.of(namespace, true),
-                "name", Pair.of(name, true),
-                "version", Pair.of(version, true)
-        );
-        return externalPurlRefRepository.findAll(ExternalPurlRefSpecs.hasSbomId(sbom.getId())
-                .and(ExternalPurlRefSpecs.hasCategory(binaryType))
-                .and(ExternalPurlRefSpecs.hasPurlComponent(purlComponents)));
-    }
 }

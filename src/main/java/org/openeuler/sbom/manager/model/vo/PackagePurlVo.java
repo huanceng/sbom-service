@@ -1,5 +1,8 @@
 package org.openeuler.sbom.manager.model.vo;
 
+import org.openeuler.sbom.manager.model.ExternalPurlRef;
+import org.openeuler.sbom.manager.utils.PurlUtil;
+
 import java.io.Serializable;
 
 public class PackagePurlVo implements Serializable {
@@ -162,5 +165,28 @@ public class PackagePurlVo implements Serializable {
 
     public void setSbomId(String sbomId) {
         this.sbomId = sbomId;
+    }
+
+    public static PackagePurlVo fromExternalPurlRef(ExternalPurlRef externalPurlRef) {
+        PackagePurlVo packagePurlVo = new PackagePurlVo();
+
+        packagePurlVo.setId(externalPurlRef.getPkg().getId().toString());
+        packagePurlVo.setName(externalPurlRef.getPkg().getName());
+        packagePurlVo.setVersion(externalPurlRef.getPkg().getVersion());
+        packagePurlVo.setSupplier(externalPurlRef.getPkg().getSupplier());
+        packagePurlVo.setDescription(externalPurlRef.getPkg().getDescription());
+        packagePurlVo.setCopyright(externalPurlRef.getPkg().getCopyright());
+        packagePurlVo.setSummary(externalPurlRef.getPkg().getSummary());
+        packagePurlVo.setHomepage(externalPurlRef.getPkg().getHomepage());
+        packagePurlVo.setSpdxId(externalPurlRef.getPkg().getSpdxId());
+        packagePurlVo.setDownloadLocation(externalPurlRef.getPkg().getDownloadLocation());
+        packagePurlVo.setFilesAnalyzed(externalPurlRef.getPkg().isFilesAnalyzed());
+        packagePurlVo.setLicenseConcluded(externalPurlRef.getPkg().getLicenseConcluded());
+        packagePurlVo.setLicenseDeclared(externalPurlRef.getPkg().getLicenseDeclared());
+        packagePurlVo.setSourceInfo(externalPurlRef.getPkg().getSourceInfo());
+        packagePurlVo.setSbomId(externalPurlRef.getPkg().getSbom().getId().toString());
+        packagePurlVo.setPurl(PurlUtil.PackageUrlVoToPackageURL(externalPurlRef.getPurl()).canonicalize());
+
+        return packagePurlVo;
     }
 }

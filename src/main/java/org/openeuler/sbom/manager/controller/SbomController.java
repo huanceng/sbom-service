@@ -261,11 +261,11 @@ public class SbomController {
                 version);
 
         PackageUrlVo purl = new PackageUrlVo(type, namespace, name, version);
-        Pageable pageable = PageRequest.of(page, size).withSort(Sort.by(Sort.Order.by("name")));
+        Pageable pageable = PageRequest.of(page, size);
         PageVo<PackagePurlVo> queryResult = null;
 
         try {
-            queryResult = sbomService.queryPackageInfoByBinary(productId,
+            queryResult = sbomService.queryPackageInfoByBinaryViaSpec(productId,
                     binaryType,
                     purl,
                     pageable);

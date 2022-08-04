@@ -1,7 +1,6 @@
 package org.openeuler.sbom.manager.service;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
-import org.openeuler.sbom.manager.model.ExternalPurlRef;
 import org.openeuler.sbom.manager.model.Package;
 import org.openeuler.sbom.manager.model.Product;
 import org.openeuler.sbom.manager.model.RawSbom;
@@ -34,10 +33,16 @@ public interface SbomService {
 
     BinaryManagementVo queryPackageBinaryManagement(String packageId, String binaryType);
 
+    @Deprecated
     PageVo<PackagePurlVo> queryPackageInfoByBinary(String productId,
-                                                 String binaryType,
-                                                 PackageUrlVo purl,
-                                                 Pageable pageable) throws Exception;
+                                                   String binaryType,
+                                                   PackageUrlVo purl,
+                                                   Pageable pageable) throws Exception;
+
+    PageVo<PackagePurlVo> queryPackageInfoByBinaryViaSpec(String productId,
+                                                          String binaryType,
+                                                          PackageUrlVo purl,
+                                                          Pageable pageable);
 
     List<String> queryProductType();
 
@@ -45,6 +50,4 @@ public interface SbomService {
 
     Product queryProductByFullAttributes(Map<String, ?> attributes) throws JsonProcessingException;
 
-    List<ExternalPurlRef> queryPackageInfoByBinaryViaSpec(String productId, String binaryType, String type, String namespace,
-                                                          String name, String version);
 }
