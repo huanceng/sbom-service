@@ -13,8 +13,12 @@ public class SbomConstants {
 
     public static final int MAX_QUERY_LINE = 15;
 
-    public static final List<String> ALLOW_ORIGINS= Arrays.asList("http://localhost:8080","http://127.0.0.1:8080");
+    public static final List<String> ALLOW_ORIGINS = Arrays.asList("http://localhost:8080", "http://127.0.0.1:8080");
 
-    public static final  String PURL_SCHEMA_DEFAULT="pkg";
+    public static final String PURL_SCHEMA_DEFAULT = "pkg";
+
+    public static final String PURL_MAVEN_TYPE_VALUE = "maven";
+
+    public static final String PURL_RPM_TYPE_VALUE = "rpm";
 
 }

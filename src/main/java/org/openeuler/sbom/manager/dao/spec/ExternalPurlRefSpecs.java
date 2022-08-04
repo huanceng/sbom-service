@@ -45,7 +45,7 @@ public final class ExternalPurlRefSpecs {
                                     String.class, root.get("purl"), criteriaBuilder.literal(key)), value.getFirst()));
                         } else {
                             predicates.add(criteriaBuilder.like(criteriaBuilder.function("jsonb_extract_path_text",
-                                    String.class, root.get("purl"), criteriaBuilder.literal(key)),
+                                            String.class, root.get("purl"), criteriaBuilder.literal(key)),
                                     MessageFormat.format("%{0}%", value.getFirst())));
                         }
                     }
@@ -66,4 +66,13 @@ public final class ExternalPurlRefSpecs {
             return criteriaBuilder.and(predicates.toArray(new Predicate[0]));
         };
     }
+
+    public static Specification<ExternalPurlRef> withSort(String property) {
+        return (root, query, criteriaBuilder) -> {
+            query.orderBy(criteriaBuilder.asc(criteriaBuilder.function("jsonb_extract_path_text",
+                    String.class, root.get("purl"), criteriaBuilder.literal(property))));
+            return null;
+        };
+    }
+
 }
