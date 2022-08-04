@@ -8,7 +8,9 @@ public class TestConstants {
 
     public static final String OPENEULER_PRODUCT_NAME = "openEuler-22.03-LTS-everything-x86_64-dvd.iso";
 
+    public static final String MINDSPORE_PRODUCT_NAME = "mindspore-1.8.0-cp37-cp37m-linux_x86_64.whl";
+
     public static final String BINARY_TEST_PACKAGE_NAME = "hive";
 
-    public  static final String OPENEULER_PRODUCT_TYPE_NAME="openEuler";
+    public static final String OPENEULER_PRODUCT_TYPE_NAME = "openEuler";
 }

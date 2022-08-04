@@ -7,7 +7,6 @@ import org.openeuler.sbom.manager.TestConstants;
 import org.openeuler.sbom.manager.dao.ProductConfigRepository;
 import org.openeuler.sbom.manager.dao.ProductRepository;
 import org.openeuler.sbom.manager.dao.ProductTypeRepository;
-import org.openeuler.sbom.manager.model.ExternalPurlRef;
 import org.openeuler.sbom.manager.model.Package;
 import org.openeuler.sbom.manager.model.Product;
 import org.openeuler.sbom.manager.model.ProductConfig;
@@ -104,13 +103,13 @@ class SbomServiceTest {
 
     @Test
     public void queryPackageInfoByBinaryExactlyTest() throws Exception {
-        PackageUrlVo purl=new PackageUrlVo("maven",
+        PackageUrlVo purl = new PackageUrlVo("maven",
                 "org.apache.zookeeper",
                 "zookeeper",
                 "3.4.6");
-        Pageable pageable = PageRequest.of(0, 15).withSort(Sort.by(Sort.Order.by("name")));
+        Pageable pageable = PageRequest.of(0, 15);
 
-        PageVo<PackagePurlVo> result = sbomService.queryPackageInfoByBinary(TestConstants.OPENEULER_PRODUCT_NAME,
+        PageVo<PackagePurlVo> result = sbomService.queryPackageInfoByBinaryViaSpec(TestConstants.OPENEULER_PRODUCT_NAME,
                 ReferenceCategory.EXTERNAL_MANAGER.name(),
                 purl,
                 pageable);
@@ -119,13 +118,13 @@ class SbomServiceTest {
 
     @Test
     public void queryPackageInfoByBinaryWithoutVersionTest() throws Exception {
-        PackageUrlVo purl=new PackageUrlVo("maven",
+        PackageUrlVo purl = new PackageUrlVo("maven",
                 "org.apache.zookeeper",
                 "zookeeper",
                 "");
-        Pageable pageable = PageRequest.of(0, 15).withSort(Sort.by(Sort.Order.by("name")));
+        Pageable pageable = PageRequest.of(0, 15);
 
-        PageVo<PackagePurlVo> result = sbomService.queryPackageInfoByBinary(TestConstants.OPENEULER_PRODUCT_NAME,
+        PageVo<PackagePurlVo> result = sbomService.queryPackageInfoByBinaryViaSpec(TestConstants.OPENEULER_PRODUCT_NAME,
                 ReferenceCategory.EXTERNAL_MANAGER.name(),
                 purl,
                 pageable);
@@ -134,17 +133,43 @@ class SbomServiceTest {
 
     @Test
     public void queryPackageInfoByBinaryOnlyNameTest() throws Exception {
-        PackageUrlVo purl=new PackageUrlVo("maven",
+        PackageUrlVo purl = new PackageUrlVo("maven",
                 "",
                 "zookeeper",
                 "");
-        Pageable pageable = PageRequest.of(0, 15).withSort(Sort.by(Sort.Order.by("name")));
+        Pageable pageable = PageRequest.of(0, 15);
 
-        PageVo<PackagePurlVo> result = sbomService.queryPackageInfoByBinary(TestConstants.OPENEULER_PRODUCT_NAME,
+        PageVo<PackagePurlVo> result = sbomService.queryPackageInfoByBinaryViaSpec(TestConstants.OPENEULER_PRODUCT_NAME,
                 ReferenceCategory.EXTERNAL_MANAGER.name(),
                 purl,
                 pageable);
         assertThat(result.getTotalElements()).isEqualTo(12);
+    }
+
+    @Test
+    public void queryPackageInfoByBinaryViaSpecFullComponent() {
+        PageVo<PackagePurlVo> refs = sbomService.queryPackageInfoByBinaryViaSpec(
+                TestConstants.MINDSPORE_PRODUCT_NAME,
+                ReferenceCategory.PACKAGE_MANAGER.name(),
+                new PackageUrlVo("gitee",
+                        "ascend",
+                        "metadef",
+                        "1.9.0"),
+                PageRequest.of(0, 15));
+        assertThat(refs.getTotalElements()).isEqualTo(1);
+    }
+
+    @Test
+    public void queryPackageInfoByBinaryViaSpecNotExists() {
+        PageVo<PackagePurlVo> refs = sbomService.queryPackageInfoByBinaryViaSpec(
+                TestConstants.MINDSPORE_PRODUCT_NAME,
+                ReferenceCategory.PACKAGE_MANAGER.name(),
+                new PackageUrlVo("gitee",
+                        "ascend",
+                        "metadef",
+                        "x.9.0"),
+                PageRequest.of(0, 15));
+        assertThat(refs.getTotalElements()).isEqualTo(0);
     }
 
     @Test
@@ -210,27 +235,4 @@ class SbomServiceTest {
         productRepository.delete(ret);
     }
 
-    @Test
-    public void queryPackageInfoByBinaryViaSpecFullComponent() {
-        List<ExternalPurlRef> refs = sbomService.queryPackageInfoByBinaryViaSpec(
-                "mindspore-1.8.0-cp37-cp37m-linux_x86_64.whl", "PACKAGE_MANAGER",
-                "gitee", "ascend", "metadef", "1.9.0");
-        assertThat(refs.size()).isEqualTo(1);
-    }
-
-    @Test
-    public void queryPackageInfoByBinaryViaSpecNotExists() {
-        List<ExternalPurlRef> refs = sbomService.queryPackageInfoByBinaryViaSpec(
-                "mindspore-1.8.0-cp37-cp37m-linux_x86_64.whl", "PACKAGE_MANAGER",
-                "gitee", "ascend", "metadef", "x.9.0");
-        assertThat(refs.size()).isEqualTo(0);
-    }
-
-    @Test
-    public void queryPackageInfoByBinaryViaSpecPartialComponent() {
-        List<ExternalPurlRef> refs = sbomService.queryPackageInfoByBinaryViaSpec(
-                "openEuler-22.03-LTS-everything-x86_64-dvd.iso", "PACKAGE_MANAGER",
-                "", "", "maven-archiver", "");
-        assertThat(refs.size()).isEqualTo(1);
-    }
 }
